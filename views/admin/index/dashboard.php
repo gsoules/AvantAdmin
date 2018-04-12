@@ -2,7 +2,7 @@
 $pageTitle = __('Avant Dashboard');
 echo head(array('bodyclass'=>'index primary-secondary', 'title'=>$pageTitle));
 
-$identifierParts = ItemView::getPartsForIdentifierElement();
+$identifierParts = ItemMetadata::getPartsForIdentifierElement();
 $total_items = total_records('Item');
 $total_tags = total_records('Tag');
 $stats = array(
@@ -58,7 +58,7 @@ set_loop_records('items', get_recent_items(100));
 foreach (loop('items') as $item):
     $user = $db->getTable('User')->find($item->owner_id);
     $userName = $user ? $user->username : 'unknown';
-    $identifier = ItemView::getItemIdentifier($item);
+    $identifier = ItemMetadata::getItemIdentifier($item);
     ?>
     <div class="recent-row">
         <p class="recent"><?php echo link_to_item() . ' (' . $identifier . ') ' . $userName; ?></p>

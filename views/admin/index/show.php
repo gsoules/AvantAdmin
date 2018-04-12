@@ -14,7 +14,7 @@ if ($itemTitle != '' && $itemTitle != __('[Untitled]')) {
     $itemTitle = '';
 }
 
-$itemTitle = __('Item %s', ItemView::getItemIdentifier($item));
+$itemTitle = __('Item %s', ItemMetadata::getItemIdentifier($item));
 
 echo head(array('title' => $itemTitle, 'bodyclass'=>'items show'));
 echo flash();
