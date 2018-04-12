@@ -6,7 +6,7 @@ try
 }
 catch (Omeka_View_Exception $e)
 {
-    // This exception handler circumvents an Omeka anomaly where it incorrectly calls AvantCustom's
+    // This exception handler circumvents an Omeka anomaly where it incorrectly calls AvantAdmin's
     // libraries\form.php file (this file) when attempting to display the form used to edit item types.
     // When the wrong form is called, an exception occurs. The best we can do it trap it to avoid an
     // error, but we don't know any way to get Omeka to call the correct form which is probably

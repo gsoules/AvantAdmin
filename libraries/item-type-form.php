@@ -2,7 +2,7 @@
 <?php
 // Set the item's item type ID. Normally in Omeka this form displays a dropdown list from
 // which the user must choose an item type when adding a new item or editing an existing item.
-$customItemTypeId = Custom::getCustomItemTypeId();
+$customItemTypeId = AvantAdmin::getCustomItemTypeId();
 $item['item_type_id'] = $customItemTypeId;
 
 echo element_set_form(get_current_record('item'), 'Item Type Metadata');

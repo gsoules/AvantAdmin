@@ -91,14 +91,3 @@
 .public-featured.panel p:nth-child(2) {
     display:none;
 }
-
-#related-articles {
-    color: #C35402;
-    font-size: 16px;
-    margin-top: 24px;
-}
-
-.error {
-    color: #ff0000;
-    font-size: 18px;
-}

@@ -135,8 +135,8 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
             return;
 
         // Explicitly set the item_type_id for a newly added item. Normally in Omeka the admin
-        // chooses the item type from a dropdown list, but AvantCustom hides that list.
-        $item['item_type_id'] = Custom::getCustomItemTypeId();;
+        // chooses the item type from a dropdown list, but AvantAdmin hides that list.
+        $item['item_type_id'] = AvantAdmin::getCustomItemTypeId();;
     }
 
     protected function showItemHistory($item) {
