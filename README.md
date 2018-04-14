@@ -3,7 +3,8 @@
 The AvantAdmin plugin customizes Omeka's admin interface and functionality to provide a simpler and more
 efficient workflow for administrators. It is intended for Omeka installations that do not use Omeka collections
 and use the same Item Type for every item. The plugin hides the Omeka Collections and Item Type options thereby saving
-the administrator from having to choose them each time they add a new item.
+the administrator from having to choose them each time they add a new item. This saves time and ensures that each
+new item is added correctly.
 
 AvantAdmin provides the following benefits:
 
@@ -30,6 +31,10 @@ To install the AvantADmin plugin, follow these steps:
 ## Usage
 * On the AvantAdmin configuration page, check the Maintance box when you want to temporarily prevent public users
 from accessing the site.
+
+## Warning
+
+Use it at your own risk.
 
 ##  License
 
