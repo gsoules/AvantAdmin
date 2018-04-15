@@ -29,4 +29,37 @@ class AvantAdmin
 
         return $customItemTypeId;
     }
+
+    public static function getDate($date)
+    {
+        $date = new DateTime($date);
+        $date->setTimezone(new DateTimeZone("America/New_York"));
+        return $date->format('Y-n-j, g:i a');
+    }
+
+    public static function setItemType($item)
+    {
+        if (!empty($item['item_type_id']))
+            return;
+
+        // Explicitly set the item_type_id for a newly added item. Normally in Omeka the admin
+        // chooses the item type from a dropdown list, but AvantAdmin hides that list.
+        $item['item_type_id'] = AvantAdmin::getCustomItemTypeId();;
+    }
+
+    public static function showItemHistory($item)
+    {
+        $db = get_db();
+        $ownerId = $item->owner_id;
+
+        // Get the name of the item's owner accounting for the possibility of that user's account having been deleted.
+        $user = $db->getTable('User')->find($ownerId);
+        $userName = $user ? $user->username : 'unknown';
+
+        $dateAdded = $item->added;
+        $dateModified = $item->modified;
+
+        $html =  "<div class='item-owner panel'><h4>Item History</h4><p>Owner: $userName<br/>Added: " . self::getDate($dateAdded) . "<br/>Modified: " . self::getDate($dateModified) . "</p></div>";
+        echo $html;
+    }
 }
