@@ -47,6 +47,30 @@ class AvantAdmin
         $item['item_type_id'] = AvantAdmin::getCustomItemTypeId();;
     }
 
+    public static function saveConfiguration()
+    {
+        $typeNameOption = $_POST['avantadmin_type_name'];
+        $itemTypeExists = false;
+        $itemTypes = get_table_options('ItemType');
+
+        foreach ($itemTypes as $itemTypeName)
+        {
+            if ($typeNameOption == $itemTypeName)
+            {
+                $itemTypeExists = true;
+                break;
+            }
+        }
+
+        if (!$itemTypeExists)
+        {
+            throw new Omeka_Validate_Exception(__('\'%s\' does not exist. Click the Item Types button at left to see the Item Types.', $typeNameOption));
+        }
+
+        set_option('avantadmin_type_name', $typeNameOption);
+        set_option('avantadmin_maintenance', (int)(boolean)$_POST['avantadmin_maintenance']);
+    }
+
     public static function showItemHistory($item)
     {
         $db = get_db();

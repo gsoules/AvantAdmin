@@ -29,8 +29,13 @@ To install the AvantADmin plugin, follow these steps:
 1. On the AvantAdmin configuration page, specify the name of the Item Type to be used for all itmes.
 
 ## Usage
-* On the AvantAdmin configuration page, check the Maintance box when you want to temporarily prevent public users
-from accessing the site.
+AvantAdmin has the following configuration options.
+
+Option | Description
+--------|------------
+Maintenance |  When this option is checked, a "Down for maintenance" page will be displayed to public users to prevent them from accessing the site. Logged in users will not be affected.
+Item Type Name | Specifies the name of the Item Type that will be used for every item in the installation.
+
 
 ## Warning
 

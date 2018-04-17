@@ -91,8 +91,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookConfig()
     {
-        set_option('avantadmin_type_name', $_POST['avantadmin_type_name']);
-        set_option('avantadmin_maintenance', (int)(boolean)$_POST['avantadmin_maintenance']);
+        AvantAdmin::saveConfiguration();
     }
 
     public function hookConfigForm()
