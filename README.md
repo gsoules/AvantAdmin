@@ -1,8 +1,12 @@
 # AvantAdmin (plugin for Omeka Classic)
 
 The AvantAdmin plugin customizes Omeka's admin interface and functionality to provide a simpler and more
-efficient workflow for administrators. It is intended for Omeka installations that do not use Omeka collections
-and use the same Item Type for every item. The plugin hides the Omeka Collections and Item Type options thereby saving
+efficient workflow for administrators. It is intended for Omeka installations that:
+
+* Do not use Omeka collections
+* Use the same Item Type for every item
+ 
+The plugin hides the Omeka Collections and Item Type options thereby saving
 the administrator from having to choose them each time they add a new item. This saves time and ensures that each
 new item is added correctly.
 
@@ -20,7 +24,7 @@ The AvantAdmin plugin requires that the [AvantCommon](https://github.com/gsoules
 
 ## Installation
 
-To install the AvantADmin plugin, follow these steps:
+To install the AvantAdmin plugin, follow these steps:
 
 1. First install and activate the [AvantCommon](https://github.com/gsoules/AvantCommon) plugin.
 1. Unzip the AvantAdmin-master file into your Omeka installation's plugin directory.
@@ -34,7 +38,7 @@ AvantAdmin has the following configuration options.
 Option | Description
 --------|------------
 Maintenance |  When this option is checked, a "Down for maintenance" page will be displayed to public users to prevent them from accessing the site. Logged in users will not be affected.
-Item Type Name | Specifies the name of the Item Type that will be used for every item in the installation.
+Item&nbsp;Type&nbsp;Name | Specifies the name of the Item Type that will be used for every item in the installation.
 
 
 ## Warning
