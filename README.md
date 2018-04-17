@@ -40,7 +40,6 @@ Option | Description
 Maintenance |  When this option is checked, a "Down for maintenance" page will be displayed to public users to prevent them from accessing the site. Logged in users will not be affected.
 Item&nbsp;Type&nbsp;Name | Specifies the name of the Item Type that will be used for every item in the installation.
 
-
 ## Warning
 
 Use it at your own risk.
