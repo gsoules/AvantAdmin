@@ -2,7 +2,6 @@
 $pageTitle = __('Avant Dashboard');
 echo head(array('bodyclass'=>'index primary-secondary', 'title'=>$pageTitle));
 
-$identifierParts = ItemMetadata::getPartsForIdentifierElement();
 $total_items = total_records('Item');
 $total_tags = total_records('Tag');
 $stats = array(
@@ -42,7 +41,7 @@ set_loop_records('items', $modifiedItems);
 foreach (loop('items') as $modifiedItems):
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo link_to_item() . ' (Item ' . metadata($modifiedItems, array($identifierParts[0], $identifierParts[1]), array('no_filter' => true)) . ')'; ?></p>
+        <p class="recent"><?php echo link_to_item() . ' (Item ' . metadata($modifiedItems, array('Dublin Core', 'Identifier'), array('no_filter' => true)) . ')'; ?></p>
         <?php if (is_allowed($modifiedItems, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array(), 'edit'); ?></p>
         <?php endif; ?>
