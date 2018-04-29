@@ -54,7 +54,6 @@ echo flash();
         <?php if (is_allowed($item, 'delete')): ?>
         <?php echo link_to_item(__('Delete'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
         <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add an Item'); ?></a>
-        <a href="<?php echo html_escape(admin_url('items/add/' . $itemId)); ?>" class="big blue button" target="_blank"><?php echo __('Clone this Item'); ?></a>
         <?php endif; ?>
     </div>
 
@@ -109,6 +108,7 @@ echo flash();
             <p><?php echo metadata('item', 'citation', array('no_escape' => true));?></p>
         </div>
     </div>
+    <?php fire_plugin_hook('admin_items_show_sidebar', array('item' => $item, 'view' => $this)); ?>
 </section>
 
 <?php echo foot();?>
