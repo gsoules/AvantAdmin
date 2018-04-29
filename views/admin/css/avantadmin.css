@@ -38,39 +38,6 @@
     display:none;
 }
 
-/* Hide the Dublin Core description that appears above the elements on admin/items/edit.php */
-#dublin-core-description.element-set-description {
-    display:none;
-}
-
-/* Hide the Dublin Core metadata description on each element on admin/items/edit.php */
-#dublin-core-metadata fieldset.set div div.inputs.five.columns.omega p.explanation {
-    display:none;
-}
-
-/* Reduce the spacing of elements on admin/items/show.php */
-.element .element-text:after {
-    margin: 8px 0;
-}
-.element-text p {
-    margin: 0 0 4px 0;
-}
-
-/* Reduce the spacing of elements on admin/items/edit.php */
-.field label {
-    margin: 0 0 2px 0;
-    min-width: 100px;
-}
-.field select {
-    margin-bottom: 2px;
-}
-.inputs {
-    margin: 0 0 12px 0;
-}
-.inputs .input-block {
-    margin: 0 0 0 0;
-}
-
 /* Hide the header on admin/items/edit.php because it shows Omeka item number */
 .items.edit h1#content-heading.section-title {
     visibility: hidden;
