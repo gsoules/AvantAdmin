@@ -53,7 +53,7 @@ echo flash();
         <a href="<?php echo html_escape(public_url('items/show/'.metadata('item', 'id'))); ?>" class="big blue button" target="_blank"><?php echo __('View Public Page'); ?></a>
         <?php if (is_allowed($item, 'delete')): ?>
         <?php echo link_to_item(__('Delete'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
-        <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add an Item'); ?></a>
+        <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add New Item'); ?></a>
         <?php endif; ?>
     </div>
 
