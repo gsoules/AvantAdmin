@@ -21,6 +21,9 @@ AvantAdmin provides the following benefits:
 * Hides the Omeka Collection feature.
 * Hides the Omeka Item Type dropdown list from the Edit page and automatically assigns the same type to every item.
 * Allows the administrator to configure the name for a single Item Type to be used for every item.
+* Displays the admin Show page after a new item is added so that the admin can review the item to determine
+ if further edits are needed. This overrides the normal Omeka behavior of displaying the
+Browse Items page.
 * Allows users having the Researcher role to access non-public items using the public interface.
 * Provides a down-for-maintenance feature that prevents public users from accessing the database, but still
 allows administrators and developers to work on the site.

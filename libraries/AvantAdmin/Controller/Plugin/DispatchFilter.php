@@ -10,40 +10,47 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
         $actionName = $request->getActionName();
 
         $this->preventAdminAccess();
-
-        $this->bypassDashboard($isAdminRequest, $moduleName, $controllerName, $actionName);
-
-        if ($isAdminRequest)
-            $this->bypassAdminItemsShow($request, $controllerName, $actionName);
+        $this->bypassOmekaDashboard($isAdminRequest, $moduleName, $controllerName, $actionName);
+        $this->bypassOmekaAdminItemsShow($isAdminRequest, $request, $controllerName, $actionName);
     }
 
-    protected function bypassAdminItemsShow($request, $controllerName, $actionName)
+    protected function bypassOmekaAdminItemsShow($isAdminRequest, $request, $controllerName, $actionName)
     {
-        $isShowRequest = $controllerName == 'items' && $actionName == 'show';
-        $isBrowserRequest = $controllerName == 'items' && $actionName == 'browse';
-
-        if ($isShowRequest)
+        if (!$isAdminRequest || $controllerName != 'items')
         {
+            // Only handle admin requests for items.
+            return;
+        }
+
+        if ($actionName == 'show')
+        {
+            // Display the AvantAdmin Show page instead of the Omeka Show page.
             $id = $request->getParam('id');
             $url = WEB_ROOT . '/admin/avant/show/' . $id;
             $this->getRedirector()->gotoUrl($url);
         }
-        elseif ($isBrowserRequest)
+        elseif ($actionName == 'browse')
         {
+            // Determine if Omeka is redirecting to the Browse page after the user has added a new item.
+            // If so, display the new item's Show page instead since that's what the user usually wants to see.
+            // Assume this is the case if the most recent item's added and modified dates are the same.
             $mostRecentItem = get_recent_items(1)[0];
-            $dateAdded = $mostRecentItem->added;
-            $dateModified = $mostRecentItem->modified;
-            if ($dateAdded == $dateModified)
+            $isNewItem = $mostRecentItem->added == $mostRecentItem->modified;
+
+            if ($isNewItem)
             {
+                // Touch the new item's modified date so that this logic only executes immediately after the Add.
                 $db = get_db();
                 $db->query("UPDATE `{$db->Items}` SET modified = NOW() WHERE id = {$mostRecentItem->id}");
+
+                // Display the AvantAdmin Show page for the new item.
                 $url = WEB_ROOT . '/admin/avant/show/' . $mostRecentItem->id;
                 $this->getRedirector()->gotoUrl($url);
             }
         }
     }
 
-    protected function bypassDashboard($isAdminRequest, $moduleName, $controllerName, $actionName)
+    protected function bypassOmekaDashboard($isAdminRequest, $moduleName, $controllerName, $actionName)
     {
         $downForMaintenance = get_option('avantadmin_maintenance');
         if ($downForMaintenance)
