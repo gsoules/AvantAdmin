@@ -51,6 +51,9 @@ foreach (loop('items') as $modifiedItems):
 
 <?php ob_start(); ?>
 <h2><?php echo __('Recent Items'); ?></h2>
+<?php if (is_allowed('Items', 'add')): ?>
+    <div class="add-new-link"><p><a class="add-new-item" href="<?php echo html_escape(url('items/add')); ?>"><?php echo __('Add a new item'); ?></a></p></div>
+<?php endif; ?>
 <?php
 $db = get_db();
 set_loop_records('items', get_recent_items(100));
@@ -66,9 +69,6 @@ foreach (loop('items') as $item):
         <?php endif; ?>
     </div>
 <?php endforeach; ?>
-<?php if (is_allowed('Items', 'add')): ?>
-    <div class="add-new-link"><p><a class="add-new-item" href="<?php echo html_escape(url('items/add')); ?>"><?php echo __('Add a new item'); ?></a></p></div>
-<?php endif; ?>
 <?php $panels[] = ob_get_clean(); ?>
 
 <?php $panels = apply_filters('admin_dashboard_panels', $panels, array('view' => $this)); ?>
