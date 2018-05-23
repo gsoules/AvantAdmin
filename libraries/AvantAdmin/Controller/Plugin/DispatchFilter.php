@@ -20,12 +20,26 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
     protected function bypassAdminItemsShow($request, $controllerName, $actionName)
     {
         $isShowRequest = $controllerName == 'items' && $actionName == 'show';
+        $isBrowserRequest = $controllerName == 'items' && $actionName == 'browse';
 
         if ($isShowRequest)
         {
             $id = $request->getParam('id');
             $url = WEB_ROOT . '/admin/avant/show/' . $id;
             $this->getRedirector()->gotoUrl($url);
+        }
+        elseif ($isBrowserRequest)
+        {
+            $mostRecentItem = get_recent_items(1)[0];
+            $dateAdded = $mostRecentItem->added;
+            $dateModified = $mostRecentItem->modified;
+            if ($dateAdded == $dateModified)
+            {
+                $db = get_db();
+                $db->query("UPDATE `{$db->Items}` SET modified = NOW() WHERE id = {$mostRecentItem->id}");
+                $url = WEB_ROOT . '/admin/avant/show/' . $mostRecentItem->id;
+                $this->getRedirector()->gotoUrl($url);
+            }
         }
     }
 
