@@ -12,10 +12,12 @@ catch (Omeka_View_Exception $e)
     // error, but we don't know any way to get Omeka to call the correct form which is probably
     // admin\themes\default\item-types\form.php
     echo '<h4 style="color:red;">You must temporarily deactivate the AvantAdmin plugin before editing an Item Type.</h4>';
-    echo 'DO NOT click any buttons below.<br/><br/>';
+    echo '<div style="margin-bottom:2000px;">';
     echo 'Deactivate the AvantAdmin plugin now and then return to the Item Type editor.<br/>';
     echo 'When you are finished editing the Item Type, don\'t forget to reactivate AvantAdmin.<br/><br/>';
     echo 'This inconvenience is caused by an Omeka bug that creates an incompatibility with the plugin.<br/><br/>';
+    echo '</div>';
+    echo '<div style="margin-bottom:8px; color:red; font-weight:bold;">DO NOT click either of these buttons.</div>';
     return;
 }
 
