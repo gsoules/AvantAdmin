@@ -58,3 +58,13 @@
 .public-featured.panel p:nth-child(2) {
     display:none;
 }
+
+/* Hide the display of Featured on admin/items/edit.php */
+#public-featured div.featured {
+    display:none;
+}
+
+#public-featured {
+    text-align: left;
+}
+
