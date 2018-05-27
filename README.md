@@ -24,6 +24,8 @@ AvantAdmin provides the following benefits:
 * Displays the admin Show page after a new item is added so that the admin can review the item to determine
  if further edits are needed. This overrides the normal Omeka behavior of displaying the
 Browse Items page.
+* Clearly indicates on the Show page if the item is not public (says the item is private). This helps to avoid the
+problem of creating a new item and forgetting to make it public.
 * Allows users having the Researcher role to access non-public items using the public interface.
 * Provides a down-for-maintenance feature that prevents public users from accessing the database, but still
 allows administrators and developers to work on the site.
