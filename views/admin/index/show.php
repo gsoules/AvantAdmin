@@ -108,7 +108,6 @@ echo flash();
             <p><?php echo metadata('item', 'citation', array('no_escape' => true));?></p>
         </div>
     </div>
-    <?php fire_plugin_hook('admin_items_show_sidebar', array('item' => $item, 'view' => $this)); ?>
 </section>
 
 <?php echo foot();?>

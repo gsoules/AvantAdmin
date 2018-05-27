@@ -80,6 +80,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAdminItemsShowSidebar($args)
     {
+        AvantAdmin::showPublicPrivateStatus($args['item']);
         AvantAdmin::showItemHistory($args['item']);
     }
 

@@ -54,17 +54,30 @@
     margin-top: 10px;
 }
 
-/* Hide the display of Featured on admin/items/show.php */
-.public-featured.panel p:nth-child(2) {
-    display:none;
-}
-
 /* Hide the display of Featured on admin/items/edit.php */
 #public-featured div.featured {
     display:none;
 }
 
+/* Hide the public/featured panel on admin/items/show.php */
+.public-featured {
+    display:none;
+}
+
 #public-featured {
     text-align: left;
+}
+
+.public-item,
+.private-item {
+    padding: 8px 8px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.private-item {
+    background-color: #e5e5e5;
+    border-color: #d70000;
 }
 

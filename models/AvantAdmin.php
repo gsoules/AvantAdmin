@@ -86,4 +86,18 @@ class AvantAdmin
         $html =  "<div class='item-owner panel'><h4>Item History</h4><p>Owner: $userName<br/>Added: " . self::getDate($dateAdded) . "<br/>Modified: " . self::getDate($dateModified) . "</p></div>";
         echo $html;
     }
+
+    public static function showPublicPrivateStatus($item)
+    {
+        if ($item->public)
+        {
+            $html =  '<div class="public-item panel">' . __('Public Item') . '</div>';
+        }
+        else
+        {
+            $html =  '<div class="private-item panel">' . __('This item is Private') . '</div>';
+        }
+
+        echo $html;
+    }
 }
