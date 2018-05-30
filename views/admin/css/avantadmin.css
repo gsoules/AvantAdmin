@@ -81,3 +81,8 @@
     border-color: #d70000;
 }
 
+a.add-new-item {
+    font-weight: bold;
+    font-size: 16px;
+    color:green;
+}
