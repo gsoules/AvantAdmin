@@ -78,9 +78,13 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
 
         if ($isAdminRequest && $controllerName == 'search' && $moduleName == 'default' && $actionName == 'index')
         {
-            $query = $this->parseQueryString();
-            $url = WEB_ROOT . "/find?query=$query";
-            $this->getRedirector()->gotoUrl($url);
+            $parameters = $this->parseQueryString();
+            if (isset($parameters['query_type']) && $parameters['query_type'] == 'keyword')
+            {
+                $query = $parameters['query'];
+                $url = WEB_ROOT . "/find?query=$query";
+                $this->getRedirector()->gotoUrl($url);
+            }
         }
     }
 
@@ -98,17 +102,23 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
     protected function parseQueryString()
     {
         $queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-        $value = '';
+        $parameters = array();
         if (!empty($queryString))
         {
             // Get the value of the first parameter which is 'query'. For example in the following query string:
             // "query=map+seal+harbor&query_type=keyword&record_types%5B%5D=Item&submit_search=Search"
             // return just 'map+seal+harbor'.
             $parts = explode('&', $queryString);
-            $pair  = explode('=', $parts[0]);
-            $value = rawurldecode($pair[1]);
+
+            foreach ($parts as $part)
+            {
+                $pair  = explode('=', $part);
+                $key = rawurldecode($pair[0]);
+                $value = rawurldecode($pair[1]);
+                $parameters[$key] = $value;
+            }
         }
-        return $value;
+        return $parameters;
     }
 
     protected function preventAdminAccess()
