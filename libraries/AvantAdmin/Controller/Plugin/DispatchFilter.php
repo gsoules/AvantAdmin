@@ -12,6 +12,7 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
         $this->preventAdminAccess();
         $this->bypassOmekaDashboard($isAdminRequest, $moduleName, $controllerName, $actionName);
         $this->bypassOmekaAdminItemsShow($isAdminRequest, $request, $controllerName, $actionName);
+        $this->bypassOmekaSimpleSearch($isAdminRequest, $request, $moduleName, $controllerName, $actionName);
     }
 
     protected function bypassOmekaAdminItemsShow($isAdminRequest, $request, $controllerName, $actionName)
@@ -70,6 +71,19 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
             $this->goToDashboardPage($isAdminRequest);
     }
 
+    protected function bypassOmekaSimpleSearch($isAdminRequest, $request, $moduleName, $controllerName, $actionName)
+    {
+        if (!plugin_is_active('AvantSearch'))
+            return;
+
+        if ($isAdminRequest && $controllerName == 'search' && $moduleName == 'default' && $actionName == 'index')
+        {
+            $query = $this->parseQueryString();
+            $url = WEB_ROOT . "/find?query=$query";
+            $this->getRedirector()->gotoUrl($url);
+        }
+    }
+
     protected function getRedirector()
     {
         return Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
@@ -79,6 +93,22 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
     {
         $url = WEB_ROOT . ($admin ? '/admin' : '') . '/avant/dashboard';
         $this->getRedirector()->gotoUrl($url);
+    }
+
+    protected function parseQueryString()
+    {
+        $queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+        $value = '';
+        if (!empty($queryString))
+        {
+            // Get the value of the first parameter which is 'query'. For example in the following query string:
+            // "query=map+seal+harbor&query_type=keyword&record_types%5B%5D=Item&submit_search=Search"
+            // return just 'map+seal+harbor'.
+            $parts = explode('&', $queryString);
+            $pair  = explode('=', $parts[0]);
+            $value = rawurldecode($pair[1]);
+        }
+        return $value;
     }
 
     protected function preventAdminAccess()
