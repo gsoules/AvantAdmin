@@ -69,9 +69,12 @@ echo flash();
         </div>
     </div>
 
-    <?php echo get_specific_plugin_hook_output('Geolocation', 'public_items_show', array('view' => $this, 'item' => $item)); ?>
-    <?php echo get_specific_plugin_hook_output('AvantRelationships', 'show_relationships_visualization', array('view' => $this, 'item' => $item)); ?>
-    <?php echo get_specific_plugin_hook_output('AvantAdmin', 'admin_items_show_sidebar', array('view' => $this, 'item' => $item)); ?>
+    <?php
+    echo get_specific_plugin_hook_output('AvantAdmin', 'admin_items_show_sidebar', array('view' => $this, 'item' => $item));
+    echo get_specific_plugin_hook_output('Geolocation', 'public_items_show', array('view' => $this, 'item' => $item));
+    echo get_specific_plugin_hook_output('AvantRelationships', 'show_relationships_visualization', array('view' => $this, 'item' => $item));
+    echo get_specific_plugin_hook_output('AvantElements', 'admin_items_show_sidebar', array('view' => $this, 'item' => $item));
+    ?>
 
     <?php if (metadata('item', 'has tags')): ?>
     <div class="tags panel">
