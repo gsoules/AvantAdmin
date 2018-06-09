@@ -114,9 +114,26 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookPublicHead()
     {
+        // Dynamically emit CSS for elements that should or should not display for logged in users.
+
+        echo PHP_EOL . '<style>';
+
+        $user = current_user();
+        $isLoggedIn = !empty($user);
+
         // When a user is logged in, hide elements with class logged-out.
         // When no user is logged in, hide elements with class logged-in.
-        $class = empty(current_user()) ? 'logged-in' : 'logged-out';
-        echo PHP_EOL . "<style>.$class {display:none;}</style>" . PHP_EOL;
+        $class = $isLoggedIn ? '.logged-out' : '.logged-in';
+        echo "$class{display:none;}";
+
+        $role = $user->role;
+        if (!$isLoggedIn || !($role == 'super' || $role == 'admin'))
+        {
+            // Either no user is logged in, or the user is not an admin. Hide elements with class admin-user.
+            // Note that this is the permission required to see Simple Pages that are not published.
+            echo ".admin-user{display:none;}";
+        }
+
+        echo '</style>'. PHP_EOL;
     }
 }
