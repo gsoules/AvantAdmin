@@ -11,7 +11,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         'config_form',
         'define_routes',
         'initialize',
-        'install'
+        'public_head'
     );
 
     protected $_filters = array(
@@ -105,15 +105,18 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         $args['router']->addConfig(new Zend_Config_Ini(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'routes.ini', 'routes'));
     }
 
-    public function hookInstall()
-    {
-        return;
-    }
-
     public function hookInitialize()
     {
         // Register the dispatch filter controller plugin.
         $front = Zend_Controller_Front::getInstance();
         $front->registerPlugin(new AvantAdmin_Controller_Plugin_DispatchFilter);
+    }
+
+    public function hookPublicHead()
+    {
+        // When a user is logged in, hide elements with class logged-out.
+        // When no user is logged in, hide elements with class logged-in.
+        $class = empty(current_user()) ? 'logged-in' : 'logged-out';
+        echo PHP_EOL . "<style>.$class {display:none;}</style>" . PHP_EOL;
     }
 }
