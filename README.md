@@ -27,7 +27,9 @@ Browse Items page.
 * Clearly indicates on the Show page if the item is not public (says the item is private). This helps to avoid the
 problem of creating a new item and forgetting to make it public.
 * Redirects Omeka simple keyword search requests to [AvantSearch](https://github.com/gsoules/AvantSearch) (only if AvantSearch is activated).
-* Allows users having the Researcher role to access non-public items using the public interface.
+* Allows guest users having the Researcher role to see and search non-public items using the public interface.
+Users with the Research role are prevented from accessing admin pages. On the public Show page, the field labels for
+private items (specified using [AvantCommon](https://github.com/gsoules/AvantCommon)) are displayed in gray italics to indicate they are private.
 * Provides a down-for-maintenance feature that prevents public users from accessing the database, but still
 allows administrators and developers to work on the site.
 
