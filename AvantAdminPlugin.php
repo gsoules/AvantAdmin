@@ -68,7 +68,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAfterSaveItem($args)
     {
-        ItemHistory::logItemSave($args['record']['id']);
+        ItemHistory::logItemSave($args['record']);
     }
 
     public function hookAdminHead($args)
