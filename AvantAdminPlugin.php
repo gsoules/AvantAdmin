@@ -122,7 +122,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInstall()
     {
-        AvantAdmin::createAdminLogTable();
+        ItemHistory::createAdminLogTable();
     }
 
     public function hookPublicHead()
@@ -134,7 +134,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     {
         if (version_compare($args['old_version'], '2.0.0', '<='))
         {
-            AvantAdmin::createAdminLogTable();
+            ItemHistory::createAdminLogTable();
         }
     }
 }

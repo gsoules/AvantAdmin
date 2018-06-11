@@ -2,21 +2,6 @@
 
 class AvantAdmin
 {
-    public static function createAdminLogTable()
-    {
-        $db = get_db();
-
-        $sql = "
-        CREATE TABLE IF NOT EXISTS `{$db->prefix}admin_logs` (
-            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-            `item_id` int(10) unsigned NOT NULL,
-            `log` varchar(512) DEFAULT NULL,
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-
-        $db->query($sql);
-    }
-
     public static function emitDynamicCss()
     {
         // Dynamically emit CSS for elements that should or should not display for logged in users.
