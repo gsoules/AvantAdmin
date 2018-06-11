@@ -2,6 +2,8 @@
 
 class ItemHistory
 {
+    const MAX_HISTORY = 5;
+
     protected static function formatHistoryDate($date)
     {
         $date = new DateTime($date);
@@ -45,20 +47,46 @@ class ItemHistory
         $date->getTimestamp();
 
         $adminLog = get_db()->getTable('AdminLogs')->getAdminLog($itemId);
-        $entry = array('user' => $userId, 'saved' => $date->format('Y-m-d H:i:s'));
+        $newEntry = array('user' => $userId, 'saved' => $date->format('Y-m-d H:i:s'));
 
         if (empty($adminLog))
         {
+            // This item has no history. Create the first entry.
             $log = array();
             $adminLog = new AdminLogs();
             $adminLog['item_id'] = $itemId;
+            $log[] = $newEntry;
         }
         else
         {
+            // Get the item's past history.
             $log = json_decode($adminLog['log'], true);
+
+            // Determine if the current user was the last to previously save this item.
+            $mostRecentEntry = $log[0];
+            if ($userId == $mostRecentEntry['user'])
+            {
+                // This user is saving the item again. Just update the timestamp for the most recent entry.
+                $log[0]['saved'] = $newEntry['saved'];
+            }
+            else
+            {
+                // A different user is saving the item. Put the new entry at the top of the log.
+                array_unshift($log, $newEntry);
+            }
+
+            if (count($log) > self::MAX_HISTORY)
+            {
+                foreach ($log as $index => $entry)
+                {
+                    if ($index >= self::MAX_HISTORY)
+                    {
+                        unset($log[$index]);
+                    }
+                }
+            }
         }
 
-        $log[] = $entry;
         $adminLog['log'] = json_encode($log);
         $adminLog->save();
     }
