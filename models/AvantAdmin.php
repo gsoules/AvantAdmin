@@ -2,6 +2,46 @@
 
 class AvantAdmin
 {
+    public static function createAdminLogTable()
+    {
+        $db = get_db();
+
+        $sql = "
+        CREATE TABLE IF NOT EXISTS `{$db->prefix}admin_logs` (
+            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+            `item_id` int(10) unsigned NOT NULL,
+            `log` varchar(512) DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+
+        $db->query($sql);
+    }
+
+    public static function emitDynamicCss()
+    {
+        // Dynamically emit CSS for elements that should or should not display for logged in users.
+
+        echo PHP_EOL . '<style>';
+
+        $user = current_user();
+        $isLoggedIn = !empty($user);
+
+        // When a user is logged in, hide elements with class logged-out.
+        // When no user is logged in, hide elements with class logged-in.
+        $class = $isLoggedIn ? '.logged-out' : '.logged-in';
+        echo "$class{display:none;}";
+
+        $role = $user->role;
+        if (!$isLoggedIn || !($role == 'super' || $role == 'admin'))
+        {
+            // Either no user is logged in, or the user is not an admin. Hide elements with class admin-user.
+            // Note that this is the permission required to see Simple Pages that are not published.
+            echo ".admin-user{display:none;}";
+        }
+
+        echo '</style>'. PHP_EOL;
+    }
+
     public static function getCustomItemTypeId()
     {
         // In a standard Omeka implementation the admin choose the item type for an item from a list. They choose it when
@@ -28,13 +68,6 @@ class AvantAdmin
         }
 
         return $customItemTypeId;
-    }
-
-    public static function getDate($date)
-    {
-        $date = new DateTime($date);
-        $date->setTimezone(new DateTimeZone("America/New_York"));
-        return $date->format('Y-n-j, g:i a');
     }
 
     public static function setItemType($item)
@@ -69,22 +102,6 @@ class AvantAdmin
 
         set_option('avantadmin_type_name', $typeNameOption);
         set_option('avantadmin_maintenance', (int)(boolean)$_POST['avantadmin_maintenance']);
-    }
-
-    public static function showItemHistory($item)
-    {
-        $db = get_db();
-        $ownerId = $item->owner_id;
-
-        // Get the name of the item's owner accounting for the possibility of that user's account having been deleted.
-        $user = $db->getTable('User')->find($ownerId);
-        $userName = $user ? $user->username : 'unknown';
-
-        $dateAdded = $item->added;
-        $dateModified = $item->modified;
-
-        $html =  "<div class='item-owner panel'><h4>Item History</h4><p>Owner: $userName<br/>Added: " . self::getDate($dateAdded) . "<br/>Modified: " . self::getDate($dateModified) . "</p></div>";
-        echo $html;
     }
 
     public static function showPublicPrivateStatus($item)

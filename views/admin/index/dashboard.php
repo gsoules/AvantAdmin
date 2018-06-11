@@ -38,11 +38,14 @@ $stats = array(
 <?php
 $modifiedItems = get_db()->getTable('Item')->findBy(array('sort_field' => 'modified', 'sort_dir' => 'd'), 100);
 set_loop_records('items', $modifiedItems);
-foreach (loop('items') as $modifiedItems):
+foreach (loop('items') as $item):
+    $userName = ItemHistory::getMostRecentUserName($item->id);
+    $userName = empty($userName) ? '' : " <i>$userName</i>";
+    $identifier = ItemMetadata::getItemIdentifier($item);
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo link_to_item() . ' (Item ' . metadata($modifiedItems, array('Dublin Core', 'Identifier'), array('no_filter' => true)) . ')'; ?></p>
-        <?php if (is_allowed($modifiedItems, 'edit')): ?>
+        <p class="recent"><?php echo link_to_item() . ' (' . $identifier . ' '. $userName . ')' ?></p>
+        <?php if (is_allowed($item, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array(), 'edit'); ?></p>
         <?php endif; ?>
     </div>
@@ -58,12 +61,12 @@ foreach (loop('items') as $modifiedItems):
 $db = get_db();
 set_loop_records('items', get_recent_items(100));
 foreach (loop('items') as $item):
-    $user = $db->getTable('User')->find($item->owner_id);
-    $userName = $user ? $user->username : 'unknown';
+    $userName = ItemHistory::getUserName($item->owner_id);
+    $userName = empty($userName) ? '' : " <i>$userName</i>";
     $identifier = ItemMetadata::getItemIdentifier($item);
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo link_to_item() . ' (' . $identifier . ') ' . $userName; ?></p>
+        <p class="recent"><?php echo link_to_item() . ' (' . $identifier . $userName . ')' ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array(), 'edit'); ?></p>
         <?php endif; ?>

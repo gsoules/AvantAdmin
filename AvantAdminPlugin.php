@@ -6,12 +6,15 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_head',
         'admin_items_panel_buttons',
         'admin_items_show_sidebar',
+        'after_save_item',
         'before_save_item',
         'config',
         'config_form',
         'define_routes',
         'initialize',
-        'public_head'
+        'install',
+        'public_head',
+        'upgrade'
     );
 
     protected $_filters = array(
@@ -63,6 +66,11 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         return true;
     }
 
+    public function hookAfterSaveItem($args)
+    {
+        ItemHistory::logItemSave($args['record']['id']);
+    }
+
     public function hookAdminHead($args)
     {
         queue_css_file('avantadmin');
@@ -81,7 +89,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminItemsShowSidebar($args)
     {
         AvantAdmin::showPublicPrivateStatus($args['item']);
-        AvantAdmin::showItemHistory($args['item']);
+        ItemHistory::showItemHistory($args['item']);
     }
 
     public function hookBeforeSaveItem($args)
@@ -112,28 +120,21 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         $front->registerPlugin(new AvantAdmin_Controller_Plugin_DispatchFilter);
     }
 
+    public function hookInstall()
+    {
+        AvantAdmin::createAdminLogTable();
+    }
+
     public function hookPublicHead()
     {
-        // Dynamically emit CSS for elements that should or should not display for logged in users.
+        AvantAdmin::emitDynamicCss();
+    }
 
-        echo PHP_EOL . '<style>';
-
-        $user = current_user();
-        $isLoggedIn = !empty($user);
-
-        // When a user is logged in, hide elements with class logged-out.
-        // When no user is logged in, hide elements with class logged-in.
-        $class = $isLoggedIn ? '.logged-out' : '.logged-in';
-        echo "$class{display:none;}";
-
-        $role = $user->role;
-        if (!$isLoggedIn || !($role == 'super' || $role == 'admin'))
+    public function hookUpgrade($args)
+    {
+        if (version_compare($args['old_version'], '2.0.0', '<='))
         {
-            // Either no user is logged in, or the user is not an admin. Hide elements with class admin-user.
-            // Note that this is the permission required to see Simple Pages that are not published.
-            echo ".admin-user{display:none;}";
+            AvantAdmin::createAdminLogTable();
         }
-
-        echo '</style>'. PHP_EOL;
     }
 }
