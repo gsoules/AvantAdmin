@@ -86,3 +86,8 @@ a.add-new-item {
     font-size: 16px;
     color:green;
 }
+
+/* Use the same admin orange color for visited and unvisited links. */
+.element-set a:visited {
+    color: #E57F52;
+}

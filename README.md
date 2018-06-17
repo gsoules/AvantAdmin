@@ -26,6 +26,7 @@ AvantAdmin provides the following benefits:
 Browse Items page.
 * Clearly indicates on the Show page if the item is not public (says the item is private). This helps to avoid the
 problem of creating a new item and forgetting to make it public.
+* Displays the item's image(s) while on the Edit page so that you can see the image for the item being edited.
 * Redirects Omeka simple keyword search requests to [AvantSearch](https://github.com/gsoules/AvantSearch) (only if AvantSearch is activated).
 * Allows guest users having the Researcher role to see and search non-public items using the public interface.
 Users with the Research role are prevented from accessing admin pages. On the public Show page, the field labels for
