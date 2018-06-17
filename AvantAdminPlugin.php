@@ -25,6 +25,17 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterAdminItemsFormTabs($tabs, $args)
     {
+        $newTabs = array();
+        $newTabs['Fields'] = $tabs['Dublin Core'] . $tabs['Item Type Metadata'];
+        $newTabs['Files'] = $tabs['Files'];
+        $newTabs['Relationships'] = $tabs['Relationships'];
+        $newTabs['Cover Image'] = $tabs['Cover Image'];
+
+        $images = item_image_gallery(array('linkWrapper' => array('class' => 'admin-thumb panel'), 'link' => array('target' => '_blank')), 'thumbnail', false);
+        $newTabs['Fields'] = $images . $newTabs['Fields'];
+
+        return $newTabs;
+
         // Display a custom name for the "Item Type Metadata' tab on the admin/edit page.
         // If the administrator did not configure a name, use the default name.
         $newTabs = array();
