@@ -25,30 +25,19 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterAdminItemsFormTabs($tabs, $args)
     {
-        $newTabs = array();
-        $newTabs['Fields'] = $tabs['Dublin Core'] . $tabs['Item Type Metadata'];
-        $newTabs['Files'] = $tabs['Files'];
-        $newTabs['Relationships'] = $tabs['Relationships'];
-        $newTabs['Cover Image'] = $tabs['Cover Image'];
-
+        // Get this item's image(s).
         $images = item_image_gallery(array('linkWrapper' => array('class' => 'admin-thumb panel'), 'link' => array('target' => '_blank')), 'thumbnail', false);
-        $newTabs['Fields'] = $images . $newTabs['Fields'];
 
-        return $newTabs;
-
-        // Display a custom name for the "Item Type Metadata' tab on the admin/edit page.
-        // If the administrator did not configure a name, use the default name.
+        // Merge the contents of the first two tabs into a single tab that shows the item's image(s) at the top.
         $newTabs = array();
-        foreach ($tabs as $key => $tab) {
-            if ($key == 'Item Type Metadata') {
-                $tabName = get_option('avantadmin_type_name');
-                if (!$tabName)
-                    $tabName = $key;
-            }
-            else {
-                $tabName = $key;
-            }
-            $newTabs[$tabName] = $tab;
+        $newTabs[__('Fields')] = $images . $tabs['Dublin Core'] . $tabs['Item Type Metadata'];
+
+        // Append the remaining tabs.
+        foreach ($tabs as $key => $tab)
+        {
+            if ($key == 'Dublin Core' || $key == 'Item Type Metadata')
+                continue;
+            $newTabs[$key] = $tab;
         }
         return $newTabs;
     }

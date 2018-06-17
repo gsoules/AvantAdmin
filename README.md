@@ -18,21 +18,22 @@ new item is added correctly.
 
 AvantAdmin provides the following benefits:
 
-* Hides the Omeka Collection feature.
+* Merges the Dublin Core and Item Type Metadata tabs into a single Fields tab.
+* Displays the item's image(s) on the Fields tab page so that you can see the image for the item being edited.
 * Hides the Omeka Item Type dropdown list from the Edit page and automatically assigns the same type to every item.
+* Hides the Omeka Collection feature.
 * Allows the administrator to configure the name for a single Item Type to be used for every item.
 * Displays the admin Show page after a new item is added so that the admin can review the item to determine
  if further edits are needed. This overrides the normal Omeka behavior of displaying the
 Browse Items page.
+* Displays an Item History on the admin Show page and lists the last five unique users that have saved the item. The
+list is in reverse chronilogical order from newest to oldest.
 * Clearly indicates on the Show page if the item is not public (says the item is private). This helps to avoid the
 problem of creating a new item and forgetting to make it public.
-* Displays the item's image(s) while on the Edit page so that you can see the image for the item being edited.
 * Redirects Omeka simple keyword search requests to [AvantSearch](https://github.com/gsoules/AvantSearch) (only if AvantSearch is activated).
 * Allows guest users having the Researcher role to see and search non-public items using the public interface.
 Users with the Research role are prevented from accessing admin pages. On the public Show page, the field labels for
 private items (specified using [AvantCommon](https://github.com/gsoules/AvantCommon)) are displayed in gray italics to indicate they are private.
-* Displays an Item History on the admin Show page and lists the last five unique users that have saved the item. The
-list is in reverse chronilogical order from newest to oldest.
 * Overrides the Omeka Dashboard to display the last 100 modified and recently added items.
 * Provides a down-for-maintenance feature that prevents public users from accessing the database, but still
 allows administrators and developers to work on the site.
