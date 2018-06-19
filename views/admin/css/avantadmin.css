@@ -91,3 +91,10 @@ a.add-new-item {
 .element-set a:visited {
     color: #E57F52;
 }
+
+/* The error that appears at the top of admin pages. The style must be here
+   instead of in the theme because this styling overrides the admin theme. */
+.error {
+    color: #ff0000;
+    font-size: 18px;
+}
