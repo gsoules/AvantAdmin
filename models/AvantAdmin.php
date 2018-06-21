@@ -16,8 +16,7 @@ class AvantAdmin
         $class = $isLoggedIn ? '.logged-out' : '.logged-in';
         echo "$class{display:none;}";
 
-        $role = $user->role;
-        if (!$isLoggedIn || !($role == 'super' || $role == 'admin'))
+        if (!$isLoggedIn || !($user->role == 'super' || $user->role == 'admin'))
         {
             // Either no user is logged in, or the user is not an admin. Hide elements with class admin-user.
             // Note that this is the permission required to see Simple Pages that are not published.
