@@ -52,12 +52,6 @@ class ItemHistory
 
     public static function logItemSave($item)
     {
-        if (AvantCommon::batchEditing())
-        {
-            // Ignore Saves that occur as part of a batch editing process.
-            return;
-        }
-
         // Get current timestamp.
         $date = new DateTime();
         $date->getTimestamp();

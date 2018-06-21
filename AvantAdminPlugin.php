@@ -68,6 +68,12 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookAfterSaveItem($args)
     {
+        if (!AvantCommon::userClickedSaveChanges())
+        {
+            // Don't log a save that is done programmatically such as when batch editing.
+            return;
+        }
+
         ItemHistory::logItemSave($args['record']);
     }
 
