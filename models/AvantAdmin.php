@@ -37,7 +37,7 @@ class AvantAdmin
         // are others that Omeka automatically installed. It finds the right one and returns its ID.
 
         $itemTypes = get_db()->getTable('ItemType')->findAll();
-        $customItemTypeName = get_option('avantadmin_type_name');
+        $customItemTypeName = get_option(AdminConfig::OPTION_TYPE_NAME);
 
         // Use the first item type as the default in case the user specified an invalid name in the configuration options.
         $customItemTypeId = $itemTypes[0]->id;
@@ -62,30 +62,6 @@ class AvantAdmin
         // Explicitly set the item_type_id for a newly added item. Normally in Omeka the admin
         // chooses the item type from a dropdown list, but AvantAdmin hides that list.
         $item['item_type_id'] = AvantAdmin::getCustomItemTypeId();;
-    }
-
-    public static function saveConfiguration()
-    {
-        $typeNameOption = $_POST['avantadmin_type_name'];
-        $itemTypeExists = false;
-        $itemTypes = get_table_options('ItemType');
-
-        foreach ($itemTypes as $itemTypeName)
-        {
-            if ($typeNameOption == $itemTypeName)
-            {
-                $itemTypeExists = true;
-                break;
-            }
-        }
-
-        if (!$itemTypeExists)
-        {
-            throw new Omeka_Validate_Exception(__('\'%s\' does not exist. Click the Item Types button at left to see the Item Types.', $typeNameOption));
-        }
-
-        set_option('avantadmin_type_name', $typeNameOption);
-        set_option('avantadmin_maintenance', (int)(boolean)$_POST['avantadmin_maintenance']);
     }
 
     public static function showPublicPrivateStatus($item)

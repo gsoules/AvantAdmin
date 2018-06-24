@@ -53,7 +53,7 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
 
     protected function bypassOmekaDashboard($isAdminRequest, $moduleName, $controllerName, $actionName)
     {
-        $downForMaintenance = get_option('avantadmin_maintenance');
+        $downForMaintenance = get_option(AdminConfig::OPTION_MAINTENANCE);
         if ($downForMaintenance)
         {
             $noCurrentUser = empty(current_user());

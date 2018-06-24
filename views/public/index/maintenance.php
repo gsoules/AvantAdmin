@@ -1,5 +1,5 @@
 <?php
-$downForMaintenance = get_option('avantadmin_maintenance');
+$downForMaintenance = get_option(AdminConfig::OPTION_MAINTENANCE);
 if (!$downForMaintenance)
 {
     // If the user refreshes this maintenance page after the site has come back online, take them to the dashboard.
