@@ -29,7 +29,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         $images = item_image_gallery(array('linkWrapper' => array('class' => 'admin-thumb panel'), 'link' => array('target' => '_blank')), 'thumbnail', false);
 
         // Merge the contents of the first two tabs into a single tab that shows the item's image(s) at the top.
-        $fieldsSeparator = '<div class="field field-separator">' . get_option(AdminConfig::OPTION_TYPE_NAME) . ' ' . __('Fields') . '</div>';
+        $fieldsSeparator = '<div class="field field-separator">' . AdminConfig::getItemTypeName() . ' ' . __('Fields') . '</div>';
         $newTabs = array();
         $newTabs[__('Fields')] = $images . $tabs['Dublin Core'] . $fieldsSeparator . $tabs['Item Type Metadata'];
 

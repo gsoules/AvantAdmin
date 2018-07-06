@@ -1,8 +1,13 @@
 <?php
 $view = get_view();
 
-// If this page posted back with an error, get the invalid option value, otherwise get the option from the database.
-$itemTypeName = isset($_POST[AdminConfig::OPTION_TYPE_NAME]) ? $_POST[AdminConfig::OPTION_TYPE_NAME] : get_option(AdminConfig::OPTION_TYPE_NAME);
+$itemTypeName = AdminConfig::getItemTypeName();
+
+if (ConfigOptions::configurationErrorsDetected())
+{
+    // The page posted back with an error because the item type name is invalid. Redisplay the bad name.
+    $itemTypeName = $_POST[AdminConfig::OPTION_ITEM_TYPE];
+}
 ?>
 
 <div class="plugin-help">
@@ -11,7 +16,7 @@ $itemTypeName = isset($_POST[AdminConfig::OPTION_TYPE_NAME]) ? $_POST[AdminConfi
 
 <div class="field">
     <div class="two columns alpha">
-        <label><?php echo CONFIG_LABEL_MAINTENANCE; ?></label>
+        <label><?php echo CONFIG_LABEL_ITEM_TYPE; ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __('Display the "Down for maintenance" page.'); ?></p>
@@ -21,11 +26,11 @@ $itemTypeName = isset($_POST[AdminConfig::OPTION_TYPE_NAME]) ? $_POST[AdminConfi
 
 <div class="field">
     <div class="two columns alpha">
-        <label><?php echo CONFIG_LABEL_TYPE_NAME; ?></label>
+        <label><?php echo CONFIG_LABEL_ITEM_TYPE; ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __('The Item Type to be used for all items in this installation.'); ?></p>
-        <?php echo $view->formText(AdminConfig::OPTION_TYPE_NAME, $itemTypeName, array('style' => 'width: 200px;')); ?>
+        <?php echo $view->formText(AdminConfig::OPTION_ITEM_TYPE, $itemTypeName, array('style' => 'width: 200px;')); ?>
     </div>
 </div>
 

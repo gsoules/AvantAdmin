@@ -34,24 +34,8 @@ class AvantAdmin
         // type. The admin adds it as part of their initial Omeka setup and specifies its name on the AvantAdmin configuration
         // page. This function gets called by the logic that would normally operate on the admin's selection from the Item Types
         // list. Note that the admin could delete all but their one custom item type, but this function assumes that there
-        // are others that Omeka automatically installed. It finds the right one and returns its ID.
-
-        $itemTypes = get_db()->getTable('ItemType')->findAll();
-        $customItemTypeName = get_option(AdminConfig::OPTION_TYPE_NAME);
-
-        // Use the first item type as the default in case the user specified an invalid name in the configuration options.
-        $customItemTypeId = $itemTypes[0]->id;
-
-        foreach ($itemTypes as $itemType)
-        {
-            if ($itemType->name == $customItemTypeName)
-            {
-                $customItemTypeId = $itemType->id;
-                break;
-            }
-        }
-
-        return $customItemTypeId;
+        // are others that Omeka automatically installed. It finds returns the one configured for AvantAdmin.
+        return get_option(AdminConfig::OPTION_ITEM_TYPE);;
     }
 
     public static function setItemType($item)
