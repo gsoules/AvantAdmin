@@ -35,8 +35,9 @@ class AvantAdmin_Controller_Plugin_DispatchFilter extends Zend_Controller_Plugin
             // Determine if Omeka is redirecting to the Browse page after the user has added a new item.
             // If so, display the new item's Show page instead since that's what the user usually wants to see.
             // Assume this is the case if the most recent item's added and modified dates are the same.
-            $mostRecentItem = get_recent_items(1)[0];
-            $isNewItem = $mostRecentItem->added == $mostRecentItem->modified;
+            $mostRecentItems = get_recent_items(1);
+            $mostRecentItem = empty($mostRecentItems) ? null : $mostRecentItems[0];
+            $isNewItem = !empty($mostRecentItem) && $mostRecentItem->added == $mostRecentItem->modified;
 
             if ($isNewItem)
             {
