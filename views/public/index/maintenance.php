@@ -15,4 +15,4 @@ $html .= "<p>We apologize for the inconvenience. Please come back in a little wh
 echo $html;
 echo foot();
 
-
+?>
