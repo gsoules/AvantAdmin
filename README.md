@@ -1,11 +1,5 @@
 # AvantAdmin (plugin for Omeka Classic)
 
-#################################################
-
-> **This plugin is under development. Please wait for Release 2.0.**
-
-#################################################
-
 The AvantAdmin plugin customizes Omeka's admin interface and functionality to provide a simpler and more
 efficient workflow for administrators. It is intended for Omeka installations that:
 
