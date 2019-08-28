@@ -106,3 +106,12 @@ a.add-new-item {
     margin-bottom: 12px;
     padding: 4px 0 4px 8px;
 }
+
+/* Make clear that the Delete button applies to the entire item and not just a file that is being deleted. */
+a.delete-confirm:after {
+    content: ' This Item';
+}
+
+.ui-sortable .deleted.sortable-item {
+    background-image: linear-gradient(to bottom, #e3b200, #deaa1f);;
+}

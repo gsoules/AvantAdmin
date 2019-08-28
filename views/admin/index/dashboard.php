@@ -42,11 +42,15 @@ foreach (loop('items') as $item):
     $userName = ItemHistory::getMostRecentUserName($item->id);
     $userName = empty($userName) ? '' : " <i>$userName</i>";
     $identifier = ItemMetadata::getItemIdentifier($item);
+    $title = ItemMetadata::getItemTitle($item);
+    $modified = $item->modified;
+    $dateModified = ItemHistory::formatHistoryDate($modified);
+    $publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo link_to_item() . ' (' . $identifier . ' '. $userName . ')' ?></p>
+        <p class="recent"><?php echo "<a href='$publicLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
-            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array(), 'edit'); ?></p>
+            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
         <?php endif; ?>
     </div>
 <?php endforeach; ?>
@@ -64,11 +68,13 @@ foreach (loop('items') as $item):
     $userName = ItemHistory::getUserName($item->owner_id);
     $userName = empty($userName) ? '' : " <i>$userName</i>";
     $identifier = ItemMetadata::getItemIdentifier($item);
+    $title = ItemMetadata::getItemTitle($item);
+    $dateModified = ItemHistory::formatHistoryDate($modified);
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo link_to_item() . ' (' . $identifier . $userName . ')' ?></p>
+        <p class="recent"><?php echo "<a href='$publicLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
-            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array(), 'edit'); ?></p>
+            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
         <?php endif; ?>
     </div>
 <?php endforeach; ?>

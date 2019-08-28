@@ -21,7 +21,7 @@ class ItemHistory
     }
 
 
-    protected static function formatHistoryDate($date)
+    public static function formatHistoryDate($date)
     {
         $date = new DateTime($date);
         $date->setTimezone(new DateTimeZone("America/New_York"));
