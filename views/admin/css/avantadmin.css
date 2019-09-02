@@ -114,10 +114,9 @@ a.add-new-item {
 #relationships-page-grid {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-areas:
-            "image metadata"
-            "table table";
+            "image metadata";
 }
 
 .relationships-page-links {
@@ -144,5 +143,5 @@ a.add-new-item {
 }
 
 .relationships-page-table {
-    grid-area: table;
+    margin-top: 16px;
 }

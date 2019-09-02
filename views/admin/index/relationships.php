@@ -24,15 +24,15 @@ $html .= "<div><span class='element-name'>Type:</span> $type</div>";
 $html .= "<div><span class='element-name'>Subject:</span> $subject</div>";
 
 $html .= "<div class='relationships-page-links'>";
-$publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
-$html .= "<a href='$publicLink'>" . __('Public'). "</a>";
 $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
-$html .= " | <a href='$viewLink'>" . __('View'). "</a>";
+$html .= "Admin: <a href='$viewLink'>" . __('View'). "</a>";
 if (is_allowed($item, 'edit'))
 {
     $editLink = link_to_item(__('Edit'), array(), 'edit');
     $html .= " | $editLink</span>";
 }
+$publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
+$html .= "<div><a href='$publicLink'>" . __('View Public Page'). "</a></div>";
 $html .= "</div>";
 $html .= "</div>";
 $html .= "</div>";

@@ -47,13 +47,15 @@ echo flash();
 
     <div id="edit" class="panel">
         <?php if (is_allowed($item, 'edit')): ?>
-        <?php
-        echo link_to_item(__('Edit'), array('class'=>'big green button'), 'edit'); ?>
+            <?php echo link_to_item(__('Edit'), array('class' => 'big green button'), 'edit'); ?>
+            <a href="<?php echo html_escape(admin_url('avant/relationships/' . $item->id)); ?>" class="big green button"><?php echo __('Add Relationships'); ?></a>
         <?php endif; ?>
-        <a href="<?php echo html_escape(public_url('items/show/'.metadata('item', 'id'))); ?>" class="big blue button" target="_blank"><?php echo __('View Public Page'); ?></a>
         <?php if (is_allowed($item, 'delete')): ?>
         <?php echo link_to_item(__('Delete This Item'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
-        <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add New Item'); ?></a>
+        <a href="<?php echo html_escape(public_url('items/show/' . metadata('item', 'id'))); ?>" class="big blue button"
+           target="_blank"><?php echo __('View Public Page'); ?></a>
+            <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button"
+               target="_blank"><?php echo __('Add New Item'); ?></a>
         <?php endif; ?>
     </div>
 
