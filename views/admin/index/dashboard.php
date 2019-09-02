@@ -45,10 +45,10 @@ foreach (loop('items') as $item):
     $title = ItemMetadata::getItemTitle($item);
     $modified = $item->modified;
     $dateModified = ItemHistory::formatHistoryDate($modified);
-    $publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
+    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo "<a href='$publicLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
+        <p class="recent"><?php echo "<a href='$viewLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
         <?php endif; ?>
@@ -70,9 +70,10 @@ foreach (loop('items') as $item):
     $identifier = ItemMetadata::getItemIdentifier($item);
     $title = ItemMetadata::getItemTitle($item);
     $dateModified = ItemHistory::formatHistoryDate($modified);
+    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
     ?>
     <div class="recent-row">
-        <p class="recent"><?php echo "<a href='$publicLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
+        <p class="recent"><?php echo "<a href='$viewLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
         <?php endif; ?>
