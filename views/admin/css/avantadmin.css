@@ -134,6 +134,11 @@ a.add-new-item {
     grid-area: metadata;
 }
 
+.recent-relationships-title {
+    font-size:14px;
+    font-weight: bold;
+}
+
 .relationships-editor-title {
     font-weight: bold;
     font-size: 18px;
@@ -145,6 +150,12 @@ a.add-new-item {
 
 .relationships-editor-table {
     margin-top: 16px;
+}
+
+.relationship-editor-code {
+    cursor: pointer;
+    margin-left: 16px;
+    color: green;
 }
 
 a.button.beige, input[type=submit].blue, button.beige {

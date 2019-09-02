@@ -92,19 +92,16 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
     </tbody>
 </table>
 
-<div id="recent-relationships">
-    <?php
-    $cookie = isset($_COOKIE['RELATIONSHIP']) ? $_COOKIE['RELATIONSHIP'] : '';
-    $codes = explode(',', $cookie);
-    foreach ($codes as $code)
-    {
-        echo "<div>$formSelectRelationshipNames[$code]</div>";
-    }
-    ?>
-</div>
+<?php
+echo '<div class="recent-relationships-title">' . __('Recently selected relationships:') . '</div>';
+
+// Emit an empty list of recent relationships. The client-side Javascript populates it.
+echo '<div id="recent-relationships"></div>';
+?>
 
 <?php
-    echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'defaultCode' => $code));
+    $relationshipNames = json_encode($formSelectRelationshipNames);
+    echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
 ?>
 
 <?php echo foot();?>
