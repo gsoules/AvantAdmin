@@ -7,60 +7,41 @@ if (empty($item))
 }
 set_current_record('Item', $item);
 
-$itemTitle = metadata('item', 'display_title');
-if ($itemTitle != '' && $itemTitle != __('[Untitled]')) {
-    $itemTitle = ': &quot;' . $itemTitle . '&quot; ';
-} else {
-    $itemTitle = '';
-}
-
 $itemTitle = __('Relationships for Item %s', ItemMetadata::getItemIdentifier($item));
-
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
-//echo flash();
-?>
 
-<!--<section class="seven columns alpha">-->
-<!--    --><?php
-    //echo flash();
+$type = ItemMetadata::getElementTextForElementName($item, 'Type');
+$subject = ItemMetadata::getElementTextForElementName($item, 'Subject');
+$title = ItemMetadata::getItemTitle($item);
 
-    $type = ItemMetadata::getElementTextForElementName($item, 'Type');
-    $subject = ItemMetadata::getElementTextForElementName($item, 'Subject');
+$html = '<div id="relationships-page-grid">';
+$imageUrl = ItemPreview::getImageUrl($item, true, true);
+$html .= "<img class='relationships-page-image' src='$imageUrl'>";
 
-    $html = '';
-    $class = '';
-    $imageUrl = ItemPreview::getImageUrl($item, true, true);
-    $html .= "<img $class src='$imageUrl'>";
+$html .= "<div class='relationships-page-metadata'>";
+$html .= "<div class='relationships-page-title'>$title</div>";
+$html .= "<div><span class='element-name'>Type:</span> $type</div>";
+$html .= "<div><span class='element-name'>Subject:</span> $subject</div>";
 
+$html .= "<div class='relationships-page-links'>";
+$publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
+$html .= "<a href='$publicLink'>" . __('Public'). "</a>";
+$viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
+$html .= " | <a href='$viewLink'>" . __('View'). "</a>";
+if (is_allowed($item, 'edit'))
+{
+    $editLink = link_to_item(__('Edit'), array(), 'edit');
+    $html .= " | $editLink</span>";
+}
+$html .= "</div>";
+$html .= "</div>";
+$html .= "</div>";
 
-    $itemPreview = new ItemPreview($item);
-//    $html = '<div class="item-preview relationships-image">';
-//    $html .= $itemPreview->emitItemThumbnail();
-//    $html .= '</div>';
-//    $html .= '<div class="relationships-metadata">';
-    $html .= $itemPreview->emitItemHeader();
-    $html .= $itemPreview->emitItemTitle();
-    $html .= "<div>Type: $type</div>";
-    $html .= "<div>Subject: $subject</div>";
+echo $html;
 
-    echo $html;
-    ?>
-<!--</section>-->
-<!---->
-<!--<section class="three columns omega">-->
-<!--    <div id="edit" class="panel">-->
-<!--        <a href="--><?php //echo html_escape(public_url('items/show/'.metadata('item', 'id'))); ?><!--" class="big blue button" target="_blank">--><?php //echo __('View Public Page'); ?><!--</a>-->
-<!--    </div>-->
-<!---->
-<!--    --><?php
-//    echo get_specific_plugin_hook_output('AvantRelationships', 'show_relationships_visualization', array('view' => $this, 'item' => $item));
-//    ?>
-<!--</section>-->
-
-<?php
 $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
 ?>
-<table class="relationships-table">
+<table class="relationships-page-table">
     <thead>
     <tr>
         <th class="relationship-table-relationship"><?php echo __('Relationship'); ?></th>

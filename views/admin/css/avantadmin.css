@@ -111,20 +111,38 @@ a.add-new-item {
     background-image: linear-gradient(to bottom, #e3b200, #deaa1f);;
 }
 
-.item-preview.relationships-image img,
-.item-preview.relationships-image .item-img {
-    width: auto;
-    max-height: none;
+#relationships-page-grid {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: 300px 1fr;
+    grid-template-areas:
+            "image metadata"
+            "table table";
 }
 
-.relationships-image {
-    height: 300px;
+.relationships-page-links {
+    margin-top: 4px;
 }
 
-.relationships-metadata {
-    /*float: left;*/
+.relationships-page-image {
+    grid-area: image;
+    max-width: 100%;
 }
 
-.relationships-table {
-    margin-top:40px;
+.relationships-page-metadata {
+    line-height: 22px;
+    grid-area: metadata;
+}
+
+.relationships-page-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.relationships-page-metadata .element-name {
+    font-weight: bold;
+}
+
+.relationships-page-table {
+    grid-area: table;
 }
