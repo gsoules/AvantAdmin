@@ -110,3 +110,21 @@ a.add-new-item {
 .ui-sortable .deleted.sortable-item {
     background-image: linear-gradient(to bottom, #e3b200, #deaa1f);;
 }
+
+.item-preview.relationships-image img,
+.item-preview.relationships-image .item-img {
+    width: auto;
+    max-height: none;
+}
+
+.relationships-image {
+    height: 300px;
+}
+
+.relationships-metadata {
+    /*float: left;*/
+}
+
+.relationships-table {
+    margin-top:40px;
+}
