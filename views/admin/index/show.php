@@ -52,21 +52,9 @@ echo flash();
         <?php endif; ?>
         <a href="<?php echo html_escape(public_url('items/show/'.metadata('item', 'id'))); ?>" class="big blue button" target="_blank"><?php echo __('View Public Page'); ?></a>
         <?php if (is_allowed($item, 'delete')): ?>
-        <?php echo link_to_item(__('Delete'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
+        <?php echo link_to_item(__('Delete This Item'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
         <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add New Item'); ?></a>
         <?php endif; ?>
-    </div>
-
-    <div class="public-featured panel">
-        <p><span class="label"><?php echo __('Public'); ?>:</span> <?php echo ($item->public) ? __('Yes') : __('No'); ?></p>
-        <p><span class="label"><?php echo __('Featured'); ?>:</span> <?php echo ($item->featured) ? __('Yes') : __('No'); ?></p>
-    </div>
-
-    <div class="collection panel">
-        <h4><?php echo __('Collection'); ?></h4>
-        <div>
-           <p><?php echo link_to_collection_for_item(); ?></p>
-        </div>
     </div>
 
     <?php
@@ -97,18 +85,6 @@ echo flash();
                     <?php endforeach; ?>
                 </ul>
             <?php endif;?>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h4><?php echo __('Output Formats'); ?></h4>
-        <div><?php echo output_format_list(); ?></div>
-    </div>
-
-    <div class="info panel">
-        <h4><?php echo __('Bibliographic Citation'); ?></h4>
-        <div>
-            <p><?php echo metadata('item', 'citation', array('no_escape' => true));?></p>
         </div>
     </div>
 </section>
