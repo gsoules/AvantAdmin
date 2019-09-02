@@ -93,10 +93,22 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
 </table>
 
 <?php
-echo '<div class="recent-relationships-title">' . __('Recently selected relationships:') . '</div>';
+echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
+echo '<div id="recent-relationships-section">';
+echo '<div class="recent-relationships-title">' . __('Recent relationships:') . '</div>';
 echo '<div id="recent-relationships"></div>';
+echo '</div>';
+
+// Emit a list of recently visited items.
+echo '<div id="recent-items-section">';
+echo '<div class="recent-items-title">' . __('Recent items:') . '</div>';
+echo '<div id="recent-items"></div>';
+echo '<a class="recent-item">TEST</a>';
+echo '</div>';
+
+echo '</div>';
 ?>
 
 <?php
