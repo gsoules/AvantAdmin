@@ -111,37 +111,50 @@ a.add-new-item {
     background-image: linear-gradient(to bottom, #e3b200, #deaa1f);;
 }
 
-#relationships-page-grid {
+#relationships-editor-grid {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 25%;
     grid-template-areas:
-            "image metadata";
+            "image metadata buttons";
 }
 
-.relationships-page-links {
+.relationships-editor-buttons {
+    grid-area: buttons;
     margin-top: 4px;
 }
 
-.relationships-page-image {
+.relationships-editor-image {
     grid-area: image;
     max-width: 100%;
 }
 
-.relationships-page-metadata {
+.relationships-editor-metadata {
     line-height: 22px;
     grid-area: metadata;
 }
 
-.relationships-page-title {
+.relationships-editor-title {
     font-weight: bold;
     font-size: 18px;
 }
 
-.relationships-page-metadata .element-name {
+.relationships-editor-metadata .element-name {
     font-weight: bold;
 }
 
-.relationships-page-table {
+.relationships-editor-table {
     margin-top: 16px;
+}
+
+a.button.beige, input[type=submit].blue, button.beige {
+    background: #c3ac72;
+    background: -webkit-linear-gradient(top, #c3ac72, #927b4b);
+    background: -moz-linear-gradient(top, #c3ac72, #927b4b);
+    background: -o-linear-gradient(top, #c3ac72, #927b4b);
+    background: linear-gradient(to bottom, #c3ac72, #927b4b);
+    -webkit-box-shadow: 0px 1px 0px 0px #bab198 inset, 0px -1px 0px 0px #c3baa1 inset, 0px 2px 2px 0px #d4d4d4;
+    -moz-box-shadow: 0px 1px 0px 0px #bab198 inset, 0px -1px 0px 0px #c3baa1 inset, 0px 2px 2px 0px #d4d4d4;
+    box-shadow: 0px 1px 0px 0px #bab198 inset, 0px -1px 0px 0px #c3baa1 inset, 0px 2px 2px 0px #d4d4d4;
+    border: 1px solid #927b4b;
 }

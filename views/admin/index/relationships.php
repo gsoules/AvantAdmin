@@ -1,4 +1,38 @@
 <?php
+
+function emitItemInformation(Omeka_Record_AbstractRecord $item)
+{
+    $type = ItemMetadata::getElementTextForElementName($item, 'Type');
+    $subject = ItemMetadata::getElementTextForElementName($item, 'Subject');
+    $title = ItemMetadata::getItemTitle($item);
+
+    $html = '<div id="relationships-editor-grid">';
+    $imageUrl = ItemPreview::getImageUrl($item, true, true);
+    $html .= "<img class='relationships-editor-image' src='$imageUrl'>";
+
+    $html .= "<div class='relationships-editor-metadata'>";
+    $html .= "<div class='relationships-editor-title'>$title</div>";
+    $html .= "<div><span class='element-name'>Type:</span> $type</div>";
+    $html .= "<div><span class='element-name'>Subject:</span> $subject</div>";
+    $html .= "</div>";
+
+    $html .= "<div class='relationships-editor-buttons'>";
+    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
+    $html .= "<a href='$viewLink' class='big beige button'>" . __('View Admin Item') . "</a>";
+    $publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
+    $html .= "<div><a href='$publicLink' class='big blue button'>" . __('View Public Page') . "</a></div>";
+    if (is_allowed($item, 'edit'))
+    {
+        $editLink = link_to_item(__('Edit'), array('class' => 'big green button'), 'edit');
+        $html .= $editLink;
+    }
+    $html .= "</div>";
+
+    $html .= "</div>";
+
+    echo $html;
+}
+
 $item = get_record_by_id('Item', $itemId);
 if (empty($item))
 {
@@ -7,41 +41,20 @@ if (empty($item))
 }
 set_current_record('Item', $item);
 
-$itemTitle = __('Relationships for Item %s', ItemMetadata::getItemIdentifier($item));
+$primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
+$itemTitle = __('Relationships for Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
-$type = ItemMetadata::getElementTextForElementName($item, 'Type');
-$subject = ItemMetadata::getElementTextForElementName($item, 'Subject');
-$title = ItemMetadata::getItemTitle($item);
+emitItemInformation($item);
 
-$html = '<div id="relationships-page-grid">';
-$imageUrl = ItemPreview::getImageUrl($item, true, true);
-$html .= "<img class='relationships-page-image' src='$imageUrl'>";
+$relatedItemsModel = new RelatedItemsModel($item, $this);
+$relatedItems = $relatedItemsModel->getRelatedItems();
+$relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
+$formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectList();
 
-$html .= "<div class='relationships-page-metadata'>";
-$html .= "<div class='relationships-page-title'>$title</div>";
-$html .= "<div><span class='element-name'>Type:</span> $type</div>";
-$html .= "<div><span class='element-name'>Subject:</span> $subject</div>";
-
-$html .= "<div class='relationships-page-links'>";
-$viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
-$html .= "Admin: <a href='$viewLink'>" . __('View'). "</a>";
-if (is_allowed($item, 'edit'))
-{
-    $editLink = link_to_item(__('Edit'), array(), 'edit');
-    $html .= " | $editLink</span>";
-}
-$publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
-$html .= "<div><a href='$publicLink'>" . __('View Public Page'). "</a></div>";
-$html .= "</div>";
-$html .= "</div>";
-$html .= "</div>";
-
-echo $html;
-
-$primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
 ?>
-<table class="relationships-page-table">
+
+<table class="relationships-editor-table">
     <thead>
     <tr>
         <th class="relationship-table-relationship"><?php echo __('Relationship'); ?></th>
@@ -52,14 +65,6 @@ $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
     </thead>
     <tbody>
     <?php
-
-    $relatedItemsModel = new RelatedItemsModel($item, $this);
-    $relatedItems = $relatedItemsModel->getRelatedItems();
-
-    $relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
-    $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectList();
-
-
     foreach ($relatedItems as $relatedItem)
     {
         $relatedItemIdentifier = $relatedItem->getIdentifier();
@@ -93,11 +98,13 @@ $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
     $codes = explode(',', $cookie);
     foreach ($codes as $code)
     {
-        echo "<div>$code</div>";
-        ?>
-    <?php }; ?>
+        echo "<div>$formSelectRelationshipNames[$code]</div>";
+    }
+    ?>
 </div>
 
-<?php echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier)); ?>
+<?php
+    echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'defaultCode' => $code));
+?>
 
 <?php echo foot();?>
