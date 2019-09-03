@@ -111,7 +111,8 @@ foreach ($recentItemIds as $recentItemId)
     $item = ItemMetadata::getItemFromId($recentItemId);
     $title = ItemMetadata::getItemTitle($item);
     $identifier = ItemMetadata::getItemIdentifier($item);
-    echo "<div class='recent-item' data-identifier='$identifier'>$title</div>";
+    $url = html_escape(admin_url('avant/relationships/' . $item->id));
+    echo "<div class='recent-item' data-identifier='$identifier'>$identifier <a href='$url'>$title</a></div>";
 }
 echo '</div>';
 echo '</div>';

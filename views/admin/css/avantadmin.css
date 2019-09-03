@@ -201,3 +201,9 @@ a.button.beige, input[type=submit].blue, button.beige {
     box-shadow: 0px 1px 0px 0px #bab198 inset, 0px -1px 0px 0px #c3baa1 inset, 0px 2px 2px 0px #d4d4d4;
     border: 1px solid #927b4b;
 }
+
+table.relationships-editor-table td
+{
+    padding: 0 0 0 8px;
+    vertical-align: middle;
+}

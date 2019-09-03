@@ -91,4 +91,7 @@ echo flash();
     </div>
 </section>
 
-<?php echo foot();?>
+<?php
+echo foot();
+echo $this->partial('recent-items-script.php', array('itemId' => $item->id));
+?>
