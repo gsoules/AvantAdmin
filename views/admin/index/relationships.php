@@ -107,20 +107,34 @@ echo '<div id="recent-items-section">';
 echo '<div class="recent-items-title" xmlns="http://www.w3.org/1999/html">' . __('Recent Items<span>Click a title to edit the item\'s relationships') . '</span</div>';
 echo '<div id="recent-items">';
 
-//echo '<div class="recent-identifiers-title">' . __('Recent items:') . '</div>';
-$recentItemIds = isset($_COOKIE['ITEMS']) ? explode(',', $_COOKIE['ITEMS']) : array();
+$cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
+$recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
+
 foreach ($recentItemIds as $recentItemId)
 {
-    $item = ItemMetadata::getItemFromId($recentItemId);
-    $identifier = ItemMetadata::getItemIdentifier($item);
-    if ($identifier == $primaryItemIdentifier)
+    if (intval($recentItemId) == 0)
+    {
+        // This should never happen, but check in case the cookie is somehow corrupted.
+        continue;
+    }
+
+    $recentItem = ItemMetadata::getItemFromId($recentItemId);
+
+    if (empty($recentItem))
+    {
+        // Ignore any items that no longer exist.
+        continue;
+    }
+
+    $recentIdentifier = ItemMetadata::getItemIdentifier($recentItem);
+    if ($recentIdentifier == $primaryItemIdentifier)
     {
         // Don't show the primary item in the list of recent items.
         continue;
     }
-    $title = ItemMetadata::getItemTitle($item);
-    $url = html_escape(admin_url('avant/relationships/' . $item->id));
-    echo "<div class='recent-identifier' data-identifier='$identifier'>$identifier</div>";
+    $title = ItemMetadata::getItemTitle($recentItem);
+    $url = html_escape(admin_url('avant/relationships/' . $recentItem->id));
+    echo "<div class='recent-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
     echo "<a href='$url' class='recent-title'>$title</a>";
 }
 
