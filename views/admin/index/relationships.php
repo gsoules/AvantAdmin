@@ -104,8 +104,16 @@ echo '</div>';
 // Emit a list of recently visited items.
 echo '<div id="recent-items-section">';
 echo '<div class="recent-items-title">' . __('Recent items:') . '</div>';
-echo '<div id="recent-items"></div>';
-echo '<a class="recent-item">TEST</a>';
+echo '<div id="recent-items">';
+$recentItemIds = isset($_COOKIE['ITEMS']) ? explode(',', $_COOKIE['ITEMS']) : array();
+foreach ($recentItemIds as $recentItemId)
+{
+    $item = ItemMetadata::getItemFromId($recentItemId);
+    $title = ItemMetadata::getItemTitle($item);
+    $identifier = ItemMetadata::getItemIdentifier($item);
+    echo "<div class='recent-item' data-identifier='$identifier'>$title</div>";
+}
+echo '</div>';
 echo '</div>';
 
 echo '</div>';

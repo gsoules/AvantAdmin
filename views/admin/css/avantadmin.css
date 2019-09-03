@@ -176,8 +176,18 @@ a.add-new-item {
 .recent-item,
 .recent-relationship {
     cursor: pointer;
-    margin-left: 16px;
-    color: green;
+    margin-top: 6px;
+    padding: 4px 4px 4px 4px;
+    font-size: 13px;
+    background-color: #e8e8e8;
+    border-color: #bababa;
+    color: #666666;
+    border-radius: 3px;
+}
+
+.recent-item:hover,
+.recent-relationship:hover {
+    background-color: #dbdbdb;
 }
 
 a.button.beige, input[type=submit].blue, button.beige {
