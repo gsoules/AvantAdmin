@@ -23,7 +23,7 @@ function emitItemInformation(Omeka_Record_AbstractRecord $item)
     $html .= "<div><a href='$publicLink' class='big blue button'>" . __('View Public Page') . "</a></div>";
     if (is_allowed($item, 'edit'))
     {
-        $editLink = link_to_item(__('Edit'), array('class' => 'big green button'), 'edit');
+        $editLink = link_to_item(__('Edit Item'), array('class' => 'big green button'), 'edit');
         $html .= $editLink;
     }
     $html .= "</div>";
@@ -42,7 +42,7 @@ if (empty($item))
 set_current_record('Item', $item);
 
 $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
-$itemTitle = __('Relationships for Item %s', $primaryItemIdentifier);
+$itemTitle = __('Edit Relationships for Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
 emitItemInformation($item);
@@ -104,7 +104,7 @@ echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
 echo '<div id="recent-items-section">';
-echo '<div class="recent-items-title" xmlns="http://www.w3.org/1999/html">' . __('Recent Items<span>Click a title to edit the item\'s relationships') . '</span</div>';
+echo '<div class="recent-items-title" xmlns="http://www.w3.org/1999/html">' . __('Recent Items<span>Click a title to edit that item\'s relationships') . '</span</div>';
 echo '<div id="recent-items">';
 
 $cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';

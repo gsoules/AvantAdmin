@@ -138,6 +138,7 @@ a.add-new-item {
 .relationships-editor-metadata {
     line-height: 22px;
     grid-area: metadata;
+    color: #777;
 }
 
 #relationship-editor-recents {
@@ -206,6 +207,7 @@ a.add-new-item {
 
 .relationships-editor-metadata .element-name {
     font-weight: bold;
+    margin-left: 16px;
 }
 
 .relationships-editor-table {
