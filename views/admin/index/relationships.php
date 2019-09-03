@@ -93,7 +93,7 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
 </table>
 
 <?php
-echo '<div id="relationship-editor-speed-bar">Speed Bar - Choose recent relationships or items from the lists below</div>';
+echo '<div id="relationship-editor-speed-bar">SPEED BAR - save typing by choosing Recent Relationships or Recent Items from the lists below</div>';
 echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
@@ -134,8 +134,12 @@ foreach ($recentItemIds as $recentItemId)
     }
     $title = ItemMetadata::getItemTitle($recentItem);
     $url = html_escape(admin_url('avant/relationships/' . $recentItem->id));
+    $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
+    $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
+    $metadata = "<span>Type:</span>$type<br/><span>Subject:</span>$subject";
+
     echo "<div class='recent-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
-    echo "<a href='$url' class='recent-title'>$title</a>";
+    echo "<div class='recent-title'><a href='$url'>$title</a><div class='recent-metadata'>$metadata</div></div>";
 }
 
 echo '</div>'; // recent-items

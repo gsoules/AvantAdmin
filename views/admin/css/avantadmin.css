@@ -224,9 +224,24 @@ a.add-new-item {
     border-radius: 3px;
 }
 
+.recent-identifier {
+    padding-top: 18px;
+    text-align: center;
+}
+
 .recent-identifier:hover,
 .recent-relationship:hover {
     background-color: #dbdbdb;
+}
+
+.recent-metadata,
+.recent-metadata span {
+    font-size: 12px;
+}
+
+.recent-metadata span {
+    font-weight: bold;
+    padding-right: 4px;
 }
 
 a.button.beige, input[type=submit].blue, button.beige {
