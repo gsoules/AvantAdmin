@@ -129,6 +129,12 @@ a.add-new-item {
     max-width: 100%;
 }
 
+.relationships-editor-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
 .relationships-editor-metadata {
     line-height: 22px;
     grid-area: metadata;
@@ -137,32 +143,65 @@ a.add-new-item {
 #relationship-editor-recents {
     display: grid;
     grid-gap: 16px;
-    grid-template-columns: 20% auto;
+    grid-template-columns: 160px 1fr;
     grid-template-areas:
-            "relationships items";
+            "relationship item";
+    margin-left: 4px;
+    padding-top: 4px;
 }
 
-#recent-items-section {
-    grid-area: items;
+#relationship-editor-speed-bar {
+    background-color: #639abd;
+    height: 12px;
+    margin: 4px 0 8px 2px;
+    padding: 4px 0 10px 8px;
+    color:white;
 }
 
+#recent-items {
+    display: grid;
+    grid-template-columns: 80px auto;
+    grid-template-areas:
+            "identifier title";
+}
+
+#recent-identifiers-section {
+    grid-area: identifier;
+}
+
+.recent-identifiers-title {
+    font-size:14px;
+    font-weight: bold;
+}
+
+#recent-titles-section {
+    grid-area: title;
+}
+
+.recent-titles-title {
+    font-size:14px;
+    font-weight: bold;
+}
+
+.recent-title {
+    padding: 8px 0 0 16px;
+}
+
+#recent-relationships-section {
+    grid-area: relationship;
+}
+
+.recent-relationships-title,
 .recent-items-title {
     font-size:14px;
     font-weight: bold;
 }
 
-#recent-relationships-section {
-    grid-area: relationships;
-}
-
-.recent-relationships-title {
+.recent-items-title span {
     font-size:14px;
-    font-weight: bold;
-}
-
-.relationships-editor-title {
-    font-weight: bold;
-    font-size: 18px;
+    font-weight: normal;
+    color: #555555;
+    padding-left: 16px;
 }
 
 .relationships-editor-metadata .element-name {
@@ -173,7 +212,7 @@ a.add-new-item {
     margin-top: 16px;
 }
 
-.recent-item,
+.recent-identifier,
 .recent-relationship {
     cursor: pointer;
     margin-top: 6px;
@@ -185,7 +224,7 @@ a.add-new-item {
     border-radius: 3px;
 }
 
-.recent-item:hover,
+.recent-identifier:hover,
 .recent-relationship:hover {
     background-color: #dbdbdb;
 }

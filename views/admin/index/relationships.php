@@ -93,36 +93,44 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
 </table>
 
 <?php
+echo '<div id="relationship-editor-speed-bar">Speed Bar - Choose recent relationships or items from the lists below</div>';
 echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
 echo '<div id="recent-relationships-section">';
-echo '<div class="recent-relationships-title">' . __('Recent relationships:') . '</div>';
+echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '</div>';
 echo '<div id="recent-relationships"></div>';
-echo '</div>';
+echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
 echo '<div id="recent-items-section">';
-echo '<div class="recent-items-title">' . __('Recent items:') . '</div>';
+echo '<div class="recent-items-title" xmlns="http://www.w3.org/1999/html">' . __('Recent Items<span>Click a title to edit the item\'s relationships') . '</span</div>';
 echo '<div id="recent-items">';
+
+//echo '<div class="recent-identifiers-title">' . __('Recent items:') . '</div>';
 $recentItemIds = isset($_COOKIE['ITEMS']) ? explode(',', $_COOKIE['ITEMS']) : array();
 foreach ($recentItemIds as $recentItemId)
 {
     $item = ItemMetadata::getItemFromId($recentItemId);
-    $title = ItemMetadata::getItemTitle($item);
     $identifier = ItemMetadata::getItemIdentifier($item);
+    if ($identifier == $primaryItemIdentifier)
+    {
+        // Don't show the primary item in the list of recent items.
+        continue;
+    }
+    $title = ItemMetadata::getItemTitle($item);
     $url = html_escape(admin_url('avant/relationships/' . $item->id));
-    echo "<div class='recent-item' data-identifier='$identifier'>$identifier <a href='$url'>$title</a></div>";
+    echo "<div class='recent-identifier' data-identifier='$identifier'>$identifier</div>";
+    echo "<a href='$url' class='recent-title'>$title</a>";
 }
-echo '</div>';
-echo '</div>';
 
-echo '</div>';
+echo '</div>'; // recent-items
+echo '</div>'; // recent-items-section
+
+echo '</div>'; // relationship-editor-recents
 ?>
 
 <?php
     $relationshipNames = json_encode($formSelectRelationshipNames);
     echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
 ?>
-
-<?php echo foot();?>
