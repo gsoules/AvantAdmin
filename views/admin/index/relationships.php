@@ -104,7 +104,7 @@ echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
 echo '<div id="recent-items-section">';
-echo '<div class="recent-items-title" xmlns="http://www.w3.org/1999/html">' . __('Recent Items<span>Click a title to edit that item\'s relationships') . '</span</div>';
+echo '<div class="recent-items-title">' . __('Recent Items') . '</div>';
 echo '<div id="recent-items">';
 
 $cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
@@ -133,13 +133,16 @@ foreach ($recentItemIds as $recentItemId)
         continue;
     }
     $title = ItemMetadata::getItemTitle($recentItem);
-    $url = html_escape(admin_url('avant/relationships/' . $recentItem->id));
     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
-    $metadata = "<span>Type:</span>$type<br/><span>Subject:</span>$subject";
+    $metadata = "<span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject";
 
     echo "<div class='recent-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
-    echo "<div class='recent-title'><a href='$url'>$title</a><div class='recent-metadata'>$metadata</div></div>";
+    echo "<div class='recent-item'>";
+    echo "<div class='recent-item-title'>$title</div>";
+    echo "<div class='recent-item-metadata'>$metadata</div>";
+    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false);
+    echo '</div>';
 }
 
 echo '</div>'; // recent-items

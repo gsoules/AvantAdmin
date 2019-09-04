@@ -175,17 +175,24 @@ a.add-new-item {
     font-weight: bold;
 }
 
-#recent-titles-section {
-    grid-area: title;
+.recent-item {
+    padding: 8px 0 0 16px;
 }
 
-.recent-titles-title {
-    font-size:14px;
+.recent-item-title {
+    color:#777;
     font-weight: bold;
 }
 
-.recent-title {
-    padding: 8px 0 0 16px;
+.recent-item-metadata,
+.recent-item-metadata span {
+    font-size: 12px;
+}
+
+.recent-item-metadata span {
+    font-style: italic;
+    color: #888;
+    padding-right: 4px;
 }
 
 #recent-relationships-section {
@@ -196,13 +203,6 @@ a.add-new-item {
 .recent-items-title {
     font-size:14px;
     font-weight: bold;
-}
-
-.recent-items-title span {
-    font-size:14px;
-    font-weight: normal;
-    color: #555555;
-    padding-left: 16px;
 }
 
 .relationships-editor-metadata .element-name {
@@ -236,16 +236,6 @@ a.add-new-item {
     background-color: #dbdbdb;
 }
 
-.recent-metadata,
-.recent-metadata span {
-    font-size: 12px;
-}
-
-.recent-metadata span {
-    font-weight: bold;
-    padding-right: 4px;
-}
-
 a.button.beige, input[type=submit].blue, button.beige {
     background: #c3ac72;
     background: -webkit-linear-gradient(top, #c3ac72, #927b4b);
@@ -262,4 +252,12 @@ table.relationships-editor-table td
 {
     padding: 0 0 0 8px;
     vertical-align: middle;
+}
+
+a:visited {
+    color: #E57F52;
+}
+
+a.button.big {
+    color: white;
 }

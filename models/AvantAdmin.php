@@ -2,6 +2,18 @@
 
 class AvantAdmin
 {
+    public static function getCustomItemTypeId()
+    {
+        // In a standard Omeka implementation the admin choose the item type for an item from a list. They choose it when
+        // they create a new item and whenever they edit an item's type-specific (non Dublin Core) elements. That's an
+        // extra step for the admin, but allows them to use different item types. With AvantAdmin, there is only one item
+        // type. The admin adds it as part of their initial Omeka setup and specifies its name on the AvantAdmin configuration
+        // page. This function gets called by the logic that would normally operate on the admin's selection from the Item Types
+        // list. Note that the admin could delete all but their one custom item type, but this function assumes that there
+        // are others that Omeka automatically installed. It finds returns the one configured for AvantAdmin.
+        return get_option(AdminConfig::OPTION_ITEM_TYPE);;
+    }
+
     public static function emitDynamicCss()
     {
         // Dynamically emit CSS for elements that should or should not display for logged in users.
@@ -26,16 +38,16 @@ class AvantAdmin
         echo '</style>'. PHP_EOL;
     }
 
-    public static function getCustomItemTypeId()
+    public static function emitS3Link($identifier)
     {
-        // In a standard Omeka implementation the admin choose the item type for an item from a list. They choose it when
-        // they create a new item and whenever they edit an item's type-specific (non Dublin Core) elements. That's an
-        // extra step for the admin, but allows them to use different item types. With AvantAdmin, there is only one item
-        // type. The admin adds it as part of their initial Omeka setup and specifies its name on the AvantAdmin configuration
-        // page. This function gets called by the logic that would normally operate on the admin's selection from the Item Types
-        // list. Note that the admin could delete all but their one custom item type, but this function assumes that there
-        // are others that Omeka automatically installed. It finds returns the one configured for AvantAdmin.
-        return get_option(AdminConfig::OPTION_ITEM_TYPE);;
+        $bucket = S3Config::getOptionValueForBucket();
+        $console = S3Config::getOptionValueForConsole();
+        $path = S3Config::getOptionValueForPath();
+        $region = S3Config::getOptionValueForRegion();
+        $id = intval($identifier);
+        $folder = $id - ($id % 1000);
+        $link = "<a href='$console/$bucket/$path/$folder/$identifier/?region=$region&tab=overview' class='cloud-storage-link' target='_blank'>S3</a>";
+        return $link;
     }
 
     public static function setItemType($item)
