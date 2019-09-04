@@ -48,7 +48,7 @@ echo flash();
     <div id="edit" class="panel">
         <?php if (is_allowed($item, 'edit')): ?>
             <?php echo link_to_item(__('Edit Item'), array('class' => 'big green button'), 'edit'); ?>
-            <a href="<?php echo html_escape(admin_url('avant/relationships/' . $item->id)); ?>" class="big green button"><?php echo __('Edit Relationships'); ?></a>
+            <a href="<?php echo html_escape(admin_url('avant/relationships/' . $item->id)); ?>" class="big green button"><?php echo __('Relationships'); ?></a>
         <?php endif; ?>
         <?php if (is_allowed($item, 'delete')): ?>
         <?php echo link_to_item(__('Delete This Item'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>

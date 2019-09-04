@@ -93,7 +93,7 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
 </table>
 
 <?php
-echo '<div id="relationship-editor-speed-bar">SPEED BAR - save typing by choosing Recent Relationships or Recent Items from the lists below</div>';
+echo '<div id="relationship-editor-speed-bar">SPEED BAR - choose Relationships or Items from the lists below</div>';
 echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
