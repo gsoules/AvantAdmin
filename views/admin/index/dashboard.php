@@ -34,7 +34,7 @@ $stats = array(
 <?php $panels = array(); ?>
 
 <?php ob_start(); ?>
-<h2><?php echo __('Recent Modifications'); ?></h2>
+<h2><?php echo __('Recently Modified Items'); ?></h2>
 <?php
 $modifiedItems = get_db()->getTable('Item')->findBy(array('sort_field' => 'modified', 'sort_dir' => 'd'), 100);
 set_loop_records('items', $modifiedItems);
@@ -57,7 +57,7 @@ foreach (loop('items') as $item):
 <?php $panels[] = ob_get_clean(); ?>
 
 <?php ob_start(); ?>
-<h2><?php echo __('Recent Items'); ?></h2>
+<h2><?php echo __('Recently Added Items'); ?></h2>
 <?php if (is_allowed('Items', 'add')): ?>
     <div class="add-new-link"><p><a class="add-new-item" href="<?php echo html_escape(url('items/add')); ?>"><?php echo __('Add a new item'); ?></a></p></div>
 <?php endif; ?>
