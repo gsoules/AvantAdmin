@@ -132,17 +132,23 @@ foreach ($recentItemIds as $recentItemId)
         // Don't show the primary item in the list of recent items.
         continue;
     }
+
+    $recentImageUrl = ItemPreview::getImageUrl($recentItem, true, true);
+    $thumbnail = "<img src='$recentImageUrl'>";
     $title = ItemMetadata::getItemTitle($recentItem);
     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
     $metadata = "<span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject";
 
-    echo "<div class='recent-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
+    echo "<div class='recent-item-row'>";
+    echo "<div class='recent-item-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
+    echo "<div class='recent-item-thumbnail'>$thumbnail</div>";
     echo "<div class='recent-item'>";
     echo "<div class='recent-item-title'>$title</div>";
     echo "<div class='recent-item-metadata'>$metadata</div>";
     echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false);
-    echo '</div>';
+    echo '</div>'; // recent-item
+    echo '</div>'; // recent-item-row
 }
 
 echo '</div>'; // recent-items

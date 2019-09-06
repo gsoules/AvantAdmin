@@ -84,7 +84,7 @@
 a.add-new-item {
     font-weight: bold;
     font-size: 16px;
-    color:green;
+    color:green !important;
 }
 
 /* Use the same admin orange color for visited and unvisited links. */
@@ -161,27 +161,37 @@ a.add-new-item {
 
 #recent-items {
     display: grid;
-    grid-template-columns: 80px auto;
+    grid-gap: 4px;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+}
+
+.recent-item-row {
+    display: grid;
+    grid-gap: 12px;
+    grid-template-columns: 80px 80px 1fr;
     grid-template-areas:
-            "identifier title";
+            "identifier thumbnail item";
 }
 
-#recent-identifiers-section {
+.recent-item-identifier {
     grid-area: identifier;
+    text-align: center;
 }
 
-.recent-identifiers-title {
-    font-size:14px;
-    font-weight: bold;
+.recent-item-thumbnail {
+    grid-area: thumbnail;
+    margin-top: 8px;
 }
 
-.recent-item {
-    padding: 8px 0 0 16px;
+.recent-item-thumbnail img {
+    width: 80px;
 }
 
 .recent-item-title {
     color:#777;
     font-weight: bold;
+    margin-top: 8px;
 }
 
 .recent-item-metadata,
@@ -214,7 +224,7 @@ a.add-new-item {
     margin-top: 16px;
 }
 
-.recent-identifier,
+.recent-item-identifier,
 .recent-relationship {
     cursor: pointer;
     margin-top: 6px;
@@ -226,9 +236,8 @@ a.add-new-item {
     border-radius: 3px;
 }
 
-.recent-identifier {
-    padding-top: 18px;
-    text-align: center;
+.recent-item-identifier {
+    padding-top: 12px;
 }
 
 .recent-identifier:hover,
@@ -258,6 +267,7 @@ a:visited {
     color: #E57F52;
 }
 
+a.button.small,
 a.button.big {
     color: white;
 }
