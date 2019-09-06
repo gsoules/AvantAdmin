@@ -93,7 +93,7 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
 </table>
 
 <?php
-echo '<div id="relationship-editor-speed-bar">SPEED BAR - choose Relationships or Items from the lists below</div>';
+echo '<div id="relationship-editor-speed-bar">Save typing by choosing Relationships or Items from the lists below</div>';
 echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
@@ -138,14 +138,13 @@ foreach ($recentItemIds as $recentItemId)
     $title = ItemMetadata::getItemTitle($recentItem);
     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
-    $metadata = "<span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject";
+    $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
 
     echo "<div class='recent-item-row'>";
-    echo "<div class='recent-item-identifier' data-identifier='$recentIdentifier'>$recentIdentifier</div>";
-    echo "<div class='recent-item-thumbnail'>$thumbnail</div>";
+    echo "<div class='recent-item-thumbnail' data-identifier='$recentIdentifier'>$thumbnail</div>";
     echo "<div class='recent-item'>";
+    echo "<div class='recent-item-identifier' data-identifier='$recentIdentifier'>$recentIdentifier$metadata</div>";
     echo "<div class='recent-item-title'>$title</div>";
-    echo "<div class='recent-item-metadata'>$metadata</div>";
     echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false);
     echo '</div>'; // recent-item
     echo '</div>'; // recent-item-row

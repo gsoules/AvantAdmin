@@ -161,37 +161,49 @@ a.add-new-item {
 
 #recent-items {
     display: grid;
-    grid-gap: 4px;
+    grid-gap: 8px;
     grid-template-columns: 100%;
     grid-auto-rows: min-content;
 }
 
 .recent-item-row {
     display: grid;
-    grid-gap: 12px;
-    grid-template-columns: 80px 80px 1fr;
+    grid-gap: 18px;
+    grid-template-columns: 80px 1fr;
     grid-template-areas:
-            "identifier thumbnail item";
+            "thumbnail item";
 }
 
 .recent-item-identifier {
-    grid-area: identifier;
-    text-align: center;
+    text-align: left;
+    font-weight: bold;
+    color: #555;
 }
 
 .recent-item-thumbnail {
     grid-area: thumbnail;
     margin-top: 8px;
+    cursor: pointer;
 }
 
 .recent-item-thumbnail img {
     width: 80px;
-}
+    border: 1px solid #ccc;
+    padding: 3px;}
 
 .recent-item-title {
     color:#777;
     font-weight: bold;
-    margin-top: 8px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 16px;
+}
+
+.recent-item-metadata {
+    padding-left: 24px;
+    padding-bottom: 2px;
+    display:inline-block;
+    vertical-align: top;
 }
 
 .recent-item-metadata,
@@ -228,7 +240,7 @@ a.add-new-item {
 .recent-relationship {
     cursor: pointer;
     margin-top: 6px;
-    padding: 4px 4px 4px 4px;
+    padding: 4px 4px 6px 6px;
     font-size: 13px;
     background-color: #e8e8e8;
     border-color: #bababa;
@@ -237,7 +249,7 @@ a.add-new-item {
 }
 
 .recent-item-identifier {
-    padding-top: 12px;
+    padding-top: 8px;
 }
 
 .recent-identifier:hover,
