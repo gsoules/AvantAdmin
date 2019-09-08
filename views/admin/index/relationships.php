@@ -104,7 +104,7 @@ echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
 $recentlyViewedItems = AvantCommon::getRecentlyViewedItems($primaryItemIdentifier);
-$clearAll = count($recentlyViewedItems) == 0 ? '' : "<a href='' class='recent-items-clear-all'>" . __('Clear all') . '</a>';
+$clearAll = count($recentlyViewedItems) == 0 ? '' : "<a class='recent-items-clear-all'>" . __('Clear all') . '</a>';
 echo '<div id="recent-items-section">';
 echo '<div class="recent-items-title">' . __('Recent Items') . $clearAll . '</div>';
 echo '<div id="recent-items">';

@@ -205,6 +205,9 @@ a.add-new-item {
 
 .recent-items-clear-all {
     padding-left: 18px;
+    font-weight: normal;
+    color: #C76941;
+    cursor: pointer;
 }
 
 .recent-item-metadata {
