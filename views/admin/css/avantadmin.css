@@ -199,6 +199,10 @@ a.add-new-item {
     font-size: 16px;
 }
 
+.recent-item-remove {
+    cursor: pointer;
+}
+
 .recent-item-metadata {
     padding-left: 24px;
     padding-bottom: 2px;
@@ -255,6 +259,15 @@ a.add-new-item {
 .recent-identifier:hover,
 .recent-relationship:hover {
     background-color: #dbdbdb;
+}
+
+.admin-links a,
+.admin-links a:visited {
+    color: #1d8111;
+}
+
+.admin-links a:hover {
+    color: #209f11;
 }
 
 a.button.beige, input[type=submit].blue, button.beige {

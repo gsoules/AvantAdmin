@@ -107,6 +107,8 @@ echo '<div id="recent-items-section">';
 echo '<div class="recent-items-title">' . __('Recent Items') . '</div>';
 echo '<div id="recent-items">';
 
+$recentlyViewedItems = AvantCommon::getRecentlyViewedItems($primaryItemIdentifier);
+
 $cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
 $recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
 
@@ -134,18 +136,24 @@ foreach ($recentItemIds as $recentItemId)
     }
 
     $recentImageUrl = ItemPreview::getImageUrl($recentItem, true, true);
+    if (empty($recentImageUrl))
+        $recentImageUrl = ItemPreview::getFallbackImageUrl($recentItem);
     $thumbnail = "<img src='$recentImageUrl'>";
     $title = ItemMetadata::getItemTitle($recentItem);
     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
     $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
 
-    echo "<div class='recent-item-row'>";
+    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentIdentifier'>" . __('Remove') . '</a>';
+    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentIdentifier'>" . __('Add') . "</button>";
+
+    echo "<div id='row-$recentIdentifier' class='recent-item-row'>";
     echo "<div class='recent-item-thumbnail' data-identifier='$recentIdentifier'>$thumbnail</div>";
     echo "<div class='recent-item'>";
     echo "<div class='recent-item-identifier' data-identifier='$recentIdentifier'>$recentIdentifier$metadata</div>";
     echo "<div class='recent-item-title'>$title</div>";
-    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false);
+    echo $addButton;
+    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false, false, $removeLink);
     echo '</div>'; // recent-item
     echo '</div>'; // recent-item-row
 }
@@ -158,5 +166,5 @@ echo '</div>'; // relationship-editor-recents
 
 <?php
     $relationshipNames = json_encode($formSelectRelationshipNames);
-    echo get_view()->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
+    echo $this->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
 ?>
