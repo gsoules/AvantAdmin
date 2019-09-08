@@ -123,7 +123,8 @@ foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
     $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
 
-    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier'>" . __('Remove') . '</a>';
+    $removeTooltip = __('Remove item from this list (does not delete the item)');
+    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier' title='$removeTooltip'>" . __('Remove') . '</a>';
     $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier'>" . __('Add') . "</button>";
 
     echo "<div id='row-$recentItemIdentifier' class='recent-item-row'>";
