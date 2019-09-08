@@ -103,56 +103,34 @@ echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
+$recentlyViewedItems = AvantCommon::getRecentlyViewedItems($primaryItemIdentifier);
+$clearAll = count($recentlyViewedItems) == 0 ? '' : "<a href='' class='recent-items-clear-all'>" . __('Clear all') . '</a>';
 echo '<div id="recent-items-section">';
-echo '<div class="recent-items-title">' . __('Recent Items') . '</div>';
+echo '<div class="recent-items-title">' . __('Recent Items') . $clearAll . '</div>';
 echo '<div id="recent-items">';
 
-$recentlyViewedItems = AvantCommon::getRecentlyViewedItems($primaryItemIdentifier);
-
-$cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
-$recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
-
-foreach ($recentItemIds as $recentItemId)
+foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
 {
-    if (intval($recentItemId) == 0)
-    {
-        // This should never happen, but check in case the cookie is somehow corrupted.
-        continue;
-    }
-
     $recentItem = ItemMetadata::getItemFromId($recentItemId);
-
-    if (empty($recentItem))
-    {
-        // Ignore any items that no longer exist.
-        continue;
-    }
-
-    $recentIdentifier = ItemMetadata::getItemIdentifier($recentItem);
-    if ($recentIdentifier == $primaryItemIdentifier)
-    {
-        // Don't show the primary item in the list of recent items.
-        continue;
-    }
-
     $recentImageUrl = ItemPreview::getImageUrl($recentItem, true, true);
     if (empty($recentImageUrl))
         $recentImageUrl = ItemPreview::getFallbackImageUrl($recentItem);
     $thumbnail = "<img src='$recentImageUrl'>";
+
     $title = ItemMetadata::getItemTitle($recentItem);
+
     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
     $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
 
-    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentIdentifier'>" . __('Remove') . '</a>';
-    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentIdentifier'>" . __('Add') . "</button>";
+    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier'>" . __('Remove') . '</a>';
+    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier'>" . __('Add') . "</button>";
 
-    echo "<div id='row-$recentIdentifier' class='recent-item-row'>";
-    echo "<div class='recent-item-thumbnail' data-identifier='$recentIdentifier'>$thumbnail</div>";
+    echo "<div id='row-$recentItemIdentifier' class='recent-item-row'>";
+    echo "<div class='recent-item-thumbnail' data-identifier='$recentItemIdentifier'>$thumbnail</div>";
     echo "<div class='recent-item'>";
-    echo "<div class='recent-item-identifier' data-identifier='$recentIdentifier'>$recentIdentifier$metadata</div>";
-    echo "<div class='recent-item-title'>$title</div>";
-    echo $addButton;
+    echo "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'>$recentItemIdentifier$metadata</div>";
+    echo "<div class='recent-item-title'>$addButton$title</div>";
     echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false, false, $removeLink);
     echo '</div>'; // recent-item
     echo '</div>'; // recent-item-row

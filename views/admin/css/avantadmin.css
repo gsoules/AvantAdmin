@@ -161,7 +161,7 @@ a.add-new-item {
 
 #recent-items {
     display: grid;
-    grid-gap: 8px;
+    grid-gap: 12px;
     grid-template-columns: 100%;
     grid-auto-rows: min-content;
 }
@@ -201,6 +201,10 @@ a.add-new-item {
 
 .recent-item-remove {
     cursor: pointer;
+}
+
+.recent-items-clear-all {
+    padding-left: 18px;
 }
 
 .recent-item-metadata {
@@ -243,17 +247,17 @@ a.add-new-item {
 .recent-item-identifier,
 .recent-relationship {
     cursor: pointer;
-    margin-top: 6px;
+    margin-top: 8px;
     padding: 4px 4px 6px 6px;
     font-size: 13px;
     background-color: #e8e8e8;
-    border-color: #bababa;
     color: #666666;
     border-radius: 3px;
 }
 
 .recent-item-identifier {
     padding-top: 8px;
+    border-top: #6b6b6b solid 2px;
 }
 
 .recent-identifier:hover,

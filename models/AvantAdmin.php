@@ -38,52 +38,6 @@ class AvantAdmin
         echo '</style>'. PHP_EOL;
     }
 
-    public static function emitRecentlyViewedItemsLink()
-    {
-        $cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
-        $recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
-
-        $showRecentItems = count($recentItemIds) >= 1;
-
-        if ($showRecentItems)
-        {
-            $identifierList = '';
-            $count = 0;
-
-            foreach ($recentItemIds as $recentItemId)
-            {
-                if (intval($recentItemId) == 0)
-                {
-                    // This should never happen, but check in case the cookie is somehow corrupted.
-                    continue;
-                }
-
-                $recentItem = ItemMetadata::getItemFromId($recentItemId);
-
-                if (empty($recentItem))
-                {
-                    // Ignore any items that no longer exist.
-                    continue;
-                }
-
-                $recentIdentifier = ItemMetadata::getItemIdentifier($recentItem);
-
-                if (!empty($identifierList))
-                    $identifierList .= '|';
-                $identifierList .= $recentIdentifier;
-
-                $count += 1;
-            }
-
-            $link = '';
-            if ($count >= 1)
-            {
-                $link = ItemSearch::getAdvancedSearchUrl(ItemMetadata::getIdentifierElementId(), $identifierList, 'contains');
-            }
-            return $link;
-        }
-    }
-
     public static function emitS3Link($identifier)
     {
         $bucket = S3Config::getOptionValueForBucket();
