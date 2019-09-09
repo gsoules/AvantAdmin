@@ -132,7 +132,7 @@ foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
     echo "<div class='recent-item'>";
     echo "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'>$recentItemIdentifier$metadata</div>";
     echo "<div class='recent-item-title'>$addButton$title</div>";
-    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false, false, $removeLink);
+    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false, $removeLink);
     echo '</div>'; // recent-item
     echo '</div>'; // recent-item-row
 }
