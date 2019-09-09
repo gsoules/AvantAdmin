@@ -56,7 +56,15 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterPublicNavigationAdminBar($links)
     {
-        return $links;
+        $newLinks[] = array(
+            'label' => __('Add item'),
+            'uri' => admin_url('/items/add/')
+        );
+
+        foreach ($links as $link)
+            $newLinks[] = $link;
+
+        return $newLinks;
     }
 
     public function filterPublicShowAdminBar($show)
@@ -75,6 +83,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function head()
     {
+        queue_css_file('avantadmin-recent');
         queue_js_file('recent-items-script');
     }
 

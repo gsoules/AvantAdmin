@@ -12,6 +12,11 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
         return;
     }
 
+    public function recentItemsAction()
+    {
+        return;
+    }
+
     public function relationshipsAction()
     {
         $id = $this->getParam('item-id');

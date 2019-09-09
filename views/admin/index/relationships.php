@@ -102,43 +102,7 @@ echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '
 echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
-// Emit a list of recently visited items.
-$recentlyViewedItems = AvantAdmin::getRecentlyViewedItems($primaryItemIdentifier);
-$clearAll = count($recentlyViewedItems) == 0 ? '' : "<a class='recent-items-clear-all'>" . __('Clear all') . '</a>';
-echo '<div id="recent-items-section">';
-echo '<div class="recent-items-title">' . __('Recent Items') . $clearAll . '</div>';
-echo '<div id="recent-items">';
-
-foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
-{
-    $recentItem = ItemMetadata::getItemFromId($recentItemId);
-    $recentImageUrl = ItemPreview::getImageUrl($recentItem, true, true);
-    if (empty($recentImageUrl))
-        $recentImageUrl = ItemPreview::getFallbackImageUrl($recentItem);
-    $thumbnail = "<img src='$recentImageUrl'>";
-
-    $title = ItemMetadata::getItemTitle($recentItem);
-
-    $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
-    $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
-    $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
-
-    $removeTooltip = __('Remove item from this list (does not delete the item)');
-    $removeLink = " | <a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier' title='$removeTooltip'>" . __('Remove') . '</a>';
-    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier'>" . __('Add') . "</button>";
-
-    echo "<div id='row-$recentItemIdentifier' class='recent-item-row'>";
-    echo "<div class='recent-item-thumbnail' data-identifier='$recentItemIdentifier'>$thumbnail</div>";
-    echo "<div class='recent-item'>";
-    echo "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'>$recentItemIdentifier$metadata</div>";
-    echo "<div class='recent-item-title'>$addButton$title</div>";
-    echo AvantAdmin::emitAdminLinksHtml($recentItemId, '', false, $removeLink);
-    echo '</div>'; // recent-item
-    echo '</div>'; // recent-item-row
-}
-
-echo '</div>'; // recent-items
-echo '</div>'; // recent-items-section
+echo AvantAdmin::emitRecentlyViewedItems(true, $primaryItemIdentifier);
 
 echo '</div>'; // relationship-editor-recents
 ?>

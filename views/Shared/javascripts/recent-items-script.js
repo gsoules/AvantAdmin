@@ -1,9 +1,48 @@
 const ITEMS_COOKIE = 'ITEMS';
-const MAX_RECENT_ITEMS = 16;
+const MAX_RECENT_ITEMS = 100;
 
-function removeAllItemsFromCookie()
+function addRecentItemEventListeners()
 {
-    Cookies.set(ITEMS_COOKIE, '', {expires: 14});
+    var recentItemRemove = jQuery('.recent-item-remove');
+    var recentItemsClearAll = jQuery('.recent-items-clear-all');
+    var recentItemFlag = jQuery('.recent-item-flag');
+
+    recentItemRemove.click(function ()
+    {
+        var itemIdentifier = jQuery(this).attr('data-identifier');
+        var itemId = jQuery(this).attr('data-id');
+        var row = jQuery('#row-' + itemIdentifier);
+        jQuery(row).hide("slow");
+        removeRecentlyVisitedItem(itemId);
+    });
+
+    recentItemsClearAll.click(function ()
+    {
+        if (confirm('Clear all recently visited items?'))
+        {
+            removeAllItemsFromCookie();
+            jQuery('#recent-items').remove();
+            jQuery(this).remove();
+            window.location.href = document.location.href;
+        }
+    });
+
+
+    recentItemFlag.click(function (e)
+    {
+        var flag = jQuery(this);
+        var itemId = flag.attr('data-id');
+        if (flag.hasClass('flagged'))
+        {
+            removeRecentlyVisitedItem(itemId);
+            flag.removeClass('flagged');
+        }
+        else
+        {
+            addRecentlyVisitedItem(itemId);
+            flag.addClass('flagged');
+        }
+    });
 }
 
 function addRecentlyVisitedItem(itemId)
@@ -40,6 +79,11 @@ function addRecentlyVisitedItem(itemId)
     Cookies.set(ITEMS_COOKIE, newItemIds, {expires: 14});
 }
 
+function removeAllItemsFromCookie()
+{
+    Cookies.set(ITEMS_COOKIE, '', {expires: 14});
+}
+
 function removeRecentlyVisitedItem(itemId)
 {
     var oldItemIds = retrieveRecentItemIds();
@@ -69,3 +113,8 @@ function retrieveRecentItemIds()
 
     return itemIds;
 }
+
+jQuery(document).ready(function ()
+{
+    addRecentItemEventListeners();
+});

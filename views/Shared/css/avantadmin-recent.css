@@ -1,0 +1,148 @@
+#recent-items {
+    display: grid;
+    grid-gap: 4px;
+    grid-template-columns: 100%;
+    grid-auto-rows: min-content;
+}
+
+.recent-item-row {
+    display: grid;
+    grid-gap: 18px;
+    grid-template-columns: 80px 1fr;
+    grid-template-areas:
+            "thumbnail item";
+    margin-top: 8px;
+    border-top: 1px solid #bababa;
+}
+
+.recent-item-identifier {
+    text-align: left;
+    font-weight: bold;
+    color: #555;
+}
+
+.recent-item-thumbnail {
+    grid-area: thumbnail;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+.recent-item-thumbnail img {
+    width: 80px;
+    border: 1px solid #ccc;
+    padding: 3px;}
+
+.recent-item-title {
+    color:#777;
+    font-weight: bold;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 16px;
+}
+
+.recent-item-remove {
+    cursor: pointer;
+}
+
+.recent-items-clear-all {
+    color: #C76941;
+    cursor: pointer;
+}
+
+.recent-items-clear-all,
+.recent-items-search-results {
+    padding-left: 18px;
+    font-weight: normal;
+}
+
+.recent-item-metadata {
+    padding-left: 12px;
+    padding-bottom: 2px;
+    display:inline-block;
+    vertical-align: top;
+}
+
+.recent-item-metadata,
+.recent-item-metadata span {
+    font-size: 12px;
+}
+
+.recent-item-metadata span {
+    font-style: italic;
+    color: #888;
+    padding-right: 4px;
+}
+
+#recent-relationships-section {
+    grid-area: relationship;
+}
+
+.recent-relationships-title,
+.recent-items-title {
+    font-size:14px;
+    font-weight: bold;
+}
+
+.recent-items-message {
+    margin-top: 12px;
+}
+
+.recent-item-flag {
+    cursor: pointer;
+    color: #bababa;
+}
+
+.recent-item-flag.flagged {
+    color: #588caf;
+}
+
+.recent-item-flag.flagged:hover {
+    color: #6fa3c7;
+}
+
+.recent-item-flag:hover {
+    color: #9f9f9f;
+}
+
+.recent-item-flag:after {
+    content: "\f024";
+    font-family: "FontAwesome";
+}
+
+.relationships-editor-metadata .element-name {
+    font-weight: bold;
+    margin-left: 16px;
+}
+
+.relationships-editor-table {
+    margin-top: 16px;
+}
+
+.recent-relationship {
+    cursor: pointer;
+    margin-top: 8px;
+    padding: 4px 4px 6px 6px;
+    font-size: 13px;
+    background-color: #e8e8e8;
+    color: #666666;
+    border-radius: 3px;
+}
+
+.recent-item-identifier {
+    margin-bottom: 6px;
+}
+
+.recent-identifier:hover,
+.recent-relationship:hover {
+    background-color: #dbdbdb;
+}
+
+.admin-links a,
+.admin-links a:visited {
+    color: #155289 !important;
+}
+
+.admin-links a:hover {
+    color: #588caf !important;;
+}
+
