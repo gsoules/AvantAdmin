@@ -20,6 +20,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     protected $_filters = array(
         'admin_items_form_tabs',
         'admin_navigation_main',
+        'public_navigation_admin_bar',
         'public_show_admin_bar'
     );
 
@@ -53,6 +54,11 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
+    public function filterPublicNavigationAdminBar($links)
+    {
+        return $links;
+    }
+
     public function filterPublicShowAdminBar($show)
     {
         // Don't show the admin bar unless a user is logged in and they are not a researcher.
@@ -65,6 +71,11 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
             return false;
 
         return true;
+    }
+
+    protected function head()
+    {
+        queue_js_file('recent-items-script');
     }
 
     public function hookAfterSaveItem($args)
@@ -81,6 +92,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminHead($args)
     {
         queue_css_file('avantadmin');
+        $this->head();
     }
 
     public function hookAdminItemsPanelButtons($args)
@@ -135,6 +147,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookPublicHead()
     {
         AvantAdmin::emitDynamicCss();
+        $this->head();
     }
 
     public function hookUpgrade($args)

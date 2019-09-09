@@ -103,7 +103,7 @@ echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
 // Emit a list of recently visited items.
-$recentlyViewedItems = AvantCommon::getRecentlyViewedItems($primaryItemIdentifier);
+$recentlyViewedItems = AvantAdmin::getRecentlyViewedItems($primaryItemIdentifier);
 $clearAll = count($recentlyViewedItems) == 0 ? '' : "<a class='recent-items-clear-all'>" . __('Clear all') . '</a>';
 echo '<div id="recent-items-section">';
 echo '<div class="recent-items-title">' . __('Recent Items') . $clearAll . '</div>';
@@ -132,7 +132,7 @@ foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
     echo "<div class='recent-item'>";
     echo "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'>$recentItemIdentifier$metadata</div>";
     echo "<div class='recent-item-title'>$addButton$title</div>";
-    echo AvantCommon::emitAdminLinksHtml($recentItemId, '', false, $removeLink);
+    echo AvantAdmin::emitAdminLinksHtml($recentItemId, '', false, $removeLink);
     echo '</div>'; // recent-item
     echo '</div>'; // recent-item-row
 }

@@ -93,5 +93,5 @@ echo flash();
 
 <?php
 echo foot();
-echo $this->partial('recent-items-script.php', array('itemId' => $item->id));
+echo $this->partial('add-recent-item-script.php', array('itemId' => $item->id));
 ?>
