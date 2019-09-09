@@ -24,7 +24,6 @@
 .recent-item-thumbnail {
     grid-area: thumbnail;
     margin-top: 8px;
-    cursor: pointer;
 }
 
 .recent-item-thumbnail img {

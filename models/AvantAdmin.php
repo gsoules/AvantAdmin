@@ -71,7 +71,7 @@ class AvantAdmin
 
         $html .= '<div id="recent-items-section">';
         $html .= '<div class="recent-items-title">';
-        $html .= __('Recently Viewed Items');
+        $html .= __('Recently Viewed Items (%s)', $count);
         $html .= $searchResultsLink;
         $html .= $clearAll;
         $html .= '</div>';
@@ -91,11 +91,7 @@ class AvantAdmin
 
                 $recentItem = ItemMetadata::getItemFromId($recentItemId);
                 $itemPreview = new ItemPreview($recentItem);
-                $recentImageUrl = ItemPreview::getImageUrl($recentItem, true, true);
-                if (empty($recentImageUrl))
-                    $recentImageUrl = ItemPreview::getFallbackImageUrl($recentItem);
-                $thumbnail = "<img src='$recentImageUrl'>";
-                //$thumbnail = $itemPreview->emitItemThumbnail();
+                $thumbnail = $itemPreview->emitItemThumbnail();
 
                 $title = $contextIsRelationshipsEditor ? ItemMetadata::getItemTitle($recentItem) : $itemPreview->emitItemTitle(true);
 
