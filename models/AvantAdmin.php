@@ -64,14 +64,14 @@ class AvantAdmin
 
         $recentlyViewedItems = AvantAdmin::getRecentlyViewedItems();
         $count = count($recentlyViewedItems);
-        $clearAll = $count == 0 ? '' : "<a class='recent-items-clear-all'>" . __('Clear all') . '</a>';
+        $clearAll = $count == 0 ? '' : "<a id='recent-items-clear-all'>" . __('Clear all') . '</a>';
 
         $findUrl = AvantAdmin::getRecentlyViewedItemsSearchUrl($recentlyViewedItems);
-        $searchResultsLink = $count == 0 ? '' : "<a href='$findUrl' class='recent-items-search-results' target='_blank'>" . __('Show as search results') . '</a>';
+        $searchResultsLink = $count == 0 ? '' : "<a href='$findUrl' id='recent-items-as-search-results' target='_blank'>" . __('Show as search results') . '</a>';
 
         $html .= '<div id="recent-items-section">';
         $html .= '<div class="recent-items-title">';
-        $html .= __('Recently Viewed Items (%s)', $count);
+        $html .= __('Recently Viewed Items') . ' (<span id="recent-items-count">' . $count . '</span>)';
         $html .= $searchResultsLink;
         $html .= $clearAll;
         $html .= '</div>';
@@ -96,6 +96,9 @@ class AvantAdmin
                 $title = $contextIsRelationshipsEditor ? ItemMetadata::getItemTitle($recentItem) : $itemPreview->emitItemTitle(true);
 
                 $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
+                if ($contextIsRelationshipsEditor && $type == 'Reference')
+                    $type = "<span class='recent-item-type-reference'>$type</span>";
+
                 $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
                 $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
 
@@ -161,7 +164,7 @@ class AvantAdmin
 
     public static function getRecentlyViewedItems($excludeIdentifier = '')
     {
-        $cookieValue = isset($_COOKIE['ITEMS']) ? $_COOKIE['ITEMS'] : '';
+        $cookieValue = isset($_COOKIE['RECENT']) ? $_COOKIE['RECENT'] : '';
         $recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
 
         $recentlyViewedItems = array();

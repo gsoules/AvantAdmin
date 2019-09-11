@@ -43,13 +43,13 @@
     cursor: pointer;
 }
 
-.recent-items-clear-all {
+#recent-items-clear-all {
     color: #C76941;
     cursor: pointer;
 }
 
-.recent-items-clear-all,
-.recent-items-search-results {
+#recent-items-clear-all,
+#recent-items-as-search-results {
     padding-left: 18px;
     font-weight: normal;
 }
@@ -70,6 +70,13 @@
     font-style: italic;
     color: #888;
     padding-right: 4px;
+}
+
+span.recent-item-type-reference {
+    color: green;
+    font-weight:bold;
+    font-style: normal;
+    font-size: 14px;
 }
 
 #recent-relationships-section {
