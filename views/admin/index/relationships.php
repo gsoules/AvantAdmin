@@ -53,6 +53,7 @@ $relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
 $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectList();
 
 $defaultRelationshipCode = '';
+$defaultRelationshipName = '';
 $recentlySelectedCode = '';
 $recentlySelectedRelationships = AvantAdmin::getRecentlySelectedRelationships();
 
@@ -64,7 +65,10 @@ foreach ($formSelectRelationshipNames as $code => $name)
     if ($relatedItemsEditor->isValidRelationshipForPrimaryItem($item, $code))
     {
         if (empty($defaultRelationshipCode))
+        {
             $defaultRelationshipCode = $code;
+            $defaultRelationshipName = $name;
+        }
     }
     else
     {
@@ -77,6 +81,7 @@ foreach ($recentlySelectedRelationships as $code)
     if (array_key_exists($code, $formSelectRelationshipNames))
     {
         $defaultRelationshipCode = $code;
+        $defaultRelationshipName = $formSelectRelationshipNames[$code];
         break;
     }
 }
@@ -108,6 +113,7 @@ foreach ($recentlySelectedRelationships as $code)
             </td>
         </tr>
     <?php }; ?>
+
     <tr class="add-relationship-row">
         <td><?php echo get_view()->formSelect('relationship-type-code', $defaultRelationshipCode, array('multiple' => false), $formSelectRelationshipNames); ?></td>
         <td><?php echo get_view()->formText('related-item-identifier', null, array('size' => 5)); ?></td>
@@ -132,15 +138,31 @@ echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
 $recentlyViewedItems = AvantAdmin::getRecentlyViewedItems();
+$allowedItems = array();
 
 foreach ($recentlyViewedItems as $itemId => $itemIdentifier)
 {
     $item = ItemMetadata::getItemFromId($itemId);
-    if (!$relatedItemsEditor->isValidRelationshipForTargetItem($item, $defaultRelationshipCode))
-        unset($recentlyViewedItems[$itemId]);
+    if ($relatedItemsEditor->isValidRelationshipForTargetItem($item, $defaultRelationshipCode))
+        $allowedItems[$itemId] = $itemIdentifier;
 }
 
-echo AvantAdmin::emitRecentlyViewedItems($recentlyViewedItems, true, $primaryItemIdentifier);
+$alreadyAddedItems = array();
+foreach ($allowedItems as $allowedItemIdentifier)
+{
+    foreach ($relatedItems as $relatedItem)
+    {
+        $relatedItemIdentifier = $relatedItem->getIdentifier();
+        $relationshipName = $relatedItem->getRelationshipName();
+        if ($allowedItemIdentifier == $relatedItemIdentifier && $relationshipName == $defaultRelationshipName)
+        {
+            $key = array_search($relatedItemIdentifier, $allowedItems);
+            $alreadyAddedItems[$key] = $relatedItemIdentifier;
+        }
+    }
+}
+
+echo AvantAdmin::emitRecentlyViewedItems($recentlyViewedItems, $primaryItemIdentifier, $allowedItems, $alreadyAddedItems);
 
 echo '</div>'; // relationship-editor-recents
 ?>

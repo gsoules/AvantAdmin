@@ -58,8 +58,10 @@ class AvantAdmin
         return "<span data-id='$itemId' class='recent-item-flag$flagged' title='$tooltip'>&nbsp;&nbsp;<a></a></span>";
     }
 
-    public static function emitRecentlyViewedItems($recentlyViewedItems, $contextIsRelationshipsEditor, $excludeIdentifier = '')
+    public static function emitRecentlyViewedItems($recentlyViewedItems, $excludeIdentifier = '', $allowedItems = array(), $alreadyAddedItems = array())
     {
+        $contextIsRelationshipsEditor = !empty($excludeIdentifier);
+
         $html = '';
 
         $count = count($recentlyViewedItems);
@@ -114,9 +116,10 @@ class AvantAdmin
                 $html .= "<div class='recent-item'>";
 
                 $addButton = '';
-                if ($contextIsRelationshipsEditor)
+                if ($contextIsRelationshipsEditor && in_array($recentItemIdentifier, $allowedItems))
                 {
-                    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier'>" . __('Add') . "</button>";
+                    $disabled = in_array($recentItemIdentifier, $alreadyAddedItems) ? 'disabled' : '';
+                    $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier' $disabled>" . __('Add') . "</button>";
                 }
                 $html .= "<div class='recent-item-title'>$addButton$title</div>";
 
