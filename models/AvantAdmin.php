@@ -58,12 +58,16 @@ class AvantAdmin
         return "<span data-id='$itemId' class='recent-item-flag$flagged' title='$tooltip'>&nbsp;&nbsp;<a></a></span>";
     }
 
-    public static function emitRecentlyViewedItems($contextIsRelationshipsEditor, $excludeIdentifier = '')
+    public static function emitRecentlyViewedItems($recentlyViewedItems, $contextIsRelationshipsEditor, $excludeIdentifier = '')
     {
         $html = '';
 
-        $recentlyViewedItems = AvantAdmin::getRecentlyViewedItems();
         $count = count($recentlyViewedItems);
+        if ($count == 1 && reset($recentlyViewedItems) == $excludeIdentifier)
+        {
+            $count = 0;
+        }
+
         $clearAll = $count == 0 ? '' : "<a id='recent-items-clear-all'>" . __('Clear all') . '</a>';
 
         $findUrl = AvantAdmin::getRecentlyViewedItemsSearchUrl($recentlyViewedItems);
@@ -160,6 +164,21 @@ class AvantAdmin
         // list. Note that the admin could delete all but their one custom item type, but this function assumes that there
         // are others that Omeka automatically installed. It finds returns the one configured for AvantAdmin.
         return get_option(AdminConfig::OPTION_ITEM_TYPE);;
+    }
+
+    public static function getRecentlySelectedRelationships()
+    {
+        $cookieValue = isset($_COOKIE['RELATIONSHIPS']) ? $_COOKIE['RELATIONSHIPS'] : '';
+        $recentRelationshipCodes = empty($cookieValue) ? array() : explode(',', $cookieValue);
+
+        $recentlySelectedRelationships = array();
+
+        foreach ($recentRelationshipCodes as $recentCode)
+        {
+            $recentlySelectedRelationships[] = $recentCode;
+        }
+
+        return $recentlySelectedRelationships;
     }
 
     public static function getRecentlyViewedItems($excludeIdentifier = '')

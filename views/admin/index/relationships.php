@@ -52,6 +52,35 @@ $relatedItems = $relatedItemsModel->getRelatedItems();
 $relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
 $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectList();
 
+$defaultRelationshipCode = '';
+$recentlySelectedCode = '';
+$recentlySelectedRelationships = AvantAdmin::getRecentlySelectedRelationships();
+
+foreach ($formSelectRelationshipNames as $code => $name)
+{
+    if (empty($code))
+        continue;
+
+    if ($relatedItemsEditor->isValidRelationshipForPrimaryItem($item, $code))
+    {
+        if (empty($defaultRelationshipCode))
+            $defaultRelationshipCode = $code;
+    }
+    else
+    {
+        unset($formSelectRelationshipNames[$code]);
+    }
+}
+
+foreach ($recentlySelectedRelationships as $code)
+{
+    if (array_key_exists($code, $formSelectRelationshipNames))
+    {
+        $defaultRelationshipCode = $code;
+        break;
+    }
+}
+
 ?>
 
 <table class="relationships-editor-table">
@@ -80,7 +109,7 @@ $formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectLi
         </tr>
     <?php }; ?>
     <tr class="add-relationship-row">
-        <td><?php echo get_view()->formSelect('relationship-type-code', null, array('multiple' => false), $formSelectRelationshipNames); ?></td>
+        <td><?php echo get_view()->formSelect('relationship-type-code', $defaultRelationshipCode, array('multiple' => false), $formSelectRelationshipNames); ?></td>
         <td><?php echo get_view()->formText('related-item-identifier', null, array('size' => 5)); ?></td>
         <td></td>
         <td>
@@ -102,7 +131,16 @@ echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '
 echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
-echo AvantAdmin::emitRecentlyViewedItems(true, $primaryItemIdentifier);
+$recentlyViewedItems = AvantAdmin::getRecentlyViewedItems();
+
+foreach ($recentlyViewedItems as $itemId => $itemIdentifier)
+{
+    $item = ItemMetadata::getItemFromId($itemId);
+    if (!$relatedItemsEditor->isValidRelationshipForTargetItem($item, $defaultRelationshipCode))
+        unset($recentlyViewedItems[$itemId]);
+}
+
+echo AvantAdmin::emitRecentlyViewedItems($recentlyViewedItems, true, $primaryItemIdentifier);
 
 echo '</div>'; // relationship-editor-recents
 ?>
