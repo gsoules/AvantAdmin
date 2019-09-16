@@ -159,6 +159,27 @@ a.add-new-item {
     color:white;
 }
 
+#relationship-editor-busy {
+    display: none;
+    background: green;
+    opacity: 0.75;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    max-width: 400px;
+    height: 20px;
+    z-index: 1000;
+    border: #ccc solid 2px;
+    border-radius: 20px;
+    text-align: center;
+    position: fixed;
+    margin-left: -75px;
+    margin-top: -75px;
+    left: 50%;
+    top: 50%;
+}
+
 a.button.beige, input[type=submit].blue, button.beige {
     background: #c3ac72;
     background: -webkit-linear-gradient(top, #c3ac72, #927b4b);

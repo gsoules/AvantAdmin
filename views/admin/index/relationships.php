@@ -128,7 +128,8 @@ foreach ($recentlySelectedRelationships as $code)
 </table>
 
 <?php
-echo '<div id="relationship-editor-speed-bar">Save typing by choosing Relationships or Items from the lists below</div>';
+echo '<div id="relationship-editor-busy"></div>';
+echo '<div id="relationship-editor-speed-bar">' . __('Add Relationships') . '</div>';
 echo '<div id="relationship-editor-recents">';
 
 // Emit an empty list of recent relationships. The client-side Javascript populates it.
