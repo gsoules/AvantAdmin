@@ -1,38 +1,5 @@
 <?php
 
-function emitItemInformation(Omeka_Record_AbstractRecord $item)
-{
-    $type = ItemMetadata::getElementTextForElementName($item, 'Type');
-    $subject = ItemMetadata::getElementTextForElementName($item, 'Subject');
-    $title = ItemMetadata::getItemTitle($item);
-
-    $html = '<div id="relationships-editor-grid">';
-    $imageUrl = ItemPreview::getImageUrl($item, true, true);
-    $html .= "<img class='relationships-editor-image' src='$imageUrl'>";
-
-    $html .= "<div class='relationships-editor-metadata'>";
-    $html .= "<div class='relationships-editor-title'>$title</div>";
-    $html .= "<div><span class='element-name'>Type:</span> $type</div>";
-    $html .= "<div><span class='element-name'>Subject:</span> $subject</div>";
-    $html .= "</div>";
-
-    $html .= "<div class='relationships-editor-buttons'>";
-    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
-    $html .= "<a href='$viewLink' class='big beige button'>" . __('View Admin Item') . "</a>";
-    $publicLink = html_escape(public_url('items/show/' . metadata('item', 'id')));
-    $html .= "<div><a href='$publicLink' class='big blue button'>" . __('View Public Page') . "</a></div>";
-    if (is_allowed($item, 'edit'))
-    {
-        $editLink = link_to_item(__('Edit Item'), array('class' => 'big green button'), 'edit');
-        $html .= $editLink;
-    }
-    $html .= "</div>";
-
-    $html .= "</div>";
-
-    echo $html;
-}
-
 $item = get_record_by_id('Item', $itemId);
 if (empty($item))
 {
@@ -45,47 +12,18 @@ $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
 $itemTitle = __('Edit Relationships for Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
-emitItemInformation($item);
-
 $relatedItemsModel = new RelatedItemsModel($item, $this);
-$relatedItems = $relatedItemsModel->getRelatedItems();
 $relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
-$formSelectRelationshipNames = $relatedItemsEditor->getRelationshipNamesSelectList();
 
-$defaultRelationshipCode = '';
-$defaultRelationshipName = '';
-$recentlySelectedCode = '';
-$recentlySelectedRelationships = AvantAdmin::getRecentlySelectedRelationships();
+// Display the primary item's image and some metadata at the top of the page.
+$relatedItemsEditor->emitPrimaryItem($item);
 
-foreach ($formSelectRelationshipNames as $code => $name)
-{
-    if (empty($code))
-        continue;
+// Get the items that are already related to the primary item.
+$relatedItems = $relatedItemsModel->getRelatedItems();
 
-    if ($relatedItemsEditor->isValidRelationshipForPrimaryItem($item, $code))
-    {
-        if (empty($defaultRelationshipCode))
-        {
-            $defaultRelationshipCode = $code;
-            $defaultRelationshipName = $name;
-        }
-    }
-    else
-    {
-        unset($formSelectRelationshipNames[$code]);
-    }
-}
-
-foreach ($recentlySelectedRelationships as $code)
-{
-    if (array_key_exists($code, $formSelectRelationshipNames))
-    {
-        $defaultRelationshipCode = $code;
-        $defaultRelationshipName = $formSelectRelationshipNames[$code];
-        break;
-    }
-}
-
+// Determine which relationships and related items are compatible with the primary item.
+$allowedRelationshipSelections = $relatedItemsEditor->determineAllowedRelationshipSelections($item);
+$selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship();
 ?>
 
 <table class="relationships-editor-table">
@@ -115,7 +53,7 @@ foreach ($recentlySelectedRelationships as $code)
     <?php }; ?>
 
     <tr class="add-relationship-row">
-        <td><?php echo get_view()->formSelect('relationship-type-code', $defaultRelationshipCode, array('multiple' => false), $formSelectRelationshipNames); ?></td>
+        <td><?php echo get_view()->formSelect('relationship-type-code', $selectedRelationshipCode, array('multiple' => false), $allowedRelationshipSelections); ?></td>
         <td><?php echo get_view()->formText('related-item-identifier', null, array('size' => 5)); ?></td>
         <td></td>
         <td>
@@ -128,62 +66,20 @@ foreach ($recentlySelectedRelationships as $code)
 </table>
 
 <?php
-echo '<div id="relationship-editor-busy">' . __('Busy...') . '</div>';
+// Emit the header for the table of recent relationships and recent items.
+echo '<div id="relationship-editor-busy"></div>';
 echo '<div id="relationship-editor-speed-bar">' . __('Add Relationships') . '</div>';
 echo '<div id="relationship-editor-recents">';
-
-// Emit an empty list of recent relationships. The client-side Javascript populates it.
 echo '<div id="recent-relationships-section">';
 echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '</div>';
 echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
-$recentlyViewedItems = AvantAdmin::getRecentlyViewedItems();
-$allowedItems = array();
-
-foreach ($recentlyViewedItems as $itemId => $itemIdentifier)
-{
-    $item = ItemMetadata::getItemFromId($itemId);
-    if ($relatedItemsEditor->isValidRelationshipForTargetItem($item, $defaultRelationshipCode))
-        $allowedItems[$itemId] = $itemIdentifier;
-}
-
-$alreadyAddedItems = array();
-foreach ($allowedItems as $allowedItemIdentifier)
-{
-    foreach ($relatedItems as $relatedItem)
-    {
-        $relatedItemIdentifier = $relatedItem->getIdentifier();
-        $relationshipName = $relatedItem->getRelationshipName();
-        if ($allowedItemIdentifier == $relatedItemIdentifier && $relationshipName == $defaultRelationshipName)
-        {
-            $key = array_search($relatedItemIdentifier, $allowedItems);
-            $alreadyAddedItems[$key] = $relatedItemIdentifier;
-        }
-    }
-}
-
-// Move the allowed items to the top of the list of recently viewed items.
-$itemList = array();
-
-foreach ($allowedItems as $itemId => $itemIdentifier)
-{
-    if (!in_array($itemIdentifier, $alreadyAddedItems))
-        $itemList[$itemId] = $itemIdentifier;
-}
-
-foreach ($recentlyViewedItems as $itemId => $itemIdentifier)
-{
-    if (!in_array($itemIdentifier, $allowedItems) || in_array($itemIdentifier, $alreadyAddedItems))
-        $itemList[$itemId] = $itemIdentifier;
-}
-
-echo AvantAdmin::emitRecentlyViewedItems($itemList, $primaryItemIdentifier, $allowedItems, $alreadyAddedItems);
+// Emit the table contents.
+$relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItemIdentifier);
 
 echo '</div>'; // relationship-editor-recents
-?>
 
-<?php
-    $relationshipNames = json_encode($formSelectRelationshipNames);
-    echo $this->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
-?>
+// Emit the Javascript for supporting jQuery and Ajax.
+$relationshipNames = json_encode($allowedRelationshipSelections);
+echo $this->partial('/edit-relationships-script.php', array('primaryItemIdentifier' => $primaryItemIdentifier, 'relationshipNames' => $relationshipNames));
