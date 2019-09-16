@@ -99,14 +99,19 @@ class AvantAdmin
                 $itemPreview = new ItemPreview($recentItem);
                 $thumbnail = $itemPreview->emitItemThumbnail();
 
-                $title = $contextIsRelationshipsEditor ? ItemMetadata::getItemTitle($recentItem) : $itemPreview->emitItemTitle(true);
+                // Get the title as a link. If it's for the admin view, change to the public view.
+                $title = $itemPreview->emitItemTitle(true);
+                $title = str_replace('admin/items', 'items', $title);
 
-                $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
-                if ($contextIsRelationshipsEditor && $type == 'Reference')
-                    $type = "<span class='recent-item-type-reference'>$type</span>";
-
-                $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
-                $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
+                $metadata = '';
+                if ($contextIsRelationshipsEditor)
+                {
+                    $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
+                    if ($type == 'Reference')
+                        $type = "<span class='recent-item-type-reference'>$type</span>";
+                    $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
+                    $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
+                }
 
                 $removeTooltip = __('Remove item from this list (does not delete the item)');
                 $removeLink = "<a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier' title='$removeTooltip'>" . __('Remove') . '</a>';
@@ -121,9 +126,10 @@ class AvantAdmin
                     $disabled = in_array($recentItemIdentifier, $alreadyAddedItems) ? 'disabled' : '';
                     $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier' $disabled>" . __('Add') . "</button>";
                 }
-                $html .= "<div class='recent-item-title'>$addButton$title</div>";
 
-                $html .= "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'>$recentItemIdentifier$metadata</div>";
+                $html .= "<div class='recent-item-identifier' data-identifier='$recentItemIdentifier'><span>" . __('Item ') . "</span>$recentItemIdentifier$metadata</div>";
+
+                $html .= "<div class='recent-item-title'>$addButton$title</div>";
 
                 if (AvantCommon::userIsAdmin())
                 {

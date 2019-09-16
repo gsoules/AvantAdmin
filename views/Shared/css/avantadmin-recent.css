@@ -21,6 +21,10 @@
     color: #555;
 }
 
+.recent-item-identifier span {
+    font-weight: normal;
+}
+
 .recent-item-thumbnail {
     grid-area: thumbnail;
     margin-top: 8px;
@@ -32,7 +36,7 @@
     padding: 3px;}
 
 .recent-item-title {
-    color:#777;
+    color: #6088a5;
     font-weight: bold;
     margin-top: 2px;
     margin-bottom: 2px;
@@ -135,7 +139,7 @@ span.recent-item-type-reference {
 }
 
 .recent-item-identifier {
-    margin-bottom: 6px;
+    margin-top: 6px;
 }
 
 .recent-identifier:hover,

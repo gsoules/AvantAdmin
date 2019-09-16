@@ -128,7 +128,7 @@ foreach ($recentlySelectedRelationships as $code)
 </table>
 
 <?php
-echo '<div id="relationship-editor-busy"></div>';
+echo '<div id="relationship-editor-busy">' . __('Busy...') . '</div>';
 echo '<div id="relationship-editor-speed-bar">' . __('Add Relationships') . '</div>';
 echo '<div id="relationship-editor-recents">';
 
