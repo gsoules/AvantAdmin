@@ -66,18 +66,19 @@ $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship()
 </table>
 
 <?php
+// Generate the table contents html.
+$html = $relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItemIdentifier);
+
 // Emit the header for the table of recent relationships and recent items.
 echo '<div id="relationship-editor-busy"></div>';
-echo '<div id="relationship-editor-speed-bar">' . __('Add Relationships') . '</div>';
+echo '<div id="relationship-editor-choose-item">' . $relatedItemsEditor->getSelectedRelationshipTargetDescription() . '</div>';
 echo '<div id="relationship-editor-recents">';
 echo '<div id="recent-relationships-section">';
 echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '</div>';
 echo '<div id="recent-relationships"></div>';
 echo '</div>'; // recent-relationships-section
 
-// Emit the table contents.
-$relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItemIdentifier);
-
+echo $html;
 echo '</div>'; // relationship-editor-recents
 
 // Emit the Javascript for supporting jQuery and Ajax.
