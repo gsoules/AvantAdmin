@@ -33,7 +33,8 @@
 .recent-item-thumbnail img {
     width: 80px;
     border: 1px solid #ccc;
-    padding: 3px;}
+    padding: 3px;
+}
 
 .recent-item-title {
     color: #6088a5;
@@ -41,6 +42,11 @@
     margin-top: 2px;
     margin-bottom: 2px;
     font-size: 16px;
+}
+
+.recent-item-add {
+    float: right;
+    margin-right: 40px;
 }
 
 .recent-item-remove {

@@ -163,7 +163,22 @@ foreach ($allowedItems as $allowedItemIdentifier)
     }
 }
 
-echo AvantAdmin::emitRecentlyViewedItems($recentlyViewedItems, $primaryItemIdentifier, $allowedItems, $alreadyAddedItems);
+// Move the allowed items to the top of the list of recently viewed items.
+$itemList = array();
+
+foreach ($allowedItems as $itemId => $itemIdentifier)
+{
+    if (!in_array($itemIdentifier, $alreadyAddedItems))
+        $itemList[$itemId] = $itemIdentifier;
+}
+
+foreach ($recentlyViewedItems as $itemId => $itemIdentifier)
+{
+    if (!in_array($itemIdentifier, $allowedItems) || in_array($itemIdentifier, $alreadyAddedItems))
+        $itemList[$itemId] = $itemIdentifier;
+}
+
+echo AvantAdmin::emitRecentlyViewedItems($itemList, $primaryItemIdentifier, $allowedItems, $alreadyAddedItems);
 
 echo '</div>'; // relationship-editor-recents
 ?>
