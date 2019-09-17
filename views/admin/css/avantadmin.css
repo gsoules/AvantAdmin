@@ -151,18 +151,66 @@ a.add-new-item {
     padding-top: 4px;
 }
 
-#relationship-editor-choose-item {
-    color: white;
-    background-color: #705708;
-    height: 12px;
-    margin: 4px 0 8px 2px;
-    padding: 4px 0 10px 164px;
-    text-align: left;
-    /*font-weight: bold;*/
+#relationships-editor-grid {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: auto 1fr 25%;
+    grid-template-areas:
+            "image metadata buttons";
 }
 
-#relationship-editor-choose-item span {
-    color: yellow;
+#relationship-editor-add-instructions {
+    background-color: white;
+    margin-bottom: 12px;
+    padding: 10px 0;
+    border: #588caf solid 2px;
+    border-radius: 6px;
+}
+
+#relationship-editor-add-header {
+    text-align: left;
+    margin-left: 12px;
+    margin-bottom: 8px;
+}
+
+#relationship-editor-add-footer {
+    text-align: left;
+    margin-left: 12px;
+    margin-top: 8px;
+    color: red;
+}
+
+#relationship-editor-add {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas:
+            "source relationship target";
+    align-items: center;
+    color: #2c2c2c;
+    /*background-color: #ece3ca;*/
+    padding: 0 8px;
+    font-size: 15px;
+}
+
+#relationship-editor-add span {
+    font-weight: bold;
+}
+
+#relationship-editor-add-source {
+    grid-area: source;
+    text-align: right;
+    padding-left: 24px;
+    padding-right: 12px;
+}
+
+#relationship-editor-add-relationship {
+    grid-area: relationship;
+    text-align: center;
+}
+
+#relationship-editor-add-target {
+    grid-area: target;
+    padding-left: 12px;
 }
 
 #relationship-editor-busy {
@@ -171,7 +219,7 @@ a.add-new-item {
     opacity: 0.80;
     color: white;
     font-size: 16px;
-    padding: 4px 10px;
+    padding: 12px 30px;
     max-width: 400px;
     z-index: 1000;
     border: #588caf solid 2px;
@@ -179,7 +227,7 @@ a.add-new-item {
     text-align: center;
     position: fixed;
     left: 50%;
-    top: 50%;
+    top: 60%;
 }
 
 a.button.beige, input[type=submit].blue, button.beige {

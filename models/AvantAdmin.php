@@ -107,8 +107,7 @@ class AvantAdmin
                 if ($contextIsRelationshipsEditor)
                 {
                     $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
-                    if ($type == 'Reference')
-                        $type = "<span class='recent-item-type-reference'>$type</span>";
+                    $type = "<span class='recent-item-type-reference'>$type</span>";
                     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
                     $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
                 }

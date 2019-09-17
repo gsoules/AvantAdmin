@@ -9,7 +9,7 @@ if (empty($item))
 set_current_record('Item', $item);
 
 $primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
-$itemTitle = __('Edit Relationships for Item %s', $primaryItemIdentifier);
+$itemTitle = __('Relationships for Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
 $relatedItemsModel = new RelatedItemsModel($item, $this);
@@ -66,12 +66,12 @@ $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship()
 </table>
 
 <?php
-// Generate the table contents html.
+// Generate the table contents html. This method gets called here so that results can be used in the instructions.
 $html = $relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItemIdentifier);
 
 // Emit the header for the table of recent relationships and recent items.
 echo '<div id="relationship-editor-busy"></div>';
-echo '<div id="relationship-editor-choose-item">' . $relatedItemsEditor->getSelectedRelationshipTargetDescription() . '</div>';
+echo $relatedItemsEditor->emitAddRelationshipInstructions();
 echo '<div id="relationship-editor-recents">';
 echo '<div id="recent-relationships-section">';
 echo '<div class="recent-relationships-title">' . __('Recent Relationships') . '</div>';
