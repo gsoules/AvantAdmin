@@ -226,7 +226,11 @@ class AvantAdmin
         $recentlyViewedItems = array();
         foreach ($recentlyViewedItemIds as $id)
         {
-            $recentlyViewedItems[$id] = ItemMetadata::getItemFromId($id);
+            // Get the item from its Id. If the item does not exist, it must have been deleted since being recently viewed.
+            $item = ItemMetadata::getItemFromId($id);
+
+            if ($item)
+                $recentlyViewedItems[$id] = $item;
         }
 
         return $recentlyViewedItems;
