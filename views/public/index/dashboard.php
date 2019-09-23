@@ -19,13 +19,10 @@ $html = '<div class="dashboard-message">';
 $html .= '<h1>' . __('Welcome to the Digital Archive') . '</h1>';
 
 $user = current_user();
+
 if ($user)
 {
-    $html .= '<p>' . __('You are logged in as <strong>%s</strong>', $user->username) . ' &nbsp;&nbsp; <a href="' . WEB_ROOT . '/users/logout">Logout</a></p>';
-}
-else
-{
-    $html .= '<p><a href="' . WEB_ROOT . '/users/login">Administrator Login</a></p>';
+    $html .= '<p>' . __('You are logged in as <strong>%s</strong>', $user->username) . '</p>';
 }
 
 $html .= '<p>' . __('The following organizations have made their collections searchable from this site:') . '</p>';
@@ -40,6 +37,15 @@ if ($user && !empty($localStats))
     $html .= '<br/>';
     $html .= '<p>' . __('Statistics for this site (including non-public items) appear below:') . '</p>';
     $html .= $localStats;
+}
+
+if (!$user)
+{
+    $html .= '<p><a href="' . WEB_ROOT . '/users/login">Administrator Login</a></p>';
+}
+else
+{
+    $html .= '<p><a href="' . WEB_ROOT . '/users/logout">Logout</a></p>';
 }
 
 $html .= '</div>';
