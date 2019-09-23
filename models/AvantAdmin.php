@@ -42,9 +42,9 @@ class AvantAdmin
         echo '</style>'. PHP_EOL;
     }
 
-    public static function emitFlagItemAsRecent($itemId, $recentlyViewedItems)
+    public static function emitFlagItemAsRecent($itemId, $recentlyViewedItemIds)
     {
-        if (array_key_exists($itemId, $recentlyViewedItems))
+        if (in_array($itemId, $recentlyViewedItemIds))
         {
             $flagged = ' flagged';
             $tooltip = __('Remove from recently visited items list');
@@ -72,7 +72,13 @@ class AvantAdmin
 
         $clearAll = $count == 0 ? '' : "<a id='recent-items-clear-all'>" . __('Clear all') . '</a>';
 
-        $findUrl = AvantAdmin::getRecentlyViewedItemsSearchUrl($recentlyViewedItems);
+        $recentlyViewedItemInfo = array();
+        foreach ($recentlyViewedItems as $recentlyViewedItem)
+        {
+            $recentlyViewedItemInfo[$recentlyViewedItem->id] = array('item' => $recentlyViewedItem, 'identifier' => ItemMetadata::getItemIdentifier($recentlyViewedItem));
+        }
+
+        $findUrl = AvantAdmin::getRecentlyViewedItemsSearchUrl($recentlyViewedItemInfo);
         $searchResultsLink = $count == 0 ? '' : "<a href='$findUrl' id='recent-items-as-search-results' target='_blank'>" . __('Show as search results') . '</a>';
 
         $html .= '<div id="recent-items-section">';
@@ -90,12 +96,13 @@ class AvantAdmin
         {
             $html .= '<div id="recent-items">';
 
-            foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
+            foreach ($recentlyViewedItemInfo as $recentItemId => $info)
             {
+                $recentItemIdentifier = $info['identifier'];
                 if ($recentItemIdentifier == $excludeIdentifier)
                     continue;
 
-                $recentItem = ItemMetadata::getItemFromId($recentItemId);
+                $recentItem = $info['item'];
                 $itemPreview = new ItemPreview($recentItem);
                 $thumbnail = $itemPreview->emitItemThumbnail();
 
@@ -103,13 +110,16 @@ class AvantAdmin
                 $title = $itemPreview->emitItemTitle(true);
                 $title = str_replace('admin/items', 'items', $title);
 
-                $metadata = '';
+                $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
                 if ($contextIsRelationshipsEditor)
                 {
-                    $type = ItemMetadata::getElementTextForElementName($recentItem, 'Type');
-                    $type = "<span class='recent-item-type-reference'>$type</span>";
+                    $type = "<span class='recent-item-type-emphasis'>$type</span>";
                     $subject = ItemMetadata::getElementTextForElementName($recentItem, 'Subject');
                     $metadata = "<div class='recent-item-metadata'><span>Type:</span>$type&nbsp;&nbsp;&nbsp;&nbsp;<span>Subject:</span>$subject</div>";
+                }
+                else
+                {
+                    $metadata = "<div class='recent-item-metadata'>$type</div>";
                 }
 
                 $removeTooltip = __('Remove item from this list (does not delete the item)');
@@ -120,9 +130,9 @@ class AvantAdmin
                 $html .= "<div class='recent-item'>";
 
                 $addButton = '';
-                if ($contextIsRelationshipsEditor && in_array($recentItemIdentifier, $allowedItems))
+                if ($contextIsRelationshipsEditor && array_key_exists($recentItemId, $allowedItems))
                 {
-                    $disabled = in_array($recentItemIdentifier, $alreadyAddedItems) ? 'disabled' : '';
+                    $disabled = in_array($recentItemId, $alreadyAddedItems) ? 'disabled' : '';
                     $addButton = "<button type='button' class='action-button recent-item-add' data-identifier='$recentItemIdentifier' $disabled>" . __('Add') . "</button>";
                 }
 
@@ -189,12 +199,12 @@ class AvantAdmin
         return $recentlySelectedRelationships;
     }
 
-    public static function getRecentlyViewedItems($excludeIdentifier = '')
+    public static function getRecentlyViewedItemIds()
     {
         $cookieValue = isset($_COOKIE['RECENT']) ? $_COOKIE['RECENT'] : '';
         $recentItemIds = empty($cookieValue) ? array() : explode(',', $cookieValue);
 
-        $recentlyViewedItems = array();
+        $ids = array();
 
         foreach ($recentItemIds as $recentItemId)
         {
@@ -203,35 +213,33 @@ class AvantAdmin
                 // This should never happen, but check in case the cookie is somehow corrupted.
                 continue;
             }
+            $ids[] = $recentItemId;
+        }
 
-            $recentItem = ItemMetadata::getItemFromId($recentItemId);
+        return $ids;
+    }
 
-            if (empty($recentItem))
-            {
-                // Ignore any items that no longer exist.
-                continue;
-            }
+    public static function getRecentlyViewedItems()
+    {
+        $recentlyViewedItemIds = AvantAdmin::getRecentlyViewedItemIds();
 
-            $recentIdentifier = ItemMetadata::getItemIdentifier($recentItem);
-            if ($recentIdentifier == $excludeIdentifier)
-            {
-                continue;
-            }
-
-            $recentlyViewedItems[$recentItemId] = $recentIdentifier;
+        $recentlyViewedItems = array();
+        foreach ($recentlyViewedItemIds as $id)
+        {
+            $recentlyViewedItems[$id] = ItemMetadata::getItemFromId($id);
         }
 
         return $recentlyViewedItems;
     }
 
-    public static function getRecentlyViewedItemsSearchUrl($recentlyViewedItems)
+    public static function getRecentlyViewedItemsSearchUrl($recentlyViewedItemInfo)
     {
         $identifierList = '';
-        foreach ($recentlyViewedItems as $recentItemId => $recentItemIdentifier)
+        foreach ($recentlyViewedItemInfo as $info)
         {
             if (!empty($identifierList))
                 $identifierList .= '|';
-            $identifierList .= $recentItemIdentifier;
+            $identifierList .= $info['identifier'];
         }
         $findUrl = ItemSearch::getAdvancedSearchUrl(ItemMetadata::getIdentifierElementId(), $identifierList, 'contains');
         return $findUrl;

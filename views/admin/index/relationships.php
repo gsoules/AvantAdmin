@@ -1,28 +1,28 @@
 <?php
 
-$item = get_record_by_id('Item', $itemId);
-if (empty($item))
+$primaryItem = get_record_by_id('Item', $itemId);
+if (empty($primaryItem))
 {
     echo "No item found";
     return;
 }
-set_current_record('Item', $item);
+set_current_record('Item', $primaryItem);
 
-$primaryItemIdentifier = ItemMetadata::getItemIdentifier($item);
+$primaryItemIdentifier = ItemMetadata::getItemIdentifier($primaryItem);
 $itemTitle = __('Relationships for Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
-$relatedItemsModel = new RelatedItemsModel($item, $this);
-$relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $item);
+$relatedItemsModel = new RelatedItemsModel($primaryItem, $this);
+$relatedItemsEditor = new RelatedItemsEditor($relatedItemsModel, $primaryItem);
 
 // Display the primary item's image and some metadata at the top of the page.
-$relatedItemsEditor->emitPrimaryItem($item);
+$relatedItemsEditor->emitPrimaryItem($primaryItem);
 
 // Get the items that are already related to the primary item.
 $relatedItems = $relatedItemsModel->getRelatedItems();
 
 // Determine which relationships and related items are compatible with the primary item.
-$allowedRelationshipSelections = $relatedItemsEditor->determineAllowedRelationshipSelections($item);
+$allowedRelationshipSelections = $relatedItemsEditor->determineAllowedRelationshipSelections($primaryItem);
 $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship();
 ?>
 
@@ -67,7 +67,7 @@ $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship()
 
 <?php
 // Generate the table contents html. This method gets called here so that results can be used in the instructions.
-$html = $relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItemIdentifier);
+$html = $relatedItemsEditor->emitRecentlyViewedItems($relatedItems, $primaryItem->id);
 
 // Emit the header for the table of recent relationships and recent items.
 echo '<div id="relationship-editor-busy"></div>';
