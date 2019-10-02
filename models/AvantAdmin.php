@@ -219,13 +219,16 @@ class AvantAdmin
         return $ids;
     }
 
-    public static function getRecentlyViewedItems()
+    public static function getRecentlyViewedItems($excludeItemId = 0)
     {
         $recentlyViewedItemIds = AvantAdmin::getRecentlyViewedItemIds();
 
         $recentlyViewedItems = array();
         foreach ($recentlyViewedItemIds as $id)
         {
+            if ($id == $excludeItemId)
+                continue;
+
             // Get the item from its Id. If the item does not exist, it must have been deleted since being recently viewed.
             $item = ItemMetadata::getItemFromId($id);
 
