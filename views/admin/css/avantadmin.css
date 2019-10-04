@@ -33,6 +33,11 @@
     display:none;
 }
 
+/* Hide the Delete button on the admin/items/edit.php */
+body.items.edit a.delete-confirm.big.red.button {
+    display: none;
+}
+
 /* Hide the Collection panel on admin/items/show.php */
 .collection.panel {
     display:none;
