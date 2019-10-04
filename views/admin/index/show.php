@@ -16,6 +16,21 @@ if ($itemTitle != '' && $itemTitle != __('[Untitled]')) {
 
 $itemTitle = __('Item %s', ItemMetadata::getItemIdentifier($item));
 
+$okToDelete = true;
+$s3FileMessage = '';
+if (plugin_is_active('AvantS3'))
+{
+    // Prevent deletion of an item that has an S3 folder. The admin must first manually delete the folder.
+    $avantS3 = new AvantS3($item);
+    $fileNames = $avantS3->getS3FileNamesForItem();
+    $s3FileCount = count($fileNames);
+    $okToDelete = $s3FileCount == 0;
+    if ($s3FileCount == 1)
+        $s3FileMessage = __('1 S3 File');
+    else
+        $s3FileMessage = __('%s S3 Files', $s3FileCount);
+}
+
 echo head(array('title' => $itemTitle, 'bodyclass'=>'items show'));
 echo flash();
 ?>
@@ -51,12 +66,14 @@ echo flash();
             <a href="<?php echo html_escape(admin_url('avant/relationships/' . $item->id)); ?>" class="big green button"><?php echo __('Relationships'); ?></a>
         <?php endif; ?>
         <?php if (is_allowed($item, 'delete')): ?>
-        <?php echo link_to_item(__('Delete This Item'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
-        <a href="<?php echo html_escape(public_url('items/show/' . metadata('item', 'id'))); ?>" class="big blue button"
-           target="_blank"><?php echo __('View Public Page'); ?></a>
-            <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button"
-               target="_blank"><?php echo __('Add New Item'); ?></a>
+            <?php if ($okToDelete): ?>
+                <?php echo link_to_item(__('Delete This Item'), array('class' => 'delete-confirm big red button'), 'delete-confirm'); ?>
+            <?php else: ?>
+                <?php echo link_to_item(__('Has %s - Cannot Delete', $s3FileMessage), array('class' => 'big red button', 'disabled' => '')); ?>
+            <?php endif; ?>
+        <a href="<?php echo html_escape(admin_url('items/add/')); ?>" class="big blue button" target="_blank"><?php echo __('Add New Item'); ?></a>
         <?php endif; ?>
+        <a href="<?php echo html_escape(public_url('items/show/' . metadata('item', 'id'))); ?>" class="big blue button" target="_blank"><?php echo __('View Public Page'); ?></a>
     </div>
 
     <?php
