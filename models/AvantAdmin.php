@@ -75,7 +75,8 @@ class AvantAdmin
         $recentlyViewedItemInfo = array();
         foreach ($recentlyViewedItems as $recentlyViewedItem)
         {
-            $recentlyViewedItemInfo[$recentlyViewedItem->id] = array('item' => $recentlyViewedItem, 'identifier' => ItemMetadata::getItemIdentifier($recentlyViewedItem));
+            $identifier = ItemMetadata::getItemIdentifierAlias($recentlyViewedItem);
+            $recentlyViewedItemInfo[$recentlyViewedItem->id] = array('item' => $recentlyViewedItem, 'identifier' => $identifier);
         }
 
         $findUrl = AvantAdmin::getRecentlyViewedItemsSearchUrl($recentlyViewedItemInfo);
@@ -123,9 +124,9 @@ class AvantAdmin
                 }
 
                 $removeTooltip = __('Remove item from this list (does not delete the item)');
-                $removeLink = "<a class='recent-item-remove' data-id='$recentItemId' data-identifier='$recentItemIdentifier' title='$removeTooltip'>" . __('Remove') . '</a>';
+                $removeLink = "<a class='recent-item-remove' data-id='$recentItemId' title='$removeTooltip'>" . __('Remove') . '</a>';
 
-                $html .= "<div id='row-$recentItemIdentifier' class='recent-item-row'>";
+                $html .= "<div id='row-$recentItemId' class='recent-item-row'>";
                 $html .= "<div class='recent-item-thumbnail' data-identifier='$recentItemIdentifier'>$thumbnail</div>";
                 $html .= "<div class='recent-item'>";
 
@@ -248,7 +249,8 @@ class AvantAdmin
                 $identifierList .= '|';
             $identifierList .= $info['identifier'];
         }
-        $findUrl = ItemSearch::getAdvancedSearchUrl(ItemMetadata::getIdentifierElementId(), $identifierList, 'contains');
+        $identifierElementId = ItemMetadata::getElementIdForElementName(ItemMetadata::getIdentifierAliasElementName());
+        $findUrl = ItemSearch::getAdvancedSearchUrl($identifierElementId, $identifierList, 'contains');
         return $findUrl;
     }
 

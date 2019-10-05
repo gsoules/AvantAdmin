@@ -9,9 +9,8 @@ function addRecentItemEventListeners()
 
     recentItemRemove.click(function ()
     {
-        var itemIdentifier = jQuery(this).attr('data-identifier');
         var itemId = jQuery(this).attr('data-id');
-        var row = jQuery('#row-' + itemIdentifier);
+        var row = jQuery('#row-' + itemId);
         jQuery(row).hide("slow");
         removeRecentlyVisitedItem(itemId);
         var itemIds = getRecentItemIdsFromCookie();
