@@ -8,10 +8,19 @@ $sharedStats = '';
 $useElasticsearch = AvantSearch::useElasticsearch();
 if ($useElasticsearch)
 {
-    $sharedIndexName = AvantElasticsearch::getNameOfLocalIndex();
-    $localStats = AvantElasticsearch::generateContributorStatistics($sharedIndexName);
-    $localIndexName = AvantElasticsearch::getNameOfSharedIndex();
-    $sharedStats = AvantElasticsearch::generateContributorStatistics($localIndexName);
+    $localIndexIsEnabled = (bool)get_option(ElasticsearchConfig::OPTION_ES_LOCAL) == true;
+    if ($localIndexIsEnabled)
+    {
+        $localIndexName = AvantElasticsearch::getNameOfLocalIndex();
+        $localStats = AvantElasticsearch::generateContributorStatistics($localIndexName);
+    }
+
+    $sharedIndexIsEnabled = (bool)get_option(ElasticsearchConfig::OPTION_ES_SHARE) == true;
+    if ($sharedIndexIsEnabled)
+    {
+        $sharedIndexName = AvantElasticsearch::getNameOfSharedIndex();
+        $sharedStats = AvantElasticsearch::generateContributorStatistics($sharedIndexName);
+    }
 }
 
 $html = '<div class="dashboard-message">';
