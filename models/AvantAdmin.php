@@ -91,7 +91,7 @@ class AvantAdmin
 
         if ($count == 0)
         {
-            $html .= '<div class="recent-items-message">' . __('Your recently viewed items list has been cleared.') . '</div>';
+            $html .= '<div class="recent-items-message">' . __('Your recently viewed items list is empty.') . '</div>';
         }
         else
         {
