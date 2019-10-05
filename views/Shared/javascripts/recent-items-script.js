@@ -29,7 +29,6 @@ function addRecentItemEventListeners()
         }
     });
 
-
     recentItemFlag.click(function (e)
     {
         var flag = jQuery(this);
