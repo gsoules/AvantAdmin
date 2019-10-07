@@ -75,8 +75,7 @@ function removeDeletedItemIdsFromCookie()
 
     // Cleanup any items that were deleted since last viewed.
     for (id of deletedRecentItemIds)
-        console.log("REMOVE " + id);
-        //removeRecentlyVisitedItem(id);
+        removeRecentlyVisitedItem(id);
 }
 
 function removeRecentlyVisitedItem(idToRemove)
