@@ -58,16 +58,22 @@ class AvantAdmin
         return "<span data-id='$itemId' class='recent-item-flag$flagged' title='$tooltip'>&nbsp;&nbsp;<a></a></span>";
     }
 
-    public static function emitRecentlyViewedItems($recentlyViewedItems, $excludeIdentifier = '', $allowedItems = array(), $alreadyAddedItems = array())
+    public static function emitRecentlyViewedItems($recentlyViewedItems, $excludeItemId = '', $allowedItems = array(), $alreadyAddedItems = array())
     {
-        $contextIsRelationshipsEditor = !empty($excludeIdentifier);
+        $contextIsRelationshipsEditor = !empty($excludeItemId);
 
         $html = '';
 
         $count = count($recentlyViewedItems);
-        if ($count == 1 && reset($recentlyViewedItems) == $excludeIdentifier)
+
+        // Deal with the case where the only recently viewed item is the excluded primary item.
+        if ($count == 1 && $contextIsRelationshipsEditor)
         {
-            $count = 0;
+            $item = reset($recentlyViewedItems);
+            if ($item->id == $excludeItemId)
+            {
+                $count = 0;
+            }
         }
 
         $clearAll = $count == 0 ? '' : "<a id='recent-items-clear-all'>" . __('Clear all') . '</a>';
@@ -100,7 +106,7 @@ class AvantAdmin
             foreach ($recentlyViewedItemInfo as $recentItemId => $info)
             {
                 $recentItemIdentifier = $info['identifier'];
-                if ($recentItemIdentifier == $excludeIdentifier)
+                if ($recentItemIdentifier == $excludeItemId)
                     continue;
 
                 $recentItem = $info['item'];
@@ -230,11 +236,10 @@ class AvantAdmin
             if ($id == $excludeItemId)
                 continue;
 
-            // Get the item from its Id. If the item does not exist, it must have been deleted since being recently viewed.
+            // Get the item from its Id. If the item does not exist, it must have been deleted since being recently
+            // viewed, in which case it gets inserted as null to indicate it's deleted.
             $item = ItemMetadata::getItemFromId($id);
-
-            if ($item)
-                $recentlyViewedItems[$id] = $item;
+            $recentlyViewedItems[$id] = $item;
         }
 
         return $recentlyViewedItems;

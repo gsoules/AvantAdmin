@@ -68,6 +68,17 @@ function removeAllItemsFromCookie()
     Cookies.remove(RECENT_ITEMS_COOKIE);
 }
 
+function removeDeletedItemIdsFromCookie()
+{
+    if (typeof deletedRecentItemIds === 'undefined')
+        return;
+
+    // Cleanup any items that were deleted since last viewed.
+    for (id of deletedRecentItemIds)
+        console.log("REMOVE " + id);
+        //removeRecentlyVisitedItem(id);
+}
+
 function removeRecentlyVisitedItem(idToRemove)
 {
     updateCookie('remove', idToRemove);
@@ -124,4 +135,5 @@ function updateCookie(action, itemId)
 jQuery(document).ready(function ()
 {
     addRecentItemEventListeners();
+    removeDeletedItemIdsFromCookie();
 });
