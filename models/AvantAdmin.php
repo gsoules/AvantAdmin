@@ -229,6 +229,7 @@ class AvantAdmin
     public static function getRecentlyViewedItems($excludeItemId = 0)
     {
         $recentlyViewedItemIds = AvantAdmin::getRecentlyViewedItemIds();
+        $deletedItemIds = array();
 
         $recentlyViewedItems = array();
         foreach ($recentlyViewedItemIds as $id)
@@ -236,10 +237,29 @@ class AvantAdmin
             if ($id == $excludeItemId)
                 continue;
 
-            // Get the item from its Id. If the item does not exist, it must have been deleted since being recently
-            // viewed, in which case it gets inserted as null to indicate it's deleted.
+            // Get the item from its Id.
             $item = ItemMetadata::getItemFromId($id);
-            $recentlyViewedItems[$id] = $item;
+            if ($item)
+            {
+                $recentlyViewedItems[$id] = $item;
+            }
+            else
+            {
+                // The item does not exist - it must have been deleted since being recently viewed.
+                $deletedItemIds[] = $id;
+            }
+        }
+
+        // Emit a Javascript array of deleted Ids so the client-side code can remove them from the recent items cookie.
+        if (count($deletedItemIds) > 0)
+        {
+            echo '<script>';
+            echo 'var deletedRecentItemIds = [];';
+            foreach ($deletedItemIds as $id)
+            {
+                echo "deletedRecentItemIds.push('$id');";
+            }
+            echo '</script>';
         }
 
         return $recentlyViewedItems;
