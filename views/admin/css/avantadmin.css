@@ -260,3 +260,15 @@ a.button.small,
 a.button.big {
     color: white;
 }
+
+/* Hide the Omeka batch edit options to prevent an admin from using them. */
+/* Batch editing conflicts with Elasticseach logic that depends on knowing then edits and deletes have occurred. */
+.batch-edit-option,
+.batch-edit-check,
+.batch-edit-heading {
+    display: none;
+}
+
+.batch-all-toggle {
+    display: none;
+}
