@@ -5,7 +5,7 @@ echo head(array('bodyclass' => 'index primary-secondary', 'title' => $pageTitle)
 $localStats = '';
 $sharedStats = '';
 
-$useElasticsearch = AvantSearch::useElasticsearch();
+$useElasticsearch = plugin_is_active('AvantSearch') && AvantSearch::useElasticsearch();
 if ($useElasticsearch)
 {
     $localIndexIsEnabled = (bool)get_option(ElasticsearchConfig::OPTION_ES_LOCAL) == true;
