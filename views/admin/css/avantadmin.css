@@ -256,6 +256,11 @@ a:visited {
     color: #E57F52;
 }
 
+a.button.blue:visited,
+a.button.green:visited {
+    color: #fff;
+}
+
 a.button.small,
 a.button.big {
     color: white;
