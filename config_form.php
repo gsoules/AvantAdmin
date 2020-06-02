@@ -16,7 +16,7 @@ if (ConfigOptions::configurationErrorsDetected())
 
 <div class="field">
     <div class="two columns alpha">
-        <label><?php echo CONFIG_LABEL_ITEM_TYPE; ?></label>
+        <label><?php echo CONFIG_LABEL_MAINTENANCE; ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __('Display the "Down for maintenance" page.'); ?></p>
