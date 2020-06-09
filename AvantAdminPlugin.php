@@ -101,6 +101,11 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminHead($args)
     {
         queue_css_file('avantadmin');
+
+        if (plugin_is_active('AvantElasticsearch'))
+        {
+            queue_css_file('avantadmin-disable-batch-edit');
+        }
         $this->head();
     }
 
