@@ -276,6 +276,10 @@ class AvantAdmin
         }
         $identifierElementId = ItemMetadata::getElementIdForElementName(ItemMetadata::getIdentifierAliasElementName());
         $findUrl = ItemSearch::getAdvancedSearchUrl($identifierElementId, $identifierList, 'contains');
+
+        // Limit the search to the local site since recent items are only tracked for the local site.
+        $findUrl .= '&site=0';
+
         return $findUrl;
     }
 
