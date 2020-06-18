@@ -42,13 +42,9 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
         {
             case 'refresh-common':
                 if (plugin_is_active('AvantVocabulary'))
-                {
                     $response = AvantVocabulary::refreshCommonVocabulary($password);
-                }
                 else
-                {
                     $response = 'AvantVocabulary is not activated';
-                }
                 break;
 
             default:
