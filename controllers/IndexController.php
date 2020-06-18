@@ -25,25 +25,36 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
 
     public function remoteAction()
     {
-        $response = 'Invalid remote request';
-
-        if (isset($_POST['action']))
+        $isAdmin = AvantCommon::userIsAdmin();
+        if ($isAdmin)
         {
-            $action = $_POST['action'];
+            // This code is for development and testing. It allows a logged in admin to simulate
+            // a remote request by putting the action and password on the query string.
+            $action = isset($_GET['action']) ? $_GET['action'] : '';
+            $password = isset($_GET['password']) ? $_GET['password'] : '';
+        }
+        else
+        {
+            $action = isset($_POST['action']) ? $_POST['action'] : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
+        }
 
-            switch ($action)
-            {
-                case 'refresh-common':
-                    if (plugin_is_active('AvantVocabulary'))
-                        $response = AvantVocabulary::refreshCommonVocabulary();
-                    else
-                        $response = 'AvantVocabulary is not activated';
-                    break;
+        switch ($action)
+        {
+            case 'refresh-common':
+                if (plugin_is_active('AvantVocabulary'))
+                {
+                    $response = AvantVocabulary::refreshCommonVocabulary($password);
+                }
+                else
+                {
+                    $response = 'AvantVocabulary is not activated';
+                }
+                break;
 
-                default:
-                    $response = 'Unsupported action: ' . $action;
-                    break;
-            }
+            default:
+                $response = 'Unsupported action: ' . $action;
+                break;
         }
 
         $this->view->response = $response;
