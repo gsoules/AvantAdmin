@@ -25,11 +25,10 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
 
     public function remoteAction()
     {
-        $isAdmin = AvantCommon::userIsAdmin();
-        if ($isAdmin)
+        if (AvantCommon::userIsSuper())
         {
-            // This code is for development and testing. It allows a logged in admin to simulate
-            // a remote request by putting the action and password on the query string.
+            // This code is for development and testing. It allows a logged in super user to
+            // simulate a remote request by putting the action and password on the query string.
             $action = isset($_GET['action']) ? $_GET['action'] : '';
             $password = isset($_GET['password']) ? $_GET['password'] : '';
         }
