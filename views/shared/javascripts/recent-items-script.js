@@ -127,7 +127,7 @@ function updateCookie(action, itemId)
     }
     else
     {
-        Cookies.set(RECENT_ITEMS_COOKIE, newList.join(','), {expires: 14});
+        Cookies.set(RECENT_ITEMS_COOKIE, newList.join(','), {expires: 14, sameSite: 'lax'});
     }
 }
 
