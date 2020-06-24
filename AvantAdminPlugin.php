@@ -46,12 +46,23 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterAdminNavigationMain($nav)
     {
-        // Remove 'Collections' from the admin left menu panel.
-        $key = array_search('Collections', array_column($nav, 'label'));
-        if ($key)
-            unset($nav[$key]);
+        $newNav = array();
 
-        return $nav;
+        // Remove the Collection nav item because the Digital Archive does not use Omeka collections.
+        $exclusionList[] = 'Collections';
+
+        // Remove dangerous menu items from non-super users.
+        if (!AvantCommon::userIsSuper())
+            $exclusionList = array_merge($exclusionList, array('Items', 'Item Types', 'Bulk Editor'));
+
+        foreach ($nav as $navEntry)
+        {
+            if (in_array($navEntry['label'], $exclusionList))
+                continue;
+            $newNav[] = $navEntry;
+        }
+
+        return $newNav;
     }
 
     public function filterPublicNavigationAdminBar($links)
