@@ -24,6 +24,16 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         'public_show_admin_bar'
     );
 
+    public static function allowAddItem()
+    {
+        $allowAddItem = true;
+        if (plugin_is_active('AvantElasticsearch'))
+        {
+            $allowAddItem = (bool)get_option(ElasticsearchConfig::OPTION_ES_LOCAL) == true;
+        }
+        return $allowAddItem;
+    }
+
     public function filterAdminItemsFormTabs($tabs, $args)
     {
         // Get this item's image(s).
@@ -67,10 +77,13 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterPublicNavigationAdminBar($links)
     {
-        $newLinks[] = array(
-            'label' => __('Add item'),
-            'uri' => admin_url('/items/add/')
-        );
+        if (self::allowAddItem())
+        {
+            $newLinks[] = array(
+                'label' => __('Add item'),
+                'uri' => admin_url('/items/add/')
+            );
+        }
 
         foreach ($links as $link)
             $newLinks[] = $link;
@@ -116,7 +129,17 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         if (plugin_is_active('AvantElasticsearch'))
         {
             queue_css_file('avantadmin-disable-batch-edit');
+
+            if (!self::allowAddItem())
+            {
+                // Hide the Add Item button on the Add an Item page to prevent items from being added to a site
+                // that only displays shared content. The user can still get to the page, but they can't save it.
+                echo PHP_EOL . '<style>';
+                echo "#add_item{display:none;}";
+                echo '</style>'. PHP_EOL;
+            }
         }
+
         $this->head();
     }
 
