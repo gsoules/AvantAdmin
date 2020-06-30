@@ -188,7 +188,7 @@ class AvantAdmin
         // page. This function gets called by the logic that would normally operate on the admin's selection from the Item Types
         // list. Note that the admin could delete all but their one custom item type, but this function assumes that there
         // are others that Omeka automatically installed. It finds returns the one configured for AvantAdmin.
-        return get_option(AdminConfig::OPTION_ITEM_TYPE);;
+        return get_option(AdminConfig::OPTION_ITEM_TYPE);
     }
 
     public static function getRecentlySelectedRelationships()
