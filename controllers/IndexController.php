@@ -47,6 +47,13 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
                     $response = 'AvantVocabulary is not activated';
                 break;
 
+            case 'rebuild-vocabularies':
+                if (plugin_is_active('AvantVocabulary'))
+                    $response = AvantVocabulary::rebuildCommonAndLocalVocabularies($password);
+                else
+                    $response = 'AvantVocabulary is not activated';
+                break;
+
             default:
                 $response = 'Unsupported action: ' . $action;
                 break;
