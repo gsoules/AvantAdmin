@@ -25,31 +25,43 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
 
     public function remoteAction()
     {
+        if (!plugin_is_active('AvantElasticsearch'))
+        {
+            $this->view->response = 'Remote requests are not supported by this installation';
+            return;
+        }
+
         if (AvantCommon::userIsSuper())
         {
             // This code is for development and testing. It allows a logged in super user to
             // simulate a remote request by putting the action and password on the query string.
+            $siteId = isset($_GET['id']) ? $_GET['id'] : '';
             $action = isset($_GET['action']) ? $_GET['action'] : '';
             $password = isset($_GET['password']) ? $_GET['password'] : '';
         }
         else
         {
+            $siteId = isset($_POST['id']) ? $_POST['id'] : '';
             $action = isset($_POST['action']) ? $_POST['action'] : '';
             $password = isset($_POST['password']) ? $_POST['password'] : '';
         }
 
         switch ($action)
         {
+            case 'ping':
+                $response = 'OK';
+                break;
+
             case 'refresh-common':
                 if (plugin_is_active('AvantVocabulary'))
-                    $response = AvantVocabulary::refreshCommonVocabulary($password);
+                    $response = AvantVocabulary::refreshCommonVocabulary($siteId, $password);
                 else
                     $response = 'AvantVocabulary is not activated';
                 break;
 
             case 'rebuild-vocabularies':
                 if (plugin_is_active('AvantVocabulary'))
-                    $response = AvantVocabulary::rebuildCommonAndLocalVocabularies($password);
+                    $response = AvantVocabulary::rebuildCommonAndLocalVocabularies($siteId, $password);
                 else
                     $response = 'AvantVocabulary is not activated';
                 break;
@@ -59,6 +71,7 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
                 break;
         }
 
+        $response = '[' . ElasticsearchConfig::getOptionValueForContributorId() . '] ' . $response;
         $this->view->response = $response;
     }
 
