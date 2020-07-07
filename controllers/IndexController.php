@@ -12,6 +12,45 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
         return;
     }
 
+    public function ping()
+    {
+        $secondsInHour = 60 * 60;
+        $secondsInDay = $secondsInHour * 24;
+        $secondsInWeek = $secondsInDay * 7;
+        $timeNow = time();
+        $expiredTime = $timeNow - $secondsInHour;
+
+        $db = get_db();
+        $table = "{$db->prefix}sessions";
+
+        $sql = "
+                SELECT
+                  id,
+                  modified
+                FROM
+                  $table
+                WHERE
+                  modified < $expiredTime
+            ";
+
+        $results = $db->query($sql)->fetchAll();
+        return count($results);
+
+//        $date = new DateTime();
+//        $date->getTimestamp();
+//
+//        $expiredCount = 0;
+//
+//        foreach ($results as $result)
+//        {
+//            $sessionSeconds = $timeNow - $result['modified'];
+//            if ($sessionSeconds > $secondsInWeek)
+//                $expiredCount += 1;
+//        }
+//
+//        return $expiredCount;
+    }
+
     public function recentItemsAction()
     {
         return;
@@ -49,7 +88,8 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
         switch ($action)
         {
             case 'ping':
-                $response = 'OK';
+                $expiredCount = $this->ping();
+                $response = 'OK: ' . $expiredCount;
                 break;
 
             case 'refresh-common':
