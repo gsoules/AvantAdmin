@@ -2,7 +2,7 @@
 
 class ItemHistory
 {
-    const MAX_HISTORY = 5;
+    const MAX_HISTORY = 10;
     const LOG_DATE_FORMAT = 'Y-m-d H:i:s';
 
     public static function createAdminLogTable()
@@ -50,16 +50,26 @@ class ItemHistory
         return $userName;
     }
 
+    public static function logItemDelete($item)
+    {
+        self::logItemAction($item, 'deleted');
+    }
+
     public static function logItemSave($item)
+    {
+        self::logItemAction($item, 'saved');
+    }
+
+    public static function logItemAction($item, $action)
     {
         // Get current timestamp.
         $date = new DateTime();
         $date->getTimestamp();
 
         // Determine how many seconds it's been since this item was created.
-        $savedDate = $date->format(self::LOG_DATE_FORMAT);
+        $dateNow = $date->format(self::LOG_DATE_FORMAT);
         $addedDate = new DateTime($item->added);
-        $seconds = strtotime($savedDate) - strtotime($addedDate->format(self::LOG_DATE_FORMAT));
+        $seconds = strtotime($dateNow) - strtotime($addedDate->format(self::LOG_DATE_FORMAT));
 
         if ($seconds <= 3)
         {
@@ -70,7 +80,11 @@ class ItemHistory
         // Create a log entry for this Save.
         $userId = current_user()->id;
         $adminLog = get_db()->getTable('AdminLogs')->getAdminLog($item->id);
-        $newEntry = array('user' => $userId, 'saved' => $savedDate);
+
+        if ($action == 'saved')
+            $newEntry = array('user' => $userId, 'saved'=> $dateNow);
+        else
+            $newEntry = array('user' => $userId, 'deleted'=> $dateNow);
 
         if (empty($adminLog))
         {
@@ -87,14 +101,14 @@ class ItemHistory
 
             // Determine if the current user was the last person to save this item.
             $mostRecentEntry = $log[0];
-            if ($userId == $mostRecentEntry['user'])
+            if ($action == 'saved' && $userId == $mostRecentEntry['user'])
             {
                 // This user is saving the item again. Just update the timestamp for the most recent entry.
                 $log[0]['saved'] = $newEntry['saved'];
             }
             else
             {
-                // A different user is saving the item. Put the new entry at the top of the log.
+                // A different user is saving the item or the item is being deleted. Put the new entry at the top of the log.
                 array_unshift($log, $newEntry);
             }
 

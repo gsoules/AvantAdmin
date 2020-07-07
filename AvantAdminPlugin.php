@@ -6,6 +6,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         'admin_head',
         'admin_items_panel_buttons',
         'admin_items_show_sidebar',
+        'after_delete_item',
         'after_save_item',
         'before_save_item',
         'config',
@@ -109,6 +110,11 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
     {
         queue_css_file('avantadmin-recent');
         queue_js_file('recent-items-script');
+    }
+
+    public function hookAfterDeleteItem($args)
+    {
+        ItemHistory::logItemDelete($args['record']);
     }
 
     public function hookAfterSaveItem($args)
