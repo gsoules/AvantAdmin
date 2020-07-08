@@ -2,6 +2,23 @@
 
 class RemoteRequest
 {
+    public function garbageCollection()
+    {
+        $secondsInDay = 60 * 60 * 24;
+        $maxDays = $secondsInDay * 14;
+        $timeNow = time();
+        $expiredTime = $timeNow - $maxDays;
+
+        $db = get_db();
+        $table = "{$db->prefix}sessions";
+        $sql = "DELETE FROM $table WHERE modified < $expiredTime";
+        $results = $db->query($sql);
+        $deletedSessions = $results->rowCount();
+
+        $status = "$deletedSessions expired sessions deleted";
+        return $status;
+    }
+
     public function handleRemoteRequest()
     {
         if (AvantCommon::userIsSuper())
@@ -19,49 +36,46 @@ class RemoteRequest
             $password = isset($_POST['password']) ? $_POST['password'] : '';
         }
 
+        $response = '';
         switch ($action)
         {
-            case 'health-check':
-                $response = $this->healthCheck($siteId, $password);
+            case 'garbage-collection':
+                $response = $this->garbageCollection();
                 break;
 
             case 'ping':
-                $response = 'OK: ';
+                $response = 'OK';
                 break;
 
             default:
-                if (substr($action, 0, 6) == 'vocab-' && plugin_is_active('AvantVocabulary'))
-                    $response = AvantVocabulary::handleRemoteRequest($action, $siteId, $password);
-                else
+                $index = strpos($action, '-');
+                if ($index === false)
                     $response = 'Unsupported action: ' . $action;
-                break;
+                else
+                {
+                    $actionPrefix = substr($action, 0, $index + 1);
+                    switch ($actionPrefix)
+                    {
+                        case 'es-':
+                            if (plugin_is_active('AvantElasticsearch'))
+                                $response = AvantElasticsearch::handleRemoteRequest($action, $siteId, $password);
+                            break;
+
+                        case 'vocab-':
+                            if (plugin_is_active('AvantVocabulary'))
+                                $response = AvantVocabulary::handleRemoteRequest($action, $siteId, $password);
+                            break;
+
+                        default:
+                            $response = 'Unsupported action: ' . $action;
+                    }
+                }
         }
+
+        if (empty($response))
+            $response = 'Request denied';
 
         return '[' . $siteId . '] ' . $response;
-    }
-
-    public function healthCheck($siteId, $password)
-    {
-        $secondsInDay = 60 * 60 * 24;
-        $maxDays = $secondsInDay * 14;
-        $timeNow = time();
-        $expiredTime = $timeNow - $maxDays;
-
-        $db = get_db();
-        $table = "{$db->prefix}sessions";
-
-        $sql = "DELETE FROM $table WHERE modified < $expiredTime";
-
-        $results = $db->query($sql);
-        $deletedSessions = $results->rowCount();
-        $response = "$deletedSessions expired sessions deleted";
-
-        if (plugin_is_active('AvantElasticsearch') && AvantElasticsearch::remoteRequestIsValid($siteId, $password))
-        {
-            $response .= "\nOK";
-        }
-
-        return $response;
     }
 
     // This method is here in case a future remote action requires authentication of a user name and password.
