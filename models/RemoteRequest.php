@@ -5,7 +5,7 @@ class RemoteRequest
     public function garbageCollection()
     {
         $secondsInDay = 60 * 60 * 24;
-        $maxDays = $secondsInDay * 14;
+        $maxDays = $secondsInDay * 7;
         $timeNow = time();
         $expiredTime = $timeNow - $maxDays;
 
