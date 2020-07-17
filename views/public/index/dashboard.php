@@ -25,12 +25,12 @@ if ($useElasticsearch)
 
 $html = '<div class="dashboard-message">';
 
-$html .= '<h1>' . __('Contributing Organizations') . '</h1>';
-$html .= '<p>' . __('The following organizations have made their collections searchable from this site:') . '</p>';
-
 if (!empty($sharedStats))
 {
-    $html .= $sharedStats;
+    $contributorCount = $sharedStats ? $sharedStats[0] : 0;
+    $html .= '<h1>' . __('Contributing Organizations') . '</h1>';
+    $html .= '<p>' . __('The following %s organizations have made their collections searchable from this site:', $contributorCount) . '</p>';
+    $html .= $sharedStats[1];
 }
 
 $user = current_user();
@@ -38,7 +38,7 @@ if ($user && !empty($localStats))
 {
     $html .= '<br/>';
     $html .= '<p>' . __('Statistics for this site (including non-public items) appear below:') . '</p>';
-    $html .= $localStats;
+    $html .= $localStats[1];
 }
 
 $html .= '</div>';
