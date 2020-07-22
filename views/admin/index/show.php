@@ -26,9 +26,9 @@ if (plugin_is_active('AvantS3'))
     $s3FileCount = count($fileNames);
     $okToDelete = $s3FileCount == 0;
     if ($s3FileCount == 1)
-        $s3FileMessage = __('1 S3 File');
+        $s3FileMessage = __('1 file');
     else
-        $s3FileMessage = __('%s S3 Files', $s3FileCount);
+        $s3FileMessage = __('%s files', $s3FileCount);
 }
 
 echo head(array('title' => $itemTitle, 'bodyclass'=>'items show'));
