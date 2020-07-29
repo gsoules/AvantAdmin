@@ -34,29 +34,6 @@ $stats = array(
 <?php $panels = array(); ?>
 
 <?php ob_start(); ?>
-<h2><?php echo __('Recently Modified Items'); ?></h2>
-<?php
-$modifiedItems = get_db()->getTable('Item')->findBy(array('sort_field' => 'modified', 'sort_dir' => 'd'), 100);
-set_loop_records('items', $modifiedItems);
-foreach (loop('items') as $item):
-    $userName = ItemHistory::getMostRecentUserName($item->id);
-    $userName = empty($userName) ? '' : " <i>$userName</i>";
-    $identifier = ItemMetadata::getItemIdentifier($item);
-    $title = ItemMetadata::getItemTitle($item);
-    $modified = $item->modified;
-    $dateModified = ItemHistory::formatHistoryDate($modified);
-    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
-    ?>
-    <div class="recent-row">
-        <p class="recent"><?php echo "<a href='$viewLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
-        <?php if (is_allowed($item, 'edit')): ?>
-            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
-        <?php endif; ?>
-    </div>
-<?php endforeach; ?>
-<?php $panels[] = ob_get_clean(); ?>
-
-<?php ob_start(); ?>
 <h2><?php echo __('Recently Added Items'); ?></h2>
 <?php if (is_allowed('Items', 'add')): ?>
     <div class="add-new-link"><p><a class="add-new-item" href="<?php echo html_escape(url('items/add')); ?>"><?php echo __('Add a new item'); ?></a></p></div>
@@ -74,6 +51,29 @@ foreach (loop('items') as $item):
     ?>
     <div class="recent-row">
         <p class="recent"><?php echo "<a href='$viewLink' target='_blank'>$title</a> ($identifier, $userName, $dateAdded)"; ?></p>
+        <?php if (is_allowed($item, 'edit')): ?>
+            <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+<?php $panels[] = ob_get_clean(); ?>
+
+<?php ob_start(); ?>
+<h2><?php echo __('Recently Modified Items'); ?></h2>
+<?php
+$modifiedItems = get_db()->getTable('Item')->findBy(array('sort_field' => 'modified', 'sort_dir' => 'd'), 100);
+set_loop_records('items', $modifiedItems);
+foreach (loop('items') as $item):
+    $userName = ItemHistory::getMostRecentUserName($item->id);
+    $userName = empty($userName) ? '' : " <i>$userName</i>";
+    $identifier = ItemMetadata::getItemIdentifier($item);
+    $title = ItemMetadata::getItemTitle($item);
+    $modified = $item->modified;
+    $dateModified = ItemHistory::formatHistoryDate($modified);
+    $viewLink = html_escape(admin_url('items/show/' . metadata('item', 'id')));
+    ?>
+    <div class="recent-row">
+        <p class="recent"><?php echo "<a href='$viewLink' target='_blank'>$title</a> ($identifier, $userName, $dateModified)"; ?></p>
         <?php if (is_allowed($item, 'edit')): ?>
             <p class="dash-edit"><?php echo link_to_item(__('Edit'), array('target' => '_blank'), 'edit'); ?></p>
         <?php endif; ?>

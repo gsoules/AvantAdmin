@@ -81,7 +81,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         if (self::allowAddItem())
         {
             $newLinks[] = array(
-                'label' => __('Add item'),
+                'label' => __('Add a new item'),
                 'uri' => admin_url('/items/add/')
             );
         }

@@ -86,10 +86,24 @@ body.items.edit a.delete-confirm.big.red.button {
     border-color: #d70000;
 }
 
+a.add-new-item:link,
+a.add-new-item:visited {
+    color: #ddd;
+}
+
+a.add-new-item:hover {
+    color: white;
+}
+
 a.add-new-item {
-    font-weight: bold;
-    font-size: 16px;
-    color:green !important;
+    font-size: 18px;
+    padding: 4px 12px;
+    margin: 8px 8px 2px 0;
+    background: #3062a5;
+    opacity: 0.80;
+    z-index: 1000;
+    border-radius: 15px;
+    text-align: center;
 }
 
 /* Use the same admin orange color for visited and unvisited links. */
