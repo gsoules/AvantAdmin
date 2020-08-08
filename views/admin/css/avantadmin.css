@@ -43,11 +43,6 @@ body.items.edit a.delete-confirm.big.red.button {
     display:none;
 }
 
-/* Hide the header on admin/items/edit.php because it shows Omeka item number */
-.items.edit h1#content-heading.section-title {
-    visibility: hidden;
-}
-
 /* Display larger thumbnail on admin/items/browse.php */
 .items.browse a.item-thumbnail {
     width: 100px;
@@ -178,12 +173,41 @@ a.add-new-item {
             "image metadata buttons";
 }
 
+#relationships-editor-add-items,
+#relationships-editor-count {
+    padding: .25em .625em;
+    text-align: left;
+    font-size: 18px;
+    color: black;
+    font-weight: normal;
+    margin-top: 16px;
+    border-radius: 6px 6px 0 0;
+}
+
+#relationships-editor-count {
+    background-color: #D8CFB6;
+}
+
+#relationships-editor-add-items
+{
+    background-color: #c1dcee;
+    padding-top: 6px;
+}
+
+table.relationships-editor-table thead tr th {
+    border: unset;
+}
+
+table.relationships-editor-table {
+    border: #D8CFB6 solid 1px;
+    border-collapse: unset;
+}
+
 #relationship-editor-add-instructions {
     background-color: white;
     margin-bottom: 12px;
     padding: 10px 0;
-    border: #588caf solid 2px;
-    border-radius: 6px;
+    border: #c1dcee solid 2px;
 }
 
 #relationship-editor-add-header {
@@ -205,7 +229,6 @@ a.add-new-item {
             "source relationship target";
     align-items: center;
     color: #2c2c2c;
-    /*background-color: #ece3ca;*/
     padding: 0 8px;
     font-size: 15px;
 }

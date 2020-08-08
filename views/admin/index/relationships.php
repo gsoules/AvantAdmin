@@ -20,11 +20,19 @@ $relatedItemsEditor->emitPrimaryItem($primaryItem);
 
 // Get the items that are already related to the primary item.
 $relatedItems = $relatedItemsModel->getRelatedItems();
+$relatedItemsCount = count($relatedItems);
 
 // Determine which relationships and related items are compatible with the primary item.
 $allowedRelationshipSelections = $relatedItemsEditor->determineAllowedRelationshipSelections($primaryItem);
 $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship();
+
+$relatedItemsCountText = $relatedItemsCount ? $relatedItemsCount : "no";
+$existingRelationshipMessage = __('Item %s has %s related item%s', $primaryItemIdentifier, $relatedItemsCountText, $relatedItemsCount == 1 ? '' : 's');
+
+$addRelationshipMessage = $relatedItemsCount ? __('Add more relationships') : __('Add a relationship')
 ?>
+
+<div id="relationships-editor-count"><?php echo $existingRelationshipMessage; ?></div>
 
 <table class="relationships-editor-table">
     <thead>
@@ -64,6 +72,8 @@ $selectedRelationshipCode = $relatedItemsEditor->determineSelectedRelationship()
     </tr>
     </tbody>
 </table>
+
+<div id="relationships-editor-add-items"><?php echo $addRelationshipMessage; ?></div>
 
 <?php
 // Generate the table contents html. This method gets called here so that results can be used in the instructions.
