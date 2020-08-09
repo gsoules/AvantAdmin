@@ -152,7 +152,7 @@ a.add-new-item {
 .relationships-editor-metadata {
     line-height: 22px;
     grid-area: metadata;
-    color: #777;
+    color: #333;
 }
 
 #relationship-editor-recents {
@@ -178,7 +178,7 @@ a.add-new-item {
     padding: .25em .625em;
     text-align: left;
     font-size: 18px;
-    color: black;
+    color: #6e4331;
     font-weight: normal;
     margin-top: 16px;
     border-radius: 6px 6px 0 0;
@@ -190,7 +190,7 @@ a.add-new-item {
 
 #relationships-editor-add-items
 {
-    background-color: #c1dcee;
+    background-color: #c6ba9a;
     padding-top: 6px;
 }
 
@@ -207,7 +207,7 @@ table.relationships-editor-table {
     background-color: white;
     margin-bottom: 12px;
     padding: 10px 0;
-    border: #c1dcee solid 2px;
+    border: #c6ba9a solid 2px;
 }
 
 #relationship-editor-add-header {
