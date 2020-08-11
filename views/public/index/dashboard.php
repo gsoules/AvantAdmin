@@ -31,6 +31,8 @@ if (!empty($sharedStats))
     $html .= '<h1>' . __('Contributing Organizations') . '</h1>';
     $html .= '<p>' . __('These %s organizations have made their collections searchable from this site:', $contributorCount) . '</p>';
     $html .= $sharedStats[1];
+    $link = "http://digitalarchive.us/user/how-to-search/#site-statistics";
+    $html .= "<p id='avantsearch-site-stats'><a href='$link' target='_blank'>" . __('Learn what these numbers mean') . "</a></p>";
 }
 
 $user = current_user();
@@ -44,5 +46,4 @@ if ($user && !empty($localStats))
 $html .= '</div>';
 echo $html;
 echo foot();
-
 
