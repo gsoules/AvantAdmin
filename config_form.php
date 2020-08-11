@@ -11,7 +11,7 @@ if (ConfigOptions::configurationErrorsDetected())
 ?>
 
 <div class="plugin-help">
-    <a href="https://github.com/gsoules/AvantAdmin#usage" target="_blank">Learn about the configuration options on this page</a>
+    <a href="https://digitalarchive.us/plugins/avantadmin/" target="_blank">Learn about the configuration options on this page</a>
 </div>
 
 <div class="field">

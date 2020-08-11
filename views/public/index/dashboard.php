@@ -29,7 +29,7 @@ if (!empty($sharedStats))
 {
     $contributorCount = $sharedStats ? $sharedStats[0] : 0;
     $html .= '<h1>' . __('Contributing Organizations') . '</h1>';
-    $html .= '<p>' . __('The following %s organizations have made their collections searchable from this site:', $contributorCount) . '</p>';
+    $html .= '<p>' . __('These %s organizations have made their collections searchable from this site:', $contributorCount) . '</p>';
     $html .= $sharedStats[1];
 }
 
