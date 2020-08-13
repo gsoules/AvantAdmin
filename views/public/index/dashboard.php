@@ -28,11 +28,11 @@ $html = '<div class="dashboard-message">';
 if (!empty($sharedStats))
 {
     $contributorCount = $sharedStats ? $sharedStats[0] : 0;
+    $helpLink = "http://digitalarchive.us/user/how-to-search/#site-statistics";
     $html .= '<h1>' . __('Contributing Organizations') . '</h1>';
-    $html .= '<p>' . __('These %s organizations have made their collections searchable from this site:', $contributorCount) . '</p>';
+    $html .= '<p>' . __('These %s organizations have made their collections searchable from this site.', $contributorCount) . '</p>';
+    $html .= "<div id='avantsearch-site-stats-help'><a href='$helpLink' target='_blank'>" . __('Learn what these numbers mean') . "</a></div>";
     $html .= $sharedStats[1];
-    $link = "http://digitalarchive.us/user/how-to-search/#site-statistics";
-    $html .= "<p id='avantsearch-site-stats'><a href='$link' target='_blank'>" . __('Learn what these numbers mean') . "</a></p>";
 }
 
 $user = current_user();
