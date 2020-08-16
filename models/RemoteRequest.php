@@ -50,7 +50,7 @@ class RemoteRequest
             default:
                 $index = strpos($action, '-');
                 if ($index === false)
-                    $response = 'Unsupported action: ' . $action;
+                    $response = 'Invalid action: ' . $action;
                 else
                 {
                     $actionPrefix = substr($action, 0, $index + 1);
