@@ -9,7 +9,7 @@ if (empty($primaryItem))
 set_current_record('Item', $primaryItem);
 
 $primaryItemIdentifier = ItemMetadata::getItemIdentifier($primaryItem);
-$itemTitle = __('Relationships for Item %s', $primaryItemIdentifier);
+$itemTitle = __('Relationships Editor &ndash; Item %s', $primaryItemIdentifier);
 echo head(array('title' => $itemTitle, 'bodyclass'=>'relationships'));
 
 $relatedItemsModel = new RelatedItemsModel($primaryItem, $this);
