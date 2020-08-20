@@ -1,5 +1,5 @@
 const RECENT_ITEMS_COOKIE = 'RECENT';
-const MAX_RECENT_ITEMS = 100;
+const MAX_RECENT_ITEMS = 32;
 
 function addRecentItemEventListeners()
 {
@@ -16,6 +16,17 @@ function addRecentItemEventListeners()
         var itemIds = getRecentItemIdsFromCookie();
         var count = itemIds.length;
         jQuery('#recent-items-count').text(count);
+
+        if (count)
+        {
+            var showAsLink = jQuery('#recent-items-as-search-results');
+            var itemIdentifier = jQuery(this).attr('data-identifier');
+            var url = showAsLink.attr('href');
+            url = url.replace(itemIdentifier, '');
+            console.log(url);
+            url = url.replace('||', '|');
+            showAsLink.attr('href', url);
+        }
     });
 
     recentItemsClearAll.click(function ()
