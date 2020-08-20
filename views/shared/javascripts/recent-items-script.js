@@ -1,5 +1,7 @@
 const RECENT_ITEMS_COOKIE = 'RECENT';
-const MAX_RECENT_ITEMS = 32;
+
+// This limit is documented, so if you change it here, be sure to update the documentation.
+const MAX_RECENT_ITEMS = 16;
 
 function addRecentItemEventListeners()
 {
@@ -21,11 +23,11 @@ function addRecentItemEventListeners()
         {
             var showAsLink = jQuery('#recent-items-as-search-results');
             var itemIdentifier = jQuery(this).attr('data-identifier');
-            var url = showAsLink.attr('href');
-            url = url.replace(itemIdentifier, '');
-            console.log(url);
-            url = url.replace('||', '|');
-            showAsLink.attr('href', url);
+            var url = decodeURI(showAsLink.attr('href'));
+            // Remove the term and either it's leading or trailing '|' separator.
+            url = url.replace('|' + itemIdentifier, '');
+            url = url.replace(itemIdentifier + '|', '');
+            showAsLink.attr('href', encodeURI(url));
         }
     });
 
