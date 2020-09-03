@@ -61,6 +61,11 @@ class RemoteRequest
                                 $response = AvantElasticsearch::handleRemoteRequest($action, $siteId, $password);
                             break;
 
+                        case 'hybrid-':
+                            if (plugin_is_active('AvantHybrid'))
+                                $response = AvantHybrid::handleRemoteRequest($action, $siteId, $password);
+                            break;
+
                         case 'vocab-':
                             if (plugin_is_active('AvantVocabulary'))
                                 $response = AvantVocabulary::handleRemoteRequest($action, $siteId, $password);
