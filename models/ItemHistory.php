@@ -135,11 +135,14 @@ class ItemHistory
         $db = get_db();
         $ownerId = $item->owner_id;
 
-        // Get the name of the item's owner accounting for the possibility of that user's account having been deleted.
-        $userName = self::getUserName($ownerId);
+        if ($ownerId)
+            $userName = self::getUserName($ownerId);
+        else
+            $userName = __('[No owner]');
+
         $dateAdded = $item->added;
 
-        $history = "<div><b>Created</b></div>$userName: " . self::formatHistoryDate($dateAdded);
+        $history = "<div><b>Created</b></div>$userName : " . self::formatHistoryDate($dateAdded);
 
         $adminLog = $db->getTable('AdminLogs')->getAdminLog($item->id);
         $history .= "</br></br><div><b>Saved</b></div>";
