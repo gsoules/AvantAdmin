@@ -77,8 +77,12 @@ class ItemHistory
             return;
         }
 
-        // Create a log entry for this Save.
-        $userId = current_user()->id;
+        // Get the user for this action. If there is none, the action was performed via a remote
+        // request such as when AvantHybrid adds, updates, or deletes items.
+        $user = current_user();
+        $userId = $user ? $user->id : 0;
+
+        // Create a log entry for this action.
         $adminLog = get_db()->getTable('AdminLogs')->getAdminLog($item->id);
 
         if ($action == 'saved')
