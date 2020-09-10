@@ -37,6 +37,8 @@ class RemoteRequest
         }
 
         $response = '';
+        $includeSiteIdInResponse = true;
+
         switch ($action)
         {
             case 'garbage-collection':
@@ -64,6 +66,7 @@ class RemoteRequest
                         case 'hybrid-':
                             if (plugin_is_active('AvantHybrid'))
                                 $response = AvantHybrid::handleRemoteRequest($action, $siteId, $password);
+                                $includeSiteIdInResponse = false;
                             break;
 
                         case 'vocab-':
@@ -80,7 +83,10 @@ class RemoteRequest
         if (empty($response))
             $response = 'Request denied';
 
-        return '[' . $siteId . '] ' . $response;
+        if ($includeSiteIdInResponse)
+            $response = '[' . $siteId . '] ' . $response;
+
+        return $response;
     }
 
     // This method is here in case a future remote action requires authentication of a user name and password.
