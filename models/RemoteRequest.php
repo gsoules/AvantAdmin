@@ -71,7 +71,14 @@ class RemoteRequest
 
                         case 'vocab-':
                             if (plugin_is_active('AvantVocabulary'))
+                            {
                                 $response = AvantVocabulary::handleRemoteRequest($action, $siteId, $password);
+                                if (is_array($response))
+                                {
+                                    $includeSiteIdInResponse = false;
+                                    $response = json_encode($response);
+                                }
+                            }
                             break;
 
                         default:
