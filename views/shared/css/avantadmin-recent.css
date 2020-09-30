@@ -8,7 +8,7 @@
 .recent-item-row {
     display: grid;
     grid-gap: 18px;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 100px 1fr;
     grid-template-areas:
             "thumbnail item";
     margin-top: 8px;
