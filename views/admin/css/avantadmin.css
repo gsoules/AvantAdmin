@@ -74,11 +74,13 @@ body.items.edit a.delete-confirm.big.red.button {
     font-weight: bold;
     font-size: 16px;
     text-align: center;
+    background-color: #555;
+    border-color: #000;
+    color: white;
 }
 
 .private-item {
-    background-color: #e5e5e5;
-    border-color: #d70000;
+    background-color: #a72828;
 }
 
 a.add-new-item:link,
@@ -293,6 +295,7 @@ a:visited {
     color: #E57F52;
 }
 
+/* For Omeka 2.7
 a.button.blue:visited,
 a.button.green:visited {
     color: #fff;
@@ -302,3 +305,4 @@ a.button.small,
 a.button.big {
     color: white;
 }
+*/
