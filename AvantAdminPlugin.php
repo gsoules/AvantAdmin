@@ -188,6 +188,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
+        add_translation_source(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'languages');
         // Register the dispatch filter controller plugin.
         $front = Zend_Controller_Front::getInstance();
         $front->registerPlugin(new AvantAdmin_Controller_Plugin_DispatchFilter);
