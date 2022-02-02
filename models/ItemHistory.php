@@ -146,10 +146,10 @@ class ItemHistory
 
         $dateAdded = $item->added;
 
-        $history = "<div><b>Created</b></div>$userName : " . self::formatHistoryDate($dateAdded);
+        $history = "<div><b>" .  __('Created') . "</b></div>$userName : " . self::formatHistoryDate($dateAdded);
 
         $adminLog = $db->getTable('AdminLogs')->getAdminLog($item->id);
-        $history .= "</br></br><div><b>Saved</b></div>";
+        $history .= "</br></br><div><b>" . __('Saved') . "</b></div>";
         if (empty($adminLog))
         {
             $modified = $item->modified;
@@ -169,7 +169,7 @@ class ItemHistory
             }
         }
 
-        $html =  "<div class='item-owner panel'><h4>Item History</h4><p>$history</p></div>";
+        $html =  "<div class='item-owner panel'><h4>" . __('Item History') . "</h4><p>$history</p></div>";
         echo $html;
     }
 }
