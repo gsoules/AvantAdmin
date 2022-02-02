@@ -146,7 +146,7 @@ class ItemHistory
 
         $dateAdded = $item->added;
 
-        $history = "<div><b>" .  __('Created') . "</b></div>$userName : " . self::formatHistoryDate($dateAdded);
+        $history = "<div><b>" . __('Created') . "</b></div>$userName : " . self::formatHistoryDate($dateAdded);
 
         $adminLog = $db->getTable('AdminLogs')->getAdminLog($item->id);
         $history .= "</br></br><div><b>" . __('Saved') . "</b></div>";
