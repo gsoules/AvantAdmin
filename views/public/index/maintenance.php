@@ -10,9 +10,7 @@ if (!$downForMaintenance)
 $pageTitle = __('Maintenance');
 echo head(array('title' => $pageTitle));
 
-$html = "<h3>This site is temporarily down for maintenance</h3>";
-$html .= "<p>We apologize for the inconvenience. Please come back in a little while.</p>";
+$html = "<h3>" . __('This site is temporarily down for maintenance.') . "</h3>";
+$html .= "<p>" . __('We apologize for the inconvenience. Please come back in a little while.') . "</p>";
 echo $html;
 echo foot();
-
-
