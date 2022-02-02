@@ -46,13 +46,13 @@ class RemoteRequest
                 break;
 
             case 'ping':
-                $response = 'OK';
+                $response = __('OK');
                 break;
 
             default:
                 $index = strpos($action, '-');
                 if ($index === false)
-                    $response = 'Invalid action: ' . $action;
+                    $response = __('Invalid action') . ': ' . $action;
                 else
                 {
                     $actionPrefix = substr($action, 0, $index + 1);
@@ -82,7 +82,7 @@ class RemoteRequest
                             break;
 
                         default:
-                            $response = 'Unsupported action: ' . $action;
+                            $response = __('Unsupported action') . ': ' . $action;
                     }
                 }
         }
