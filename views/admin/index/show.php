@@ -2,7 +2,7 @@
 $item = get_record_by_id('Item', $itemId);
 if (empty($item))
 {
-    echo "No item found";
+    echo __('No item found');
     return;
 }
 set_current_record('Item', $item);
