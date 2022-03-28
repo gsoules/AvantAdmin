@@ -11,7 +11,7 @@ if (ConfigOptions::configurationErrorsDetected())
 ?>
 
 <div class="plugin-help">
-    <a href="https://digitalarchive.us/plugins/avantadmin/" target="_blank">Learn about the configuration options on this page</a>
+    <a href="https://digitalarchive.us/plugins/avantadmin/" target="_blank"><?php echo __('Learn about the configuration options on this page'); ?></a>
 </div>
 
 <div class="field">
@@ -33,4 +33,3 @@ if (ConfigOptions::configurationErrorsDetected())
         <?php echo $view->formText(AdminConfig::OPTION_ITEM_TYPE, $itemTypeName, array('style' => 'width: 200px;')); ?>
     </div>
 </div>
-

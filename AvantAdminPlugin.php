@@ -60,7 +60,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         $newNav = array();
 
         // Remove the Collection nav item because the Digital Archive does not use Omeka collections.
-        $exclusionList[] = 'Collections';
+        $exclusionList[] = __('Collections');
 
         // Remove dangerous menu items from non-super users.
         if (!AvantCommon::userIsSuper())
@@ -188,6 +188,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
+        add_translation_source(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'languages');
         // Register the dispatch filter controller plugin.
         $front = Zend_Controller_Front::getInstance();
         $front->registerPlugin(new AvantAdmin_Controller_Plugin_DispatchFilter);
