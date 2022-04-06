@@ -35,6 +35,23 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         return $allowAddItem;
     }
 
+    public function avantSimplePageCssShortCode($args, $view)
+    {
+        // A shortcode to be used with a Simple Page to provide styling to override the Omeka
+        // width limitation on the primary section and the extra padding on the content section.
+        return "
+            <style>
+            #primary {
+            	width: 100% !important;
+            }
+            #content {
+	            border:0;
+	            padding: 0;
+            	background-color: var(--background-color);
+            }
+            </style>";
+    }
+
     public function filterAdminItemsFormTabs($tabs, $args)
     {
         // Get this item's image(s).
@@ -192,6 +209,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
         // Register the dispatch filter controller plugin.
         $front = Zend_Controller_Front::getInstance();
         $front->registerPlugin(new AvantAdmin_Controller_Plugin_DispatchFilter);
+        add_shortcode('avant_simple_page_css', array($this, 'avantSimplePageCssShortCode'));
     }
 
     public function hookInstall()

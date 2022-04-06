@@ -295,14 +295,8 @@ a:visited {
     color: #E57F52;
 }
 
-/* For Omeka 2.7
-a.button.blue:visited,
-a.button.green:visited {
-    color: #fff;
+/* Prevent the Save panel from overlapping the Text area when the user makes it very wide. */
+.simple-pages .panel {
+    height: 340px;
+    overflow: auto;
 }
-
-a.button.small,
-a.button.big {
-    color: white;
-}
-*/
