@@ -44,17 +44,25 @@ function addRecentItemEventListeners()
 
     recentItemFlag.click(function (e)
     {
-        var flag = jQuery(this);
-        var itemId = flag.attr('data-id');
+        let flag = jQuery(this);
+        let itemId = flag.attr('data-id');
+        let img = this.childNodes[0];
+        let tooltips = this.dataset['tooltips'].split('|');
+
         if (flag.hasClass('flagged'))
         {
             removeRecentlyVisitedItem(itemId);
             flag.removeClass('flagged');
+            this.dataset['tooltip'] = tooltips[1];
+            img.src = img.src.replace('flagged', 'unflagged');
         }
         else
         {
             addRecentlyVisitedItem(itemId);
             flag.addClass('flagged');
+            this.dataset['tooltip'] = "flagged";
+            this.dataset['tooltip'] = tooltips[0];
+            img.src = img.src.replace('unflagged', 'flagged');
         }
     });
 }

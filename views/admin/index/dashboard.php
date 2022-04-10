@@ -83,7 +83,7 @@ foreach (loop('items') as $item):
 
 <?php $panels = apply_filters('admin_dashboard_panels', $panels, array('view' => $this)); ?>
 <?php for ($i = 0; $i < count($panels); $i++): ?>
-    <section class="five columns <?php echo ($i & 1) ? 'omega' : 'alpha'; ?>">
+    <section style="width:48%;" class="five columns <?php echo ($i & 1) ? 'omega' : 'alpha'; ?>">
         <div class="panel">
             <?php echo $panels[$i]; ?>
         </div>

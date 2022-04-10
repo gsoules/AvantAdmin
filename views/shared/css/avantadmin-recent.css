@@ -103,26 +103,17 @@ span.recent-item-type-emphasis {
     margin-top: 12px;
 }
 
-.recent-item-flag {
+a.recent-item-flag img {
     cursor: pointer;
-    color: #bababa;
+    border: none;
+    padding: 0;
+    margin: 0;
+    opacity: 0.7;
+    background-color: transparent;
 }
 
-.recent-item-flag.flagged {
-    color: #588caf;
-}
-
-.recent-item-flag.flagged:hover {
-    color: #6fa3c7;
-}
-
-.recent-item-flag:hover {
-    color: #9f9f9f;
-}
-
-.recent-item-flag:after {
-    content: "\f024";
-    font-family: "FontAwesome";
+a.recent-item-flag img:hover {
+    opacity: 1.0;
 }
 
 .relationships-editor-metadata .element-name {
