@@ -1,8 +1,5 @@
 const RECENT_ITEMS_COOKIE = 'RECENT';
 
-// This limit is documented, so if you change it here, be sure to update the documentation.
-const MAX_RECENT_ITEMS = 16;
-
 function addRecentItemEventListeners()
 {
     var recentItemRemove = jQuery('.recent-item-remove');
@@ -125,10 +122,6 @@ function updateCookie(action, itemId)
 
         // Add the old id to the new list.
         newList.push(id);
-
-        // Quit after adding the max number of items.
-        if (action === 'add' && newList.length >= MAX_RECENT_ITEMS)
-            break;
     }
 
     // Show or hide the currently displayed 'Recent Items' link. This logic also exists in avantsearch-script.php.
