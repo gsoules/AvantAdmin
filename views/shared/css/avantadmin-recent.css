@@ -110,6 +110,7 @@ a.recent-item-flag img {
     margin: 0;
     opacity: 0.7;
     background-color: transparent;
+    width: 16px;
 }
 
 a.recent-item-flag img:hover {
