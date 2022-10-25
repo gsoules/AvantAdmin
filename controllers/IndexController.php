@@ -7,6 +7,18 @@ class AvantAdmin_IndexController extends Omeka_Controller_AbstractActionControll
         return;
     }
 
+    public function itemAction()
+    {
+        // This method provides a way to show an item by specifying its Identifier instead
+        // of its Omeka item Id. This is usefull when the caller does not know the item Id.
+        $identifier = $this->getParam('identifier');
+        $id = ItemMetadata::getItemIdFromIdentifier($identifier);
+        if ($id)
+            AvantSearch::redirectToShowPageForItem($id);
+        else
+            $this->showAction();
+    }
+
     public function maintenanceAction()
     {
         return;
