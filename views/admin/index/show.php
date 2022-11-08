@@ -22,8 +22,8 @@ if (plugin_is_active('AvantS3'))
 {
     // Prevent deletion of an item that has an S3 folder. The admin must first manually delete the folder.
     $avantS3 = new AvantS3($item);
-    $fileNames = $avantS3->getS3FileNamesForItem();
-    $s3FileCount = count($fileNames);
+    $s3Names = $avantS3->getS3NamesForItem();
+    $s3FileCount = count($s3Names);
     $okToDelete = $s3FileCount == 0;
     if ($s3FileCount == 1)
         $s3FileMessage = __('1 file');
