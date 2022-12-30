@@ -25,11 +25,15 @@ $stats = array(
     <?php endif; ?>
 <?php endif; ?>
 
-<section id="stats">
-    <?php foreach ($stats as $statInfo): ?>
-        <p><span class="number"><?php echo $statInfo[0]; ?></span><br><?php echo $statInfo[1]; ?></p>
-    <?php endforeach; ?>
-</section>
+<?php
+if (plugin_is_active('AvantS3'))
+{
+    $bucket = S3Config::getOptionValueForBucket();
+    $console = S3Config::getOptionValueForConsole();
+    $s3Link = "$console/$bucket";
+    echo "<h3><a href='$s3Link' target='_blank'>S3 Management Console</a></h3>";
+}
+?>
 
 <?php $panels = array(); ?>
 
