@@ -85,10 +85,11 @@ class ItemHistory
         // Create a log entry for this action.
         $adminLog = get_db()->getTable('AdminLogs')->getAdminLog($item->id);
 
+        $identifier = ItemMetadata::getItemIdentifier($item);
         if ($action == 'saved')
-            $newEntry = array('user' => $userId, 'saved'=> $dateNow);
+            $newEntry = array('user' => $userId, 'identifier' => $identifier, 'saved'=> $dateNow);
         else
-            $newEntry = array('user' => $userId, 'deleted'=> $dateNow);
+            $newEntry = array('user' => $userId, 'identifier' => $identifier, 'deleted'=> $dateNow);
 
         if (empty($adminLog))
         {
