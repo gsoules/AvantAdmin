@@ -27,8 +27,7 @@ class AvantAdminPlugin extends Omeka_Plugin_AbstractPlugin
 
     public static function allowAddItem()
     {
-        $allowAddItem = true;
-        if (plugin_is_active('AvantElasticsearch') && AvantSearch::useElasticsearch())
+        if (plugin_is_active('AvantElasticsearch'))
         {
             $allowAddItem = (bool)get_option(ElasticsearchConfig::OPTION_ES_LOCAL) == true;
         }
